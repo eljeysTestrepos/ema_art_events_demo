@@ -1,5 +1,16 @@
+import Basket from "@/app/components/global/Basket";
+import Step from "@/app/components/kurator_create_edit/Step";
+import PersonalForm from "@/app/components/paymentpage/PersonalForm";
+
 const PaymentPage = () => {
-  return <h1>PaymentPage</h1>;
+  return (
+    <main>
+      <h1>PaymentPage</h1>
+      <Step />
+      <PersonalForm />
+      <Basket />
+    </main>
+  );
 };
 
 export default PaymentPage;

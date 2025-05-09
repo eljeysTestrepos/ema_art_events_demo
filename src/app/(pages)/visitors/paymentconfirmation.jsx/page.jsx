@@ -1,5 +1,19 @@
+import Button from "@/app/components/global/Button";
+
 const PaymentConfirmation = () => {
-  return <h1>PaymentConfirmation</h1>;
+  return (
+    <main>
+      <h1>PaymentConfirmation</h1>
+      <section>
+        <h2>Tak for din bestilling!</h2>
+        <p>Bekræftelse tilsendt til din email.</p>
+        <Button />
+      </section>
+      <aside>
+        <h2>Kvittering</h2>
+      </aside>
+    </main>
+  );
 };
 
 export default PaymentConfirmation;
