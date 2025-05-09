@@ -1,7 +1,14 @@
 "use client";
 
+import Image from "next/image";
+
 const Gallery = () => {
-  return <h1>This is Gallery</h1>;
+  return (
+    <section>
+      <h1>Jeg er Gallery</h1>
+      <Image></Image>
+    </section>
+  );
 };
 
 export default Gallery;

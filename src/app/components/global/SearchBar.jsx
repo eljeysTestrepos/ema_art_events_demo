@@ -1,7 +1,14 @@
 "use client";
 
+import Button from "./Button";
+
 const SearchBar = () => {
-  return <h1>This is a SearchBar</h1>;
+  return (
+    <form>
+      <input>Search here ...</input>
+      <Button>Search</Button>
+    </form>
+  );
 };
 
 export default SearchBar;
