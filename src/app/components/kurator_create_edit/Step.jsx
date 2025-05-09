@@ -1,7 +1,13 @@
 "use client";
 
 const Step = () => {
-  return <h1>I am step</h1>;
+  return (
+    <div>
+      <p>2</p>
+      <p>Titel på steppet</p>
+      <p>værk antal men conditional, fordi den ikke skal være mange steder.</p>
+    </div>
+  );
 };
 
 export default Step;

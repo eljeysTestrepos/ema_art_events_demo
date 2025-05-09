@@ -1,7 +1,7 @@
 "use client";
 
 const Button = () => {
-  return <h1>This is Button</h1>;
+  return <button>this is a button</button>;
 };
 
 export default Button;

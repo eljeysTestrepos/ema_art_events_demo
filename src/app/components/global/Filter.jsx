@@ -1,5 +1,13 @@
 const Filter = () => {
-  return <h1>this is a Filter</h1>;
+  return (
+    <form>
+      <h1>Filter er her</h1>
+      <label htmlFor=""></label>
+      <input type="text" />
+      <label htmlFor=""></label>
+      <input type="text" />
+    </form>
+  );
 };
 
 export default Filter;

@@ -1,7 +1,12 @@
 "use client";
 
 const OpacityTextBox = () => {
-  return <h1>I am opacity Text Box</h1>;
+  return (
+    <section>
+      <h1>Opacity Text Box</h1>
+      <p></p>
+    </section>
+  );
 };
 
 export default OpacityTextBox;
