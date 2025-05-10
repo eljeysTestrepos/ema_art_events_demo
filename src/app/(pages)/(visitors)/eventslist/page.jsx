@@ -3,9 +3,10 @@ import EventItem from "@/app/components/global/EventItem";
 import Filter from "@/app/components/global/Filter";
 import SearchBar from "@/app/components/global/SearchBar";
 
-const EventsList = () => {
+export default function EventsList() {
   return (
     <main>
+      <h1>Eventslist</h1>
       <section>
         <EventItem />
       </section>
@@ -16,6 +17,4 @@ const EventsList = () => {
       </aside>
     </main>
   );
-};
-
-export default EventsList;
+}

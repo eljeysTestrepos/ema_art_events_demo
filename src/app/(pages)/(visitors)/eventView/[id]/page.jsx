@@ -1,7 +1,7 @@
 import Button from "@/app/components/global/Button";
 import OpacityTextBox from "@/app/components/global/OpacityTextBox";
 
-const EventView = () => {
+export default function EventView() {
   return (
     <main>
       <h1>EventView</h1>
@@ -12,6 +12,4 @@ const EventView = () => {
       <section></section>
     </main>
   );
-};
-
-export default EventView;
+}

@@ -2,7 +2,7 @@ import EventItem from "@/app/components/global/EventItem";
 import Filter from "@/app/components/global/Filter";
 import SearchBar from "@/app/components/global/SearchBar";
 
-const Dashboard = () => {
+export default function Dashboard() {
   return (
     <main>
       <h1>Dashboard</h1>
@@ -15,6 +15,4 @@ const Dashboard = () => {
       </aside>
     </main>
   );
-};
-
-export default Dashboard;
+}

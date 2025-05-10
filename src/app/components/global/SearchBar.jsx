@@ -5,7 +5,7 @@ import Button from "./Button";
 const SearchBar = () => {
   return (
     <form>
-      <input>Search here ...</input>
+      <input placeholder="Search here ..."></input>
       <Button>Search</Button>
     </form>
   );

@@ -6,7 +6,7 @@ import Gallery from "@/app/components/kurator_create_edit/Gallery";
 import Options from "@/app/components/kurator_create_edit/Options";
 import Step from "@/app/components/kurator_create_edit/Step";
 
-const Create_Edit = () => {
+export default function Create_Edit() {
   return (
     <main>
       <h1>Create_Edit</h1>
@@ -25,6 +25,4 @@ const Create_Edit = () => {
       <Button />
     </main>
   );
-};
-
-export default Create_Edit;
+}

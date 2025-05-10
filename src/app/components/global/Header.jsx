@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseOutline } from "react-icons/io5";
+import Link from "next/link";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,19 +39,13 @@ const Header = () => {
           }`}
         >
           <li>
-            <a href="/" className="">
-              Home
-            </a>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <a href="/events" className="">
-              Events
-            </a>
+            <Link href="/eventslist">Event</Link>
           </li>
           <li>
-            <a href="/kurator" className="">
-              Kurator
-            </a>
+            <Link href="/dashboard">Kurator</Link>
           </li>
         </ul>
       </nav>
