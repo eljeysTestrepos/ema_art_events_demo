@@ -1,6 +1,6 @@
 import Button from "@/app/components/global/Button";
 
-const PaymentConfirmation = () => {
+export default function PaymentConfirmation() {
   return (
     <main>
       <h1>PaymentConfirmation</h1>
@@ -14,6 +14,4 @@ const PaymentConfirmation = () => {
       </aside>
     </main>
   );
-};
-
-export default PaymentConfirmation;
+}

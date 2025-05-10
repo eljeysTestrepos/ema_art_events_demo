@@ -1,14 +1,16 @@
+"use client";
 import Image from "next/image";
+import Placeholder from "@/app/assets/img/placeholder.png";
+
 import Link from "next/link";
 import Button from "./Button";
-("use client");
 
 const EventItem = () => {
   return (
     <article>
       <h1>I am an EventItem</h1>
       <figure>
-        <Image>her er et billede</Image>
+        <Image src={Placeholder} alt="noget" width={500} height={500}></Image>
         <div>her er en farve til billede</div>
       </figure>
       <aside>
@@ -21,7 +23,7 @@ const EventItem = () => {
         <p>lokation</p>
         <p>describtion ...</p>
         <div>
-          <Link>Læs mere</Link>
+          <Link href={"/"}>Læs mere</Link>
           <p>der skal være en pil her istedet for en p</p>
         </div>
         <Button></Button>
