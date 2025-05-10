@@ -35,11 +35,16 @@
   --font-displayText: "Karla", sans-serif;
   --font-bodyText: "Mulish", sans-serif;
 
-  /* Font Family */
-
   /* Line Height */
-
+  --lineHeight: clamp(4.063rem, 6.351vw + 2.419rem, 7.5rem);
   /* Padding and Margins */
+  --space-0_5rem: clamp(0.5rem, 0.4606rem + 0.137vw, 0.625rem);
+  --space-1rem: clamp(1rem, 0.9212rem + 0.274vw, 1.25rem);
+  --space-1_5rem: clamp(1.5rem, 1.3818rem + 0.411vw, 1.875rem);
+  --space-2rem: clamp(2rem, 1.8425rem + 0.5479vw, 2.5rem);
+  --space-3rem: clamp(3rem, 2.7637rem + 0.8219vw, 3.75rem);
+  --space-4rem: clamp(4rem, 3.6849rem + 1.0959vw, 5rem);
+  --space-6rem: clamp(6rem, 5.5274rem + 1.6438vw, 7.5rem);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,7 +58,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-bodyText), var(--font-displayText), Arial, sans-serif;
-
+  line-height: var(--lineHeight);
   display: grid;
   grid-template-columns: minmax(1rem, 1fr) minmax(0, 1200px) minmax(1rem, 1fr);
   grid-template-rows: auto 1fr;
