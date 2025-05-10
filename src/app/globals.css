@@ -23,7 +23,7 @@
   --color-btn-textClr: #f6edef;
   --color-btn-bg: #322d2e;
 
-  /*Fonte*/
+  /*Fonte Size*/
   --text-h1: clamp(3.0518rem, 2.8114rem + 0.8361vw, 3.8147rem);
   --text-h2: clamp(2.4414rem, 2.2491rem + 0.6689vw, 3.0518rem);
   --text-h3: clamp(1.9531rem, 1.7993rem + 0.5351vw, 2.4414rem);
@@ -34,6 +34,12 @@
   /*Font-families*/
   --font-displayText: "Karla", sans-serif;
   --font-bodyText: "Mulish", sans-serif;
+
+  /* Font Family */
+
+  /* Line Height */
+
+  /* Padding and Margins */
 }
 
 @media (prefers-color-scheme: dark) {

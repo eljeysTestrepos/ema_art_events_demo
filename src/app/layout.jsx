@@ -1,3 +1,4 @@
+"use strict";
 import Header from "./components/global/Header";
 import "./globals.css";
 
@@ -9,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <Header></Header>
         {children}
       </body>
