@@ -52,7 +52,25 @@ body {
   grid-template-columns: minmax(1rem, 1fr) minmax(0, 1200px) minmax(1rem, 1fr);
   grid-template-rows: auto 1fr;
   min-height: 100svh;
+
+  color: var(--color-text-clr);
 }
 body > * {
   grid-column: 2;
+}
+
+h1 {
+  font-size: var(--text-h1);
+}
+h2 {
+  font-size: var(--text-h2);
+}
+h3 {
+  font-size: var(--text-h3);
+}
+p {
+  font-size: var(--text-body);
+}
+a {
+  font-size: var(--text-body);
 }
