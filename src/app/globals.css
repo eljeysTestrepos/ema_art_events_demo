@@ -36,7 +36,7 @@
   --font-bodyText: "Mulish", sans-serif;
 
   /* Line Height */
-  --lineHeight: clamp(4.063rem, 6.351vw + 2.419rem, 7.5rem);
+  --lineHeight: clamp(1rem, 2.177vw + 0.388rem, 3rem);
   /* Padding and Margins */
   --space-0_5rem: clamp(0.5rem, 0.4606rem + 0.137vw, 0.625rem);
   --space-1rem: clamp(1rem, 0.9212rem + 0.274vw, 1.25rem);
@@ -63,8 +63,6 @@ body {
   grid-template-columns: minmax(1rem, 1fr) minmax(0, 1200px) minmax(1rem, 1fr);
   grid-template-rows: auto 1fr;
   min-height: 100svh;
-
-  color: var(--color-text-clr);
 }
 body > * {
   grid-column: 2;
