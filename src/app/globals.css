@@ -20,7 +20,7 @@
   --color-btn-textClr: #f6edef;
   --color-btn-bg: #322d2e;
 
-  /*Fonte*/
+  /*Fonte Size*/
   --text-h1: clamp(3.0518rem, 2.8114rem + 0.8361vw, 3.8147rem);
   --text-h2: clamp(2.4414rem, 2.2491rem + 0.6689vw, 3.0518rem);
   --text-h3: clamp(1.9531rem, 1.7993rem + 0.5351vw, 2.4414rem);
@@ -28,6 +28,12 @@
   --text-h5: clamp(1.25rem, 1.1515rem + 0.3425vw, 1.5625rem);
   --text-h6: clamp(1rem, 0.9212rem + 0.274vw, 1.25rem);
   --text-body: clamp(0.8rem, 0.737rem + 0.2192vw, 1rem);
+
+  /* Font Family */
+
+  /* Line Height */
+
+  /* Padding and Margins */
 }
 
 @media (prefers-color-scheme: dark) {
