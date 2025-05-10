@@ -65,6 +65,12 @@ body > * {
   grid-column: 2;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-displayText);
+}
+
 h1 {
   font-size: var(--text-h1);
 }
@@ -79,4 +85,5 @@ p {
 }
 a {
   font-size: var(--text-body);
+  text-decoration: underline;
 }
