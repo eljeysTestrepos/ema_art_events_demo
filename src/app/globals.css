@@ -12,6 +12,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  /*Colors*/
+  --color-bg-visitor: #9c9ea8;
+  --color-bg-kurator: #e0d2d4;
+  --color-text-clr: #322d2e;
+  --color-btn-textClr: #f6edef;
+  --color-btn-bg: #322d2e;
+
+  /*Fonte*/
+  --text-h1: clamp(0.64rem, 0.5896rem + 0.1753vw, 0.8rem);
+  --text-h2: clamp(0.8rem, 0.737rem + 0.2192vw, 1rem);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

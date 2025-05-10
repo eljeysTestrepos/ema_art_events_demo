@@ -9,7 +9,7 @@ import Step from "@/app/components/kurator_create_edit/Step";
 const Create_Edit = () => {
   return (
     <main>
-      <h1>Create_Edit</h1>
+      <h1 className="text-h1">Create_Edit</h1>
       <section>
         <Step />
         <Options />
