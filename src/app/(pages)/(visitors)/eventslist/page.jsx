@@ -7,7 +7,7 @@ import { getEvent, getEventId } from "@/app/lib/api";
 export default async function EventsList() {
   const eventList = await getEvent();
   return (
-    <main>
+    <main className="">
       <h1>Eventslist</h1>
       <section>
         {eventList.map((event) => {
