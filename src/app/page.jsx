@@ -5,7 +5,7 @@ import OpacityTextBox from "./components/global/OpacityTextBox";
 
 export default function Home() {
   return (
-    <main>
+    <main className="">
       <DiasShow />
       <Button />
       <OpacityTextBox />

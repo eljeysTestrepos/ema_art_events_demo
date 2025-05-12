@@ -3,7 +3,7 @@ import OpacityTextBox from "@/app/components/global/OpacityTextBox";
 
 export default function EventView() {
   return (
-    <main>
+    <main className="">
       <h1>EventView</h1>
       <section>
         <OpacityTextBox />

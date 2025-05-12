@@ -69,6 +69,10 @@ body > * {
   grid-column: 2;
 }
 
+main {
+  display: flex;
+}
+
 h1,
 h2,
 h3 {

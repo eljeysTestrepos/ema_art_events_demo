@@ -5,7 +5,7 @@ import SearchBar from "@/app/components/global/SearchBar";
 
 export default function EventsList() {
   return (
-    <main>
+    <main className="">
       <h1>Eventslist</h1>
       <section>
         <EventItem />
