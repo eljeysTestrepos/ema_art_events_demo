@@ -3,15 +3,16 @@ import EventItem from "@/app/components/global/EventItem";
 import Filter from "@/app/components/global/Filter";
 import SearchBar from "@/app/components/global/SearchBar";
 import { getEvent } from "@/app/lib/api";
-export default function EventsList() {
-  const eventList = getEvent();
-  // console.log(eventList);
+
+export default async function EventsList() {
+  const eventList = await getEvent();
+  console.log(eventList);
   return (
     <main>
       <h1>Eventslist</h1>
       <section>
         {eventList.map((event) => {
-          console.log(event);
+          // console.log(eventList);
           return <EventItem key={event.id} {...event} />;
         })}
       </section>
