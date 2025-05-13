@@ -1,8 +1,19 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const PersonalForm = () => {
   return (
-    <form action="">
+    <Form>
       <h1> This is ParsonalForm</h1>
       <div>
         <section>
@@ -28,7 +39,7 @@ const PersonalForm = () => {
           <input type="text" />
         </section>
       </div>
-    </form>
+    </Form>
   );
 };
 

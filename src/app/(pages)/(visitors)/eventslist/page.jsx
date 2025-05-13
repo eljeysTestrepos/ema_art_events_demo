@@ -8,7 +8,6 @@ export default async function EventsList() {
   const eventList = await getEvent();
   return (
     <main className="">
-      <h1>Eventslist</h1>
       <section>
         {eventList.map((event) => {
           console.log(event);
