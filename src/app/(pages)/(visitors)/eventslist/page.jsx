@@ -2,7 +2,7 @@ import Basket from "@/app/components/global/Basket";
 import EventItem from "@/app/components/global/EventItem";
 import Filter from "@/app/components/global/Filter";
 import SearchBar from "@/app/components/global/SearchBar";
-import { getEvent, getEventId } from "@/app/lib/api";
+import { getEvent } from "@/app/lib/api";
 
 export default async function EventsList() {
   const eventList = await getEvent();
@@ -17,7 +17,7 @@ export default async function EventsList() {
       <aside>
         <SearchBar></SearchBar>
         <Filter></Filter>
-        <Basket></Basket>
+        <Basket {...eventList}></Basket>
       </aside>
     </main>
   );
