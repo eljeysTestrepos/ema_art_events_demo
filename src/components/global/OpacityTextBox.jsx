@@ -6,7 +6,7 @@ const OpacityTextBox = ({ title, content, variant }) => {
     <Card className={cardVariants({ variant: "opacity" })}>
       <CardTitle>{title}</CardTitle>
       <CardContent>
-        <p>{content}</p>
+        <pre>{content}</pre>
       </CardContent>
     </Card>
   );
