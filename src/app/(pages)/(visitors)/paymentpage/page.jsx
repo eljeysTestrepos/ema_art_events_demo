@@ -5,7 +5,6 @@ import PersonalForm from "@/app/components/paymentpage/PersonalForm";
 export default function PaymentPage() {
   return (
     <main>
-      <h1>PaymentPage</h1>
       <Step />
       <PersonalForm />
       <Basket />
