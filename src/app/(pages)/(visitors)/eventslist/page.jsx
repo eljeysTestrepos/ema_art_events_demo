@@ -1,8 +1,8 @@
-import Basket from "@/app/components/global/Basket";
-import EventItem from "@/app/components/global/EventItem";
-import Filter from "@/app/components/global/Filter";
-import SearchBar from "@/app/components/global/SearchBar";
-import { getEvent, getEventId } from "@/app/lib/api";
+import Basket from "@/components/global/Basket";
+import EventItem from "@/components/global/EventItem";
+import Filter from "@/components/global/Filter";
+import SearchBar from "@/components/global/SearchBar";
+import { getEvent, getEventId } from "@/lib/api";
 
 export default async function EventsList() {
   const eventList = await getEvent();
