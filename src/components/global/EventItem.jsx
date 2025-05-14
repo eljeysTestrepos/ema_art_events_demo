@@ -13,7 +13,8 @@ import {
 import Link from "next/link";
 import Button from "./Button";
 
-const EventItem = (dataeventid) => {
+const EventItem = (dataeventid, SMKData) => {
+  console.log("Hvad er her under EventItem?" + SMKData);
   return (
     <article className="grid grid-cols-2">
       <figure>
