@@ -15,12 +15,18 @@ import Button from "./Button";
 
 const EventItem = (dataeventid) => {
   return (
-    <article className="grid grid-cols-2">
-      <figure>
-        <Image src={Placeholder} alt="noget" width={500} height={500}></Image>
-        <div>her er en farve til billede</div>
+    <article className="grid grid-cols-2 gap-4">
+      <figure className="relative h-[400px] mb-4">
+        <Image
+          src={Placeholder}
+          alt="noget"
+          width={500}
+          height={500}
+          className="block h-[300px] w-[300px] absolute top-0 right-0 z-2 rounded-xl"
+        ></Image>
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px]  bg-black rounded-xl"></div>
       </figure>
-      <Card>
+      <Card className="mb-4">
         <CardHeader>
           <CardTitle>{dataeventid.title}</CardTitle>
           <CardDescription>{dataeventid.date}</CardDescription>
