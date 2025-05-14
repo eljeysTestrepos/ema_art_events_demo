@@ -8,7 +8,6 @@ export default async function Dashboard() {
   console.log(eventList);
   return (
     <main>
-      <h1>Dashboard</h1>
       <section>
         {eventList.map((event) => {
           // console.log(eventList);
