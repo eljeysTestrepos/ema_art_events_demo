@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 
 import Link from "next/link";
-import Button from "./Button";
+import Button from "./CustomButton";
 
 const EventItem = (dataeventid) => {
   return (

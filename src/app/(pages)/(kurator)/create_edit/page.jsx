@@ -1,4 +1,4 @@
-import Button from "@/components/global/Button";
+import Button from "@/components/global/CustomButton";
 import Filter from "@/components/global/Filter";
 import SearchBar from "@/components/global/SearchBar";
 import EventForm from "@/components/kurator_create_edit/EventForm";

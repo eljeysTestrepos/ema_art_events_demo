@@ -1,4 +1,4 @@
-import Button from "@/components/global/Button";
+import Button from "@/components/global/CustomButton";
 import OpacityTextBox from "@/components/global/OpacityTextBox";
 import { getEventId } from "@/lib/api";
 import { use } from "react";
