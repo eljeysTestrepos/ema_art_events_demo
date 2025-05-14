@@ -1,6 +1,6 @@
-import Basket from "@/app/components/global/Basket";
-import Step from "@/app/components/kurator_create_edit/Step";
-import PersonalForm from "@/app/components/paymentpage/PersonalForm";
+import Basket from "@/components/global/Basket";
+import Step from "@/components/kurator_create_edit/Step";
+import PersonalForm from "@/components/paymentpage/PersonalForm";
 
 export default function PaymentPage() {
   return (

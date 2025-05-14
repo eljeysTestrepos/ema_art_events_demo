@@ -1,5 +1,5 @@
 "use strict";
-import Header from "./components/global/Header";
+import Header from "../components/global/Header";
 import "./globals.css";
 
 export const metadata = {
