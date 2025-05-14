@@ -1,12 +1,12 @@
 "use client";
 import { Card, CardContent, CardTitle, cardVariants } from "../ui/card";
 
-const OpacityTextBox = () => {
+const OpacityTextBox = ({ title, content, variant }) => {
   return (
     <Card className={cardVariants({ variant: "opacity" })}>
-      <CardTitle>Header</CardTitle>
+      <CardTitle>{title}</CardTitle>
       <CardContent>
-        <p>Whatever info</p>
+        <p>{content}</p>
       </CardContent>
     </Card>
   );

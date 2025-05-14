@@ -1,5 +1,5 @@
 const DiasShow = () => {
-  return <h1>This is DiasShow</h1>;
+  return <h1></h1>;
 };
 
 export default DiasShow;

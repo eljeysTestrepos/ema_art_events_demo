@@ -4,11 +4,18 @@ import DiasShow from "../components/home/DiasShow";
 import OpacityTextBox from "../components/global/OpacityTextBox";
 
 export default function Home() {
+  const openingHours = `Tirsdag – søndag 10 – 18
+Onsdag 10 – 20
+Mandag Lukket`;
+
   return (
     <main className="">
       <DiasShow />
       <Button />
-      <OpacityTextBox />
+      <OpacityTextBox
+        title="Åbningstider"
+        content={<pre>{openingHours}</pre>}
+      />
     </main>
   );
 }
