@@ -1,6 +1,6 @@
-import Button from "@/app/components/global/Button";
-import OpacityTextBox from "@/app/components/global/OpacityTextBox";
-import { getEventId } from "@/app/lib/api";
+import Button from "@/components/global/Button";
+import OpacityTextBox from "@/components/global/OpacityTextBox";
+import { getEventId } from "@/lib/api";
 import { use } from "react";
 
 export default async function EventView({ params }) {

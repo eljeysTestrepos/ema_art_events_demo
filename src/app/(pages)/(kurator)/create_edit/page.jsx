@@ -1,10 +1,10 @@
-import Button from "@/app/components/global/Button";
-import Filter from "@/app/components/global/Filter";
-import SearchBar from "@/app/components/global/SearchBar";
-import EventForm from "@/app/components/kurator_create_edit/EventForm";
-import Gallery from "@/app/components/kurator_create_edit/Gallery";
-import Options from "@/app/components/kurator_create_edit/Options";
-import Step from "@/app/components/kurator_create_edit/Step";
+import Button from "@/components/global/Button";
+import Filter from "@/components/global/Filter";
+import SearchBar from "@/components/global/SearchBar";
+import EventForm from "@/components/kurator_create_edit/EventForm";
+import Gallery from "@/components/kurator_create_edit/Gallery";
+import Options from "@/components/kurator_create_edit/Options";
+import Step from "@/components/kurator_create_edit/Step";
 
 export default function Create_Edit() {
   return (
