@@ -1,4 +1,4 @@
-import Button from "@/app/components/global/Button";
+import Button from "@/components/global/Button";
 
 export default function PaymentConfirmation() {
   return (
