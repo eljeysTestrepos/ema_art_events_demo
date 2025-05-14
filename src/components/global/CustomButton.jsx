@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { button as ShadcnButton } from "@/components/ui/button";
+import { Button as ShadcnButton } from "@/components/ui/button";
 
 const CustomButton = ({
   link,

@@ -15,16 +15,16 @@ import Button from "./CustomButton";
 
 const EventItem = (dataeventid) => {
   return (
-    <article className="grid grid-cols-2 gap-4">
+    <article className="grid grid-cols-2 gap-8 p-12">
       <figure className="relative h-[400px] mb-4">
         <Image
           src={Placeholder}
           alt="noget"
           width={500}
           height={500}
-          className="block h-[300px] w-[300px] absolute top-0 right-0 z-2 rounded-xl"
+          className="block h-[325px] w-[250px] absolute top-0 right-0 z-2 rounded-xl"
         ></Image>
-        <div className="absolute bottom-0 left-0 h-[300px] w-[300px]  bg-black rounded-xl"></div>
+        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl"></div>
       </figure>
       <Card className="mb-4">
         <CardHeader>
