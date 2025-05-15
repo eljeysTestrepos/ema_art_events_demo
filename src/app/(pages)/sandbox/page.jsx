@@ -1,17 +1,69 @@
-import { getEvent } from "@/lib/api";
+// import { getLocalData } from "@/lib/local";
+// import Image from "next/image";
+// import layout from "@/app/layout";
+// import Button from "./Button";
 
-import EventItem from "@/components/global/EventItem";
+// export const EventCard = async () => {
+//   const localData = await getLocalData();
+//   console.log(localData);
 
-export default async function Page() {
-  const dataEvents = await fetch("http://localhost:8080/events"); //skift url med eksterne server side når det er deployet
-  const dataevent = await dataEvents.json();
-  return (
-    <main>
-      <section>
-        {dataevent.map((dataevent) => {
-          return <EventItem key={dataevent.id} {...dataevent} />;
-        })}
-      </section>
-    </main>
-  );
-}
+//   return (
+//     <section className="grid grid-cols-[minmax(20px,0.2fr)_1fr_minmax(20px,0.2fr)] justify-center items-center py-8 bg-[#800000] font-roboto-condensed">
+//       {localData.map((event) => {
+//         const imageId = event.artworkIds[0];
+//         const imageUrl = //https:iip-thumb.smk.dk/iiif/jp2/1z40kx99j_${imageId}.tif.jp2/full/!1024,/0/default.jpg;
+//         console.log("Det her er url'en:", imageUrl);
+
+//         return (s
+//           <div
+//             key={event.id}
+//             className="col-start-2 grid grid-cols-[auto,1fr] inset-shadow-sm border mb-10 mt-10 border-white text-white w-full"
+//           >
+//             <div className="flex gap-4 border border-white items-center p-4">
+//               <div className="h-full ">
+//                 <Image
+//                   src={imageUrl}
+//                   alt="Event Image"
+//                   width={300}
+//                   height={300}
+//                   className="bg-amber-50 h-full object-cover"
+//                 />
+//               </div>
+//               <div className="flex flex-col justify-between w-full leading-none">
+//                 <h1 className="font-medium text-3xl">{event.title}</h1>
+//                 <p className="mb-4 font-thin text-xl">{event.curator}</p>
+//                 <p className="text-m font-medium max-w-[550px] w-[50%] mb-4 leading-6">{event.description}</p>
+//                   <div className="flex flex-row justify-between items-end">
+//                     <p className="font-extralight text-2xl">{event.date}</p>
+//                       <Button title="Læs Mere"/>
+//                   </div>
+//               </div>
+//             </div>
+//           </div>
+//         );
+//       })}
+//     </section>
+//   );
+// };
+// export async function getData() {
+//   const data = await fetch(
+//     "https://api.smk.dk/api/v1/art/search/?keys=*&offset=12000&rows=100"
+//   );
+//   const res = await data.json();
+//   return res;
+// }
+// api.smk.dk
+
+// SMK
+
+// export async function getLocalData() {
+//     const data = await fetch(
+//       "http://localhost:8080/events"
+//     );
+//     const res = await data.json();
+//     return res;
+//   }
+
+// localhost
+
+// Localhost:8080

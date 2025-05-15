@@ -14,6 +14,8 @@ import Link from "next/link";
 import Button from "./CustomButton";
 
 const EventItem = (dataevent, SMKData) => {
+  console.log("eventItem: ", "SMK: ", SMKData, "eventList: ", dataevent);
+
   return (
     <article className="grid grid-cols-2 gap-8 p-12">
       <figure className="relative h-[400px] mb-4">
@@ -44,7 +46,7 @@ const EventItem = (dataevent, SMKData) => {
           <p>{dataevent.description}</p>
         </CardContent>
         <CardFooter>
-          <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
+          <Link href={`/eventView/${dataevent.id}`}>Læs mere</Link>
           <p>der skal være en pil her istedet for en p</p>
           <Button></Button>
         </CardFooter>

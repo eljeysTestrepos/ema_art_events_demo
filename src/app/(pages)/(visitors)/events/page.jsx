@@ -6,8 +6,18 @@ import Filter from "@/components/global/Filter";
 import SearchBar from "@/components/global/SearchBar";
 
 export default async function Events() {
-  const SMKData = await getSMK();
+  const SMKItems = await getSMK();
   const eventList = await getEvent();
+  const eventsid = await getEventId();
+  console.log(
+    "events page: ",
+    "SMK: ",
+    SMKItems,
+    "eventList: ",
+    eventList,
+    "eventsid: ",
+    eventsid
+  );
   return (
     <main>
       <section>
