@@ -18,7 +18,7 @@ const cardVariants = cva(
 
 function Card({ className, ...props }) {
   return (
-    <aside
+    <section
       data-slot="card"
       className={cn(cardVariants, className)}
       {...props}
