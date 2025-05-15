@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "./Button";
+import Button from "./CustomButton";
 
 const Basket = () => {
   return (
