@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import Button from "./CustomButton";
 
-const EventItem = (dataeventid) => {
+const EventItem = (dataevent) => {
   return (
     <article className="grid grid-cols-2 gap-8 p-12">
       <figure className="relative h-[400px] mb-4">
@@ -28,17 +28,17 @@ const EventItem = (dataeventid) => {
       </figure>
       <Card className="mb-4">
         <CardHeader>
-          <CardTitle>{dataeventid.title}</CardTitle>
-          <CardDescription>{dataeventid.date}</CardDescription>
+          <CardTitle>{dataevent.title}</CardTitle>
+          <CardDescription>{dataevent.date}</CardDescription>
           <CardDescription>17.00</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{dataeventid.location.name}</p>
-          <p>{dataeventid.location.address}</p>
-          <p>{dataeventid.description}</p>
+          <p>{dataevent.location.name}</p>
+          <p>{dataevent.location.address}</p>
+          <p>{dataevent.description}</p>
         </CardContent>
         <CardFooter>
-          <Link href={`/eventView/:${dataeventid.id}`}>Læs mere</Link>
+          <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
           <p>der skal være en pil her istedet for en p</p>
           <Button></Button>
         </CardFooter>

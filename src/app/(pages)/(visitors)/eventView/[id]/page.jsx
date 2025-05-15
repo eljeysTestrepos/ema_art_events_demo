@@ -1,11 +1,9 @@
 import OpacityBoxSingleview from "@/components/eventView/OpacityBoxSingleview";
 import Button from "@/components/global/CustomButton";
-import { getEventId } from "@/lib/api";
-import { use } from "react";
+import OpacityTextBox from "@/components/global/OpacityTextBox";
 
 export default async function EventView({ params }) {
   const { id } = await params;
-  const dataEventsid = await getEventId(id);
 
   return (
     <main>
