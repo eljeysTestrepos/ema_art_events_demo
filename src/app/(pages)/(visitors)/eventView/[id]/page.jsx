@@ -1,12 +1,12 @@
 import Button from "@/components/global/Button";
 import OpacityTextBox from "@/components/global/OpacityTextBox";
-import { getSMK } from "@/lib/api";
+import { getSMK, getEventId } from "@/lib/api";
 
 export default async function EventView({ params }) {
   const { id } = await params;
-  // const dataEventsid = await getEventId(id);
+  const dataeventid = await getEventId(id);
   const data = await getSMK();
-  console.log(data);
+  console.log("Hvad er her under Single Page? (dataeventid)" + dataeventid);
 
   return (
     <main>

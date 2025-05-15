@@ -6,20 +6,19 @@ import Filter from "@/components/global/Filter";
 import SearchBar from "@/components/global/SearchBar";
 
 export default async function Page() {
-  const data = await getSMK();
-  const events = await getEvent();
-  console.log("events test: ", data);
+  const SMKData = await getSMK();
+  const dataevent = await getEvent();
   return (
     <main>
       <section>
-        {events.map((event) => {
-          return <EventItem key={event.id} {...event} />;
+        {dataevent.map((dataevent) => {
+          return <EventItem key={dataevent.id} {...dataevent} {...SMKData} />;
         })}
       </section>
       <aside>
         <SearchBar></SearchBar>
         <Filter></Filter>
-        <Basket {...events}></Basket>
+        <Basket {...dataevent}></Basket>
       </aside>
     </main>
   );

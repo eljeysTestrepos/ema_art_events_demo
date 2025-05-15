@@ -13,27 +13,30 @@ import {
 import Link from "next/link";
 import Button from "./Button";
 
-const EventItem = (dataeventid, SMKData) => {
-  console.log("Hvad er her under EventItem?" + SMKData);
+const EventItem = (dataevent, SMKData) => {
   return (
     <article className="grid grid-cols-2">
       <figure>
+        {/* Hvis Event id har object_number så skal den finde object_number i SMK og spytte image ud  */}
+        {/* {if (dataevent.) {
+
+        }} */}
         <Image src={Placeholder} alt="noget" width={500} height={500}></Image>
         <div>her er en farve til billede</div>
       </figure>
       <Card>
         <CardHeader>
-          <CardTitle>{dataeventid.title}</CardTitle>
-          <CardDescription>{dataeventid.date}</CardDescription>
+          <CardTitle>{dataevent.title}</CardTitle>
+          <CardDescription>{dataevent.date}</CardDescription>
           <CardDescription>17.00</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{dataeventid.location.name}</p>
-          <p>{dataeventid.location.address}</p>
-          <p>{dataeventid.description}</p>
+          <p>{dataevent.location.name}</p>
+          <p>{dataevent.location.address}</p>
+          <p>{dataevent.description}</p>
         </CardContent>
         <CardFooter>
-          <Link href={`/eventView/:${dataeventid.id}`}>Læs mere</Link>
+          <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
           <p>der skal være en pil her istedet for en p</p>
           <Button></Button>
         </CardFooter>
