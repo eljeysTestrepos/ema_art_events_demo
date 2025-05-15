@@ -18,7 +18,7 @@ export default async function Events() {
       <aside>
         <SearchBar></SearchBar>
         <Filter></Filter>
-        <Basket {...dataevent}></Basket>
+        <Basket></Basket>
       </aside>
     </main>
   );

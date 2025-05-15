@@ -11,28 +11,16 @@ import {
 } from "@/components/ui/card";
 
 import Link from "next/link";
-<<<<<<< HEAD
-import Button from "./Button";
+import Button from "./CustomButton";
 
 const EventItem = (dataevent, SMKData) => {
   return (
-    <article className="grid grid-cols-2">
-      <figure>
+    <article className="grid grid-cols-2 gap-8 p-12">
+      <figure className="relative h-[400px] mb-4">
         {/* Hvis Event id har object_number så skal den finde object_number i SMK og spytte image ud  */}
         {/* {if (dataevent.) {
 
         }} */}
-        <Image src={Placeholder} alt="noget" width={500} height={500}></Image>
-        <div>her er en farve til billede</div>
-      </figure>
-      <Card>
-=======
-import Button from "./CustomButton";
-
-const EventItem = (dataevent) => {
-  return (
-    <article className="grid grid-cols-2 gap-8 p-12">
-      <figure className="relative h-[400px] mb-4">
         <Image
           src={Placeholder}
           alt="noget"
@@ -40,10 +28,11 @@ const EventItem = (dataevent) => {
           height={500}
           className="block h-[325px] w-[250px] absolute top-0 right-0 z-2 rounded-xl"
         ></Image>
-        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl"></div>
+        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl">
+          her er en farve til billede
+        </div>
       </figure>
       <Card className="mb-4">
->>>>>>> b5ea31df1419355ab57c624eabd8de83be3a5ffe
         <CardHeader>
           <CardTitle>{dataevent.title}</CardTitle>
           <CardDescription>{dataevent.date}</CardDescription>
