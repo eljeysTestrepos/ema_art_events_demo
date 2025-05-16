@@ -13,7 +13,9 @@ import {
 import Link from "next/link";
 import Button from "./CustomButton";
 
-const EventItem = (dataevent) => {
+const EventItem = (dataevent, SMKData) => {
+  console.log("eventItem: ", "SMK: ", SMKData, "eventList: ", dataevent);
+
   return (
     <article className="grid grid-cols-2 gap-8 p-12">
       <figure className="relative h-[400px] mb-4">
@@ -24,7 +26,9 @@ const EventItem = (dataevent) => {
           height={500}
           className="block h-[325px] w-[250px] absolute top-0 right-0 z-2 rounded-xl"
         ></Image>
-        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl"></div>
+        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl">
+          her er en farve til billede
+        </div>
       </figure>
       <Card className="mb-4">
         <CardHeader>
@@ -38,7 +42,7 @@ const EventItem = (dataevent) => {
           <p>{dataevent.description}</p>
         </CardContent>
         <CardFooter>
-          <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
+          <Link href={`/eventView/${dataevent.id}`}>Læs mere</Link>
           <p>der skal være en pil her istedet for en p</p>
           <Button></Button>
         </CardFooter>
