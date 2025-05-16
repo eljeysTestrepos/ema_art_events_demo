@@ -7,16 +7,8 @@ export default async function EventView({ params }) {
   const dataeventid = await getEventId(id);
   const SMKItems = await getSMK();
 
-  console.log(
-    "SingleView page: ",
-    "SMKData: ",
-    SMKItems,
-    "dataeventid: ",
-    dataeventid
-  );
-
   const data = dataeventid.artworkIds.map((artwork) => {
-    const result = SMKItems.find((item) => item.object_number == artwork);
+    const result = SMKItems.find((SMKitem) => SMKitem.object_number == artwork);
     return result;
   });
 
