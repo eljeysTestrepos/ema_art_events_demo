@@ -7,14 +7,6 @@ export default async function EventView({ params }) {
   const dataeventid = await getEventId(id);
   const SMKItems = await getSMK();
 
-  {
-    /* Hvis Event id har object_number så skal den finde object_number i SMK og spytte image ud  */
-  }
-  {
-    /* {if (dataevent.) {
-        }} */
-  }
-
   console.log(
     "SingleView page: ",
     "SMKData: ",
