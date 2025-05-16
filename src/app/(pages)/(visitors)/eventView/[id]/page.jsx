@@ -1,7 +1,6 @@
+import OpacityBoxSingleview from "@/components/eventView/OpacityBoxSingleview";
 import Button from "@/components/global/CustomButton";
-import OpacityTextBox from "@/components/global/OpacityTextBox";
 import { getSMK, getEventId } from "@/lib/api";
-import { Image } from "lucide-react";
 
 export default async function EventView({ params }) {
   const { id } = await params;
@@ -29,8 +28,8 @@ export default async function EventView({ params }) {
       <h1>EventView {id}</h1>
       <section>
         <OpacityBoxSingleview
-          title={`${dataEventsid.title}`}
-          content={`${dataEventsid.description}`}
+          title={`${dataeventid.title}`}
+          content={`${dataeventid.description}`}
         />
         <Button />
       </section>
