@@ -12,10 +12,18 @@ import {
 
 import Link from "next/link";
 import Button from "./CustomButton";
+import { usePathname } from "next/navigation";
 
 const EventItem = (dataevent) => {
+  const pathname = usePathname();
+
+  const isEventsPage = pathname?.startsWith("/events");
+  const isDashboardPage = pathname?.startsWith("/dashboard");
+
   return (
-    <article className="grid grid-cols-2 gap-8 p-12">
+    <article
+      className={`grid ${isDashboardPage ? "grid-cols-1" : "grid-cols-2"} gap-8 p-12`}
+    >
       <figure className="relative h-[400px] mb-4">
         <Image
           src={Placeholder}
@@ -23,7 +31,7 @@ const EventItem = (dataevent) => {
           width={500}
           height={500}
           className="block h-[325px] w-[250px] absolute top-0 right-0 z-2 rounded-xl"
-        ></Image>
+        />
         <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl"></div>
       </figure>
       <Card className="mb-4">
@@ -37,10 +45,13 @@ const EventItem = (dataevent) => {
           <p>{dataevent.location.address}</p>
           <p>{dataevent.description}</p>
         </CardContent>
-        <CardFooter>
+        <CardFooter
+          className={`${isDashboardPage ? "flex-col items-start" : "flex-row items-center justify-between"}`}
+        >
           <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
-          <p>der skal være en pil her istedet for en p</p>
+          {isEventsPage && <p>➡️</p>}
           <Button></Button>
+          {isDashboardPage && <Button>Administrer</Button>}
         </CardFooter>
       </Card>
     </article>
