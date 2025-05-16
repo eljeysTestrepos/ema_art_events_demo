@@ -13,8 +13,8 @@ import {
 import Link from "next/link";
 import Button from "./CustomButton";
 
-const EventItem = (dataevent, SMKData) => {
-  console.log("eventItem: ", "SMK: ", SMKData, "eventList: ", dataevent);
+const EventItem = (dataevent, SMKItems) => {
+  console.log("eventItem: ", "SMK: ", SMKItems, "eventList: ", dataevent);
 
   return (
     <article className="grid grid-cols-2 gap-8 p-12">

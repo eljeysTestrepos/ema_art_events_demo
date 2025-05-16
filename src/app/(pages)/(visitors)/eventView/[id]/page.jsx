@@ -7,14 +7,6 @@ export default async function EventView({ params }) {
   const dataeventid = await getEventId(id);
   const SMKItems = await getSMK();
 
-  {
-    /* Hvis Event id har object_number så skal den finde object_number i SMK og spytte image ud  */
-  }
-  {
-    /* {if (dataevent.) {
-        }} */
-  }
-
   console.log(
     "SingleView page: ",
     "SMKData: ",
@@ -22,6 +14,13 @@ export default async function EventView({ params }) {
     "dataeventid: ",
     dataeventid
   );
+
+  const data = dataeventid.artworkIds.map((artwork) => {
+    const result = SMKItems.find((item) => item.object_number == artwork);
+    return result;
+  });
+
+  console.log("SMK data iforholdet til sitets event id: ", data);
 
   return (
     <main>
