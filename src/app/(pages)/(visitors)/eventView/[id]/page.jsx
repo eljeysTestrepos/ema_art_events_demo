@@ -15,6 +15,13 @@ export default async function EventView({ params }) {
     dataeventid
   );
 
+  const data = dataeventid.artworkIds.map((artwork) => {
+    const result = SMKItems.find((item) => item.object_number == artwork);
+    return result;
+  });
+
+  console.log("SMK data iforholdet til sitets event id: ", data);
+
   return (
     <main>
       <h1>EventView {id}</h1>
