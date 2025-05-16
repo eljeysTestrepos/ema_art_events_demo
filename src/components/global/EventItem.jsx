@@ -19,10 +19,6 @@ const EventItem = (dataevent, SMKData) => {
   return (
     <article className="grid grid-cols-2 gap-8 p-12">
       <figure className="relative h-[400px] mb-4">
-        {/* Hvis Event id har object_number så skal den finde object_number i SMK og spytte image ud  */}
-        {/* {if (dataevent.) {
-
-        }} */}
         <Image
           src={Placeholder}
           alt="noget"

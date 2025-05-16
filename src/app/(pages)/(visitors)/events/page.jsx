@@ -22,7 +22,7 @@ export default async function Events() {
     <main>
       <section>
         {eventList.map((dataevent) => {
-          return <EventItem key={dataevent.id} {...dataevent} {...SMKData} />;
+          return <EventItem key={dataevent.id} {...dataevent} {...SMKItems} />;
         })}
       </section>
       <aside>
