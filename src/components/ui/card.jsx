@@ -15,7 +15,6 @@ const cardVariants = cva(
     },
   }
 );
-
 function Card({ className, ...props }) {
   return (
     <section

@@ -1,17 +1,34 @@
 import OpacityBoxSingleview from "@/components/eventView/OpacityBoxSingleview";
 import Button from "@/components/global/CustomButton";
-import OpacityTextBox from "@/components/global/OpacityTextBox";
+import { getSMK, getEventId } from "@/lib/api";
 
 export default async function EventView({ params }) {
   const { id } = await params;
+  const dataeventid = await getEventId(id);
+  const SMKItems = await getSMK();
+
+  console.log(
+    "SingleView page: ",
+    "SMKData: ",
+    SMKItems,
+    "dataeventid: ",
+    dataeventid
+  );
+
+  const data = dataeventid.artworkIds.map((artwork) => {
+    const result = SMKItems.find((item) => item.object_number == artwork);
+    return result;
+  });
+
+  console.log("SMK data iforholdet til sitets event id: ", data);
 
   return (
     <main>
       <h1>EventView {id}</h1>
       <section>
         <OpacityBoxSingleview
-          title={`${dataEventsid.title}`}
-          content={`${dataEventsid.description}`}
+          title={`${dataeventid.title}`}
+          content={`${dataeventid.description}`}
         />
         <Button />
       </section>

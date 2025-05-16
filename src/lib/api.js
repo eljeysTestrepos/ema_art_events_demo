@@ -5,8 +5,21 @@ export async function getEvent() {
 }
 
 export async function getEventId(id) {
-  const dataEventsid = await fetch("http://localhost:8080/events" + `/:${id}`); //skift url med eksterne server side når det er deployet
-  const dataeventid = await dataEventsid.json();
-  console.log("HVorfor virker det ik", dataeventid);
+  const dataEventsids = await fetch("http://localhost:8080/events" + `/${id}`); //skift url med eksterne server side når det er deployet
+  const dataeventid = await dataEventsids.json();
   return dataeventid;
+}
+
+export async function getSMK() {
+  const datasSMK = await fetch(
+    "https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=10",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const dataSMK = await datasSMK.json();
+  const SMKItems = dataSMK.items;
+  return SMKItems;
 }

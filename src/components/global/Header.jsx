@@ -42,7 +42,7 @@ const Header = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/eventslist">Event</Link>
+            <Link href="/events">Event</Link>
           </li>
           <li>
             <Link href="/dashboard">Kurator</Link>

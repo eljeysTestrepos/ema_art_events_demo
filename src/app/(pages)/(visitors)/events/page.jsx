@@ -1,17 +1,28 @@
+import { getEvent, getEventId, getSMK } from "@/lib/api";
+
 import Basket from "@/components/global/Basket";
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/Filter";
 import SearchBar from "@/components/global/SearchBar";
-import { getEvent, getEventId } from "@/lib/api";
 
-export default async function EventsList() {
+export default async function Events() {
+  const SMKItems = await getSMK();
   const eventList = await getEvent();
+  const eventsid = await getEventId();
+  console.log(
+    "events page: ",
+    "SMK: ",
+    SMKItems,
+    "eventList: ",
+    eventList,
+    "eventsid: ",
+    eventsid
+  );
   return (
-    <main className="">
+    <main>
       <section>
-        {eventList.map((event) => {
-          console.log(event);
-          return <EventItem key={event.id} {...event} />;
+        {eventList.map((dataevent) => {
+          return <EventItem key={dataevent.id} {...dataevent} {...SMKItems} />;
         })}
       </section>
       <aside>

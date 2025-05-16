@@ -38,8 +38,8 @@ const OpacityBoxSingleview = ({ eventId, content }) => {
   if (loading) {
     return (
       <Card className={cardVariants({ variant: "opacity" })}>
-        <CardTitle>{title}</CardTitle>
-        <CardContent>{content}</CardContent>
+        <CardTitle>Titel her</CardTitle>
+        <CardContent> Content her</CardContent>
       </Card>
     );
   }

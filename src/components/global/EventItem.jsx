@@ -25,7 +25,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 
-const EventItem = (dataevent) => {
+const EventItem = (dataevent, SMKItems) => {
+  console.log("eventItem: ", "SMK: ", SMKItems, "eventList: ", dataevent);
   const pathname = usePathname();
   const isEventsPage = pathname?.startsWith("/events");
   const isDashboardPage = pathname?.startsWith("/dashboard");
@@ -35,7 +36,6 @@ const EventItem = (dataevent) => {
     console.log(`Sletter event med ID: ${dataevent.id}`);
     setOpen(false);
   };
-
   return (
     <article className="grid grid-cols-1 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
       <figure className="max-w-[250px] mb-6 grid grid-cols-1 grid-rows-1 md:flex-shrink-0">
