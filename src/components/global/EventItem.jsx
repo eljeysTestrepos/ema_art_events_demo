@@ -9,49 +9,115 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import Link from "next/link";
-import Button from "./CustomButton";
+import CustomButton from "./CustomButton";
 import { usePathname } from "next/navigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 const EventItem = (dataevent) => {
   const pathname = usePathname();
-
   const isEventsPage = pathname?.startsWith("/events");
   const isDashboardPage = pathname?.startsWith("/dashboard");
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = () => {
+    console.log(`Sletter event med ID: ${dataevent.id}`);
+    setOpen(false);
+  };
 
   return (
-    <article
-      className={`grid ${isDashboardPage ? "grid-cols-1" : "grid-cols-2"} gap-8 p-12`}
-    >
-      <figure className="relative h-[400px] mb-4">
+    <article className="grid grid-cols-1 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
+      <figure className="max-w-[250px] mb-6 grid grid-cols-1 grid-rows-1 md:flex-shrink-0">
+        <div className="w-[200px] h-[250px] bg-black rounded-xl row-start-1 col-start-1"></div>
         <Image
           src={Placeholder}
           alt="noget"
           width={500}
           height={500}
-          className="block h-[325px] w-[250px] absolute top-0 right-0 z-2 rounded-xl"
+          className="block w-[200px] h-[250px] z-2 rounded-xl row-start-1 col-start-1"
+          style={{ objectFit: "cover", transform: "translate(25px, 25px)" }}
         />
-        <div className="absolute bottom-0 left-0 h-[325px] w-[250px]  bg-black rounded-xl"></div>
       </figure>
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>{dataevent.title}</CardTitle>
-          <CardDescription>{dataevent.date}</CardDescription>
-          <CardDescription>17.00</CardDescription>
+      <Card
+        className={`mb-2 flex flex-col h-full md:ml-0`}
+        style={{ minWidth: "250px" }}
+      >
+        <CardHeader className="p-4">
+          <CardTitle className="">{dataevent.title}</CardTitle>
+          <CardDescription className="mb-1">{dataevent.date}</CardDescription>
+          <CardDescription>{dataevent.time || "17.00"}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <p>{dataevent.location.name}</p>
-          <p>{dataevent.location.address}</p>
+        <CardContent className="p-4 flex flex-col flex-grow">
+          <p>{dataevent.location?.name}</p>
+          <p className="mb-2">{dataevent.location?.address}</p>
           <p>{dataevent.description}</p>
         </CardContent>
         <CardFooter
-          className={`${isDashboardPage ? "flex-col items-start" : "flex-row items-center justify-between"}`}
+          className={`flex items-center justify-between p-4 ${
+            isDashboardPage
+              ? "flex-col items-start gap-2"
+              : "flex-row items-center justify-between"
+          }`}
         >
-          <Link href={`/eventView/:${dataevent.id}`}>Læs mere</Link>
-          {isEventsPage && <p>➡️</p>}
-          <Button></Button>
-          {isDashboardPage && <Button>Administrer</Button>}
+          {isEventsPage ? (
+            <>
+              <Link
+                href={`/eventView/${dataevent.id}`}
+                className="flex items-center"
+              >
+                Læs mere <p className="ml-2">➡️</p>
+              </Link>
+              <div style={{ marginBottom: "auto" }}>
+                <CustomButton
+                  text="Tilmeld"
+                  onClick={() => console.log("Tilmeld")}
+                />
+              </div>
+            </>
+          ) : (
+            <div
+              className="flex items-center gap-2"
+              style={{ marginBottom: "auto" }}
+            >
+              <CustomButton
+                text="Rediger"
+                onClick={() => console.log("Rediger event")}
+              />
+              <AlertDialog open={open} onOpenChange={setOpen}>
+                <AlertDialogTrigger asChild>
+                  <CustomButton text="Slet" variant="destructive" />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Er du sikker?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Er du sikker på, at du vil slette dette event? Denne
+                      handling kan ikke fortrydes.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="sm:justify-end">
+                    <AlertDialogCancel onClick={() => setOpen(false)}>
+                      Annuller
+                    </AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDelete}>
+                      Slet
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          )}
         </CardFooter>
       </Card>
     </article>
