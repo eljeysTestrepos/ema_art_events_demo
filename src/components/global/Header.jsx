@@ -4,7 +4,15 @@ import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseOutline } from "react-icons/io5";
 import Link from "next/link";
-
+import {
+  SignInButton,
+  UserButton,
+  SignedIn,
+  SignedOut,
+  SignOutButton,
+} from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import { DotIcon } from "lucide-react";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,6 +55,16 @@ const Header = () => {
           <li>
             <Link href="/dashboard">Kurator</Link>
           </li>
+          <div className="flex align-middle gap-4 mx-8">
+            <SignedOut>
+              <SignInButton mode="modal"></SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <UserButton />
+              <SignOutButton />
+            </SignedIn>
+          </div>
         </ul>
       </nav>
     </header>

@@ -1,6 +1,7 @@
 "use strict";
 import Header from "../components/global/Header";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "SMK",
@@ -9,11 +10,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>
-        <Header></Header>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body suppressHydrationWarning>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
