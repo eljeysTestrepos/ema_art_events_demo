@@ -9,6 +9,12 @@ export default async function Events() {
   const SMKItems = await getSMK();
   const eventList = await getEvent();
   const eventsid = await getEventId();
+
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const q = params.q;
+  const query = searchParams.query;
+
   console.log(
     "events page: ",
     "SMK: ",
@@ -26,7 +32,7 @@ export default async function Events() {
         })}
       </section>
       <aside>
-        <SearchBar></SearchBar>
+        <SearchBar {...SMKItems} {...eventList}></SearchBar>
         <Filter></Filter>
         <Basket></Basket>
       </aside>
