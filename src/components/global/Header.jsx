@@ -11,8 +11,7 @@ import {
   SignedOut,
   SignOutButton,
 } from "@clerk/nextjs";
-import { Button } from "../ui/button";
-import { DotIcon } from "lucide-react";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <header className="py-4 px-6 flex items-center justify-between relative">
+    <header className="flex items-center justify-between">
       <div className="text-xl font-bold">SMK</div>
       <div className="lg:hidden">
         <button onClick={toggleMenu} className="">
@@ -55,7 +54,7 @@ const Header = () => {
           <li>
             <Link href="/dashboard">Kurator</Link>
           </li>
-          <div className="flex align-middle gap-4 mx-8">
+          <li className="flex align-middle gap-4 mx-8">
             <SignedOut>
               <SignInButton mode="modal"></SignInButton>
             </SignedOut>
@@ -64,7 +63,7 @@ const Header = () => {
               <UserButton />
               <SignOutButton />
             </SignedIn>
-          </div>
+          </li>
         </ul>
       </nav>
     </header>

@@ -11,7 +11,7 @@ export default async function Dashboard() {
   console.log(eventList);
   return (
     <main>
-      <h3>velkommen tilbage {user?.firstName} </h3>
+      <h3 className="col-span-2">Velkommen tilbage {user?.firstName} </h3>
       <section>
         {eventList.map((event) => {
           // console.log(eventList);

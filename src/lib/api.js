@@ -23,3 +23,12 @@ export async function getSMK() {
   const SMKItems = dataSMK.items;
   return SMKItems;
 }
+
+export async function getArtworkByEventID() {
+  const dataevent = await getEvent();
+  const SMKItems = await getSMK();
+  const data = dataevent.id.artworkIds.map((artwork) => {
+    const result = SMKItems.find((SMKitem) => SMKitem.object_number == artwork);
+    return result;
+  });
+}
