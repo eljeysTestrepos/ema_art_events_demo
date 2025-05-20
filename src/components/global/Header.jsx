@@ -42,18 +42,28 @@ const Header = ({ backgroundColor }) => {
       <NavigationMenu className="hidden lg:flex">
         <NavigationMenuList className="flex space-x-6 items-center">
           <NavigationMenuItem>
-            <Link href="/events" legacyBehavior passHref>
-              <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
-                Event
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              href="/"
+              className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+            >
+              Hjem
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/dashboard" legacyBehavior passHref>
-              <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
-                Kurator
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              href="/events"
+              className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+            >
+              Event
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/dashboard"
+              className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+            >
+              Kurator
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <SignedOut>
@@ -101,45 +111,34 @@ const Header = ({ backgroundColor }) => {
             style={{ backgroundColor: backgroundColor }}
           >
             <DropdownMenuItem asChild>
-              <Link href="/" className="no-underline hover:no-underline">
-                Hjem
-              </Link>
+              <Link href="/">Hjem</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />{" "}
+            <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/events" className="no-underline hover:no-underline">
-                Begivenheder
-              </Link>
+              <Link href="/events">Begivenheder</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link
-                href="/dashboard"
-                className="no-underline hover:no-underline"
-              >
-                Kurator
-              </Link>
+              <Link href="/dashboard">Kurator</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />{" "}
-            <DropdownMenuItem>
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <span className="no-underline hover:no-underline">
-                    Log ind
-                  </span>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <div className="flex items-center space-x-2">
-                  <UserButton />
+            <DropdownMenuSeparator />
 
-                  <SignOutButton>
-                    <span className="no-underline hover:no-underline">
-                      Log ud
-                    </span>
+            <SignedOut>
+              <DropdownMenuItem asChild>
+                <SignInButton mode="modal" className="w-full text-left">
+                  Log ind
+                </SignInButton>
+              </DropdownMenuItem>
+            </SignedOut>
+            <SignedIn>
+              <DropdownMenuItem>
+                <div className="flex items-center space-x-2 w-full">
+                  <UserButton />
+                  <SignOutButton className="w-full text-left">
+                    Log ud
                   </SignOutButton>
                 </div>
-              </SignedIn>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+            </SignedIn>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
