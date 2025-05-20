@@ -14,6 +14,7 @@ export default async function Events() {
     <main>
       <section>
         {eventList.map((dataevent) => {
+          console.log("events page mapping: ", "eventList: ", dataevent);
           return <EventItem key={dataevent.id} {...dataevent} />;
         })}
       </section>

@@ -4,13 +4,13 @@ import Placeholder from "@/app/assets/img/placeholder.png";
 import EventItemText from "./EventItemText";
 import { getSMK } from "@/lib/api";
 
-const EventItem = async (key, ...dataevent) => {
+const EventItem = async (dataevent) => {
   console.log("eventItem: ", "dataevent: ", dataevent);
 
   const SMKItems = await getSMK();
 
   const result = SMKItems.find(
-    (SMKitem) => SMKitem.object_number == key.artworkIds
+    (SMKitem) => SMKitem.object_number == dataevent.artworkIds
   );
 
   return (
