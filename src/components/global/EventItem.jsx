@@ -94,7 +94,7 @@ const EventItem = (dataevent, SMKItems) => {
                 text="Rediger"
                 onClick={() => console.log("Rediger event")}
               />
-              {/* <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogTrigger asChild>
                   <CustomButton text="Slet" variant="destructive" />
                 </AlertDialogTrigger>
@@ -115,7 +115,7 @@ const EventItem = (dataevent, SMKItems) => {
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
-              </AlertDialog> */}
+              </AlertDialog>
             </div>
           )}
         </CardFooter>
