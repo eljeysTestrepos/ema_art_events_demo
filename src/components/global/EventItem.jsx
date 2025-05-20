@@ -1,47 +1,36 @@
-"use client";
 import Image from "next/image";
 import Placeholder from "@/app/assets/img/placeholder.png";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
-import CustomButton from "./CustomButton";
-import { usePathname } from "next/navigation";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useState } from "react";
 
-const EventItem = (dataevent, SMKItems) => {
-  console.log("eventItem: ", "SMK: ", SMKItems, "eventList: ", dataevent);
-  const pathname = usePathname();
-  const isEventsPage = pathname?.startsWith("/events");
-  const isDashboardPage = pathname?.startsWith("/dashboard");
-  const [open, setOpen] = useState(false);
+import EventItemText from "./EventItemText";
+import { getSMK } from "@/lib/api";
 
-  const handleDelete = () => {
-    console.log(`Sletter event med ID: ${dataevent.id}`);
-    setOpen(false);
-  };
+const EventItem = async (key, dataevent) => {
+  console.log("eventItem: ", "eventList: ", dataevent, "hvad er key?: ", key);
+
+  const SMKItems = await getSMK();
+
+  const result = SMKItems.find(
+    (SMKitem) => SMKitem.object_number == key.artworkIds
+  );
+
+  console.log(
+    "SMK data iforholdet til sitets event id: ",
+    result,
+    "her er billede?: ",
+    result.image_thumbnail,
+    "hvad er color?: ",
+    result.suggested_bg_color[0]
+  );
+  const smkColor = result.suggested_bg_color[0];
   return (
     <article className="grid grid-cols-1 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
       <figure className="max-w-[250px] mb-6 grid grid-cols-1 grid-rows-1 md:flex-shrink-0">
-        <div className="w-[200px] h-[250px] bg-black rounded-xl row-start-1 col-start-1"></div>
+        <div
+          className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
+          style={{ backgroundColor: `${result.suggested_bg_color[0]}` }}
+        ></div>
         <Image
-          src={Placeholder}
+          src={result.image_thumbnail}
           alt="noget"
           width={500}
           height={500}
@@ -49,6 +38,7 @@ const EventItem = (dataevent, SMKItems) => {
           style={{ objectFit: "cover", transform: "translate(25px, 25px)" }}
         />
       </figure>
+<<<<<<< HEAD
       <Card
         className={`mb-2 flex flex-col h-full md:ml-0`}
         style={{ minWidth: "250px" }}
@@ -120,6 +110,9 @@ const EventItem = (dataevent, SMKItems) => {
           )}
         </CardFooter>
       </Card>
+=======
+      <EventItemText {...dataevent} />
+>>>>>>> Event-Items-needs-access-to-correct-SMK-artwork
     </article>
   );
 };
