@@ -1,10 +1,7 @@
 "use client";
 
 import * as React from "react";
-<<<<<<< HEAD
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-=======
->>>>>>> Event-Items-needs-access-to-correct-SMK-artwork
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
