@@ -12,7 +12,22 @@ import {
   SignOutButton,
 } from "@clerk/nextjs";
 
-const Header = () => {
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const Header = ({ backgroundColor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -20,52 +35,114 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex items-center justify-between p-4 border-b">
       <div className="text-xl font-bold">SMK</div>
-      <div className="lg:hidden">
-        <button onClick={toggleMenu} className="">
-          {isOpen ? (
-            <IoCloseOutline className="h-6 w-6 text-black" aria-hidden="true" />
-          ) : (
-            <RxHamburgerMenu
-              className="h-6 w-6 text-black"
-              aria-hidden="true"
-            />
-          )}
-        </button>
-      </div>
-      <nav
-        className={`absolute top-full left-0 w-full  origin-top lg:relative lg:top-auto lg:left-auto lg:w-auto lg:bg-transparent lg:shadow-none ${
-          isOpen ? "translate-y-0" : "-translate-y-full"
-        } ${isOpen ? "block" : "hidden"} lg:block`}
-        style={{ top: "100%" }}
-      >
-        <ul
-          className={`p-4 lg:p-0 flex flex-col lg:flex-row lg:space-x-6 items-start lg:items-center ${
-            isOpen ? "flex-row justify-end space-x-4" : ""
-          }`}
-        >
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/events">Event</Link>
-          </li>
-          <li>
-            <Link href="/dashboard">Kurator</Link>
-          </li>
-          <li className="flex align-middle gap-4 mx-8">
-            <SignedOut>
-              <SignInButton mode="modal"></SignInButton>
-            </SignedOut>
 
+      {/* Desktop Navigation */}
+      <NavigationMenu className="hidden lg:flex">
+        <NavigationMenuList className="flex space-x-6 items-center">
+          <NavigationMenuItem>
+            <Link href="/events" legacyBehavior passHref>
+              <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
+                Event
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/dashboard" legacyBehavior passHref>
+              <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
+                Kurator
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
+                  Log ind
+                </NavigationMenuLink>
+              </SignInButton>
+            </SignedOut>
             <SignedIn>
-              <UserButton />
-              <SignOutButton />
+              <div className="flex items-center space-x-2">
+                <UserButton />
+                <SignOutButton>
+                  <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
+                    Log ud
+                  </NavigationMenuLink>
+                </SignOutButton>
+              </div>
             </SignedIn>
-          </li>
-        </ul>
-      </nav>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      {/* Mobil Navigation */}
+      <div className="lg:hidden">
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+          <DropdownMenuTrigger asChild>
+            <button onClick={toggleMenu} className="focus:outline-none">
+              {isOpen ? (
+                <IoCloseOutline
+                  className="h-6 w-6 text-black"
+                  aria-hidden="true"
+                />
+              ) : (
+                <RxHamburgerMenu
+                  className="h-6 w-6 text-black"
+                  aria-hidden="true"
+                />
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-1/3 min-w-[200px] shadow-lg mt-2 absolute right-0"
+            style={{ backgroundColor: backgroundColor }}
+          >
+            <DropdownMenuItem asChild>
+              <Link href="/" className="no-underline hover:no-underline">
+                Hjem
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />{" "}
+            <DropdownMenuItem asChild>
+              <Link href="/events" className="no-underline hover:no-underline">
+                Begivenheder
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                href="/dashboard"
+                className="no-underline hover:no-underline"
+              >
+                Kurator
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />{" "}
+            <DropdownMenuItem>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <span className="no-underline hover:no-underline">
+                    Log ind
+                  </span>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <div className="flex items-center space-x-2">
+                  <UserButton />
+
+                  <SignOutButton>
+                    <span className="no-underline hover:no-underline">
+                      Log ud
+                    </span>
+                  </SignOutButton>
+                </div>
+              </SignedIn>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 };

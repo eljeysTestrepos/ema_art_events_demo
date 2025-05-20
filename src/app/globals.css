@@ -128,7 +128,6 @@ p {
 }
 a {
   font-size: var(--text-body);
-  text-decoration: underline;
 }
 /*---break---*/
 :root {

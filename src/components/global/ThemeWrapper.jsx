@@ -24,7 +24,7 @@ export default function ThemeWrapper({ children }) {
         transition: "background-color 0.3s ease",
       }}
     >
-      <Header />
+      <Header backgroundColor={currentBackgroundColor} />
       {children}
     </body>
   );
