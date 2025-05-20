@@ -10,10 +10,8 @@ import {
   SignedIn,
   SignedOut,
   SignOutButton,
-  ClerkProvider,
 } from "@clerk/nextjs";
-import { Button } from "../ui/button";
-import { DotIcon } from "lucide-react";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <header className="py-4 px-6 flex items-center justify-between relative">
+    <header className="flex items-center justify-between">
       <div className="text-xl font-bold">SMK</div>
       <div className="lg:hidden">
         <button onClick={toggleMenu} className="">
@@ -57,16 +55,14 @@ const Header = () => {
             <Link href="/dashboard">Kurator</Link>
           </li>
           <li className="flex align-middle gap-4 mx-8">
-            <ClerkProvider>
-              <SignedOut>
-                <SignInButton mode="modal"></SignInButton>
-              </SignedOut>
+            <SignedOut>
+              <SignInButton mode="modal"></SignInButton>
+            </SignedOut>
 
-              <SignedIn>
-                <UserButton />
-                <SignOutButton />
-              </SignedIn>
-            </ClerkProvider>
+            <SignedIn>
+              <UserButton />
+              <SignOutButton />
+            </SignedIn>
           </li>
         </ul>
       </nav>
