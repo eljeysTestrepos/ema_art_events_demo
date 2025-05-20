@@ -10,6 +10,7 @@ import {
   SignedIn,
   SignedOut,
   SignOutButton,
+  ClerkProvider,
 } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { DotIcon } from "lucide-react";
@@ -55,16 +56,18 @@ const Header = () => {
           <li>
             <Link href="/dashboard">Kurator</Link>
           </li>
-          <div className="flex align-middle gap-4 mx-8">
-            <SignedOut>
-              <SignInButton mode="modal"></SignInButton>
-            </SignedOut>
+          <li className="flex align-middle gap-4 mx-8">
+            <ClerkProvider>
+              <SignedOut>
+                <SignInButton mode="modal"></SignInButton>
+              </SignedOut>
 
-            <SignedIn>
-              <UserButton />
-              <SignOutButton />
-            </SignedIn>
-          </div>
+              <SignedIn>
+                <UserButton />
+                <SignOutButton />
+              </SignedIn>
+            </ClerkProvider>
+          </li>
         </ul>
       </nav>
     </header>

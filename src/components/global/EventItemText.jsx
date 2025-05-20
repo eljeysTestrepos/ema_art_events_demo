@@ -33,10 +33,10 @@ const EventItemText = (dataevent) => {
     console.log(`Sletter event med ID: ${dataevent.id}`);
     setOpen(false);
   };
-
+  console.log(`EventItemText: ${dataevent}`);
   return (
     <Card
-      className={`mb-2 flex flex-col h-full md:ml-0`}
+      className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
       style={{ minWidth: "250px" }}
     >
       <CardHeader className="p-4">
