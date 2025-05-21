@@ -9,6 +9,9 @@ export default async function Dashboard() {
   // console.log("dette er auth data: ", user);
   const eventList = await getEvent();
   console.log(eventList);
+
+  // Filter
+
   return (
     <main>
       <h3 className="col-span-2">Velkommen tilbage {user?.firstName} </h3>

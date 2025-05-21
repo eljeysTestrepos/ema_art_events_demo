@@ -5,7 +5,7 @@ import EventItemText from "./EventItemText";
 import { getSMK } from "@/lib/api";
 
 const EventItem = async (dataevent) => {
-  console.log("eventItem: ", "dataevent: ", dataevent);
+  // console.log("eventItem: ", "dataevent: ", dataevent);
 
   const SMKItems = await getSMK();
 

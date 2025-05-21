@@ -1,3 +1,4 @@
+//Event Server
 export async function getEvent() {
   const dataEvents = await fetch("http://localhost:8080/events"); //skift url med eksterne server side når det er deployet
   const dataevent = await dataEvents.json();
@@ -10,6 +11,13 @@ export async function getEventId(id) {
   return dataeventid;
 }
 
+export async function getEventDateNLocation() {
+  const dataDateLocations = await fetch("http://localhost:8080/events/date"); //skift url med eksterne server side når det er deployet
+  let noget = await dataDateLocations.json().map(dl);
+  return noget;
+}
+
+// SMK APIS
 export async function getSMK() {
   const datasSMK = await fetch(
     "https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=10",
@@ -24,6 +32,7 @@ export async function getSMK() {
   return SMKItems;
 }
 
+// Both APIS
 export async function getArtworkByEventID() {
   const dataevent = await getEvent();
   const SMKItems = await getSMK();
