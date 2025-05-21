@@ -12,7 +12,7 @@ const OpacityTextBox = ({ title, content, variant, className }) => {
     >
       <CardTitle>{title}</CardTitle>
       <CardContent>
-        <p>{content}</p>{" "}
+        <p>{content}</p>
       </CardContent>
     </Card>
   );
