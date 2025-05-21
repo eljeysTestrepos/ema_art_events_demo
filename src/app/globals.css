@@ -106,6 +106,12 @@ main {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto 2fr;
 }
+
+.event-view-background {
+  grid-column: 1 / -1;
+  z-index: 0;
+}
+
 h1,
 h2,
 h3 {

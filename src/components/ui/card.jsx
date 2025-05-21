@@ -10,7 +10,7 @@ const cardVariants = cva(
         default:
           "bg-card text-card-foreground flex flex-col gap-4 rounded-xl border py-4 shadow-sm ",
         opacity:
-          "bg-text-clr opacity-50 text-btn-textClr flex rounded-xl border shadow-sm h-fit gap-2",
+          "bg-text-clr opacity-70 text-btn-textClr flex rounded-xl border shadow-sm h-fit gap-2",
       },
     },
   }
