@@ -9,12 +9,10 @@ import { getFilter } from "@/lib/filter.js";
 
 export default async function Events() {
   const eventList = await getEvent();
-  const was = getEventDateNLocation();
-
-  console.log("events page: ", "eventList: ", eventList, "was: ", was);
+  const filtertry = await getFilter();
+  console.log("events page: ", "eventList: ", eventList);
 
   // Filter
-  //const filterfunction = getFilter();
 
   return (
     <main>

@@ -11,10 +11,15 @@ export async function getEventId(id) {
   return dataeventid;
 }
 
-export async function getEventDateNLocation() {
-  const dataDateLocations = await fetch("http://localhost:8080/events/date"); //skift url med eksterne server side når det er deployet
-  let noget = await dataDateLocations.json().map(dl);
-  return noget;
+export async function getEventDates() {
+  const dataDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
+  let dataDate = await dataDates.json();
+  return dataDate;
+}
+export async function getEventLocation() {
+  const dataLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
+  let dataLocation = await dataLocations.json();
+  return dataLocation;
 }
 
 // SMK APIS
