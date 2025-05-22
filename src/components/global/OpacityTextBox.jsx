@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent, CardTitle, cardVariants } from "../ui/card";
 
-const OpacityTextBox = ({ title, content, variant, className }) => {
+const OpacityTextBox = ({ title, content, className, date }) => {
   return (
     <Card
       className={
@@ -12,6 +12,7 @@ const OpacityTextBox = ({ title, content, variant, className }) => {
     >
       <CardTitle>{title}</CardTitle>
       <CardContent>
+        <p>{date}</p>
         <p>{content}</p>
       </CardContent>
     </Card>

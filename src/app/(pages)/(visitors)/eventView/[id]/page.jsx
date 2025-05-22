@@ -35,10 +35,12 @@ export default async function EventView({ params }) {
         <section className="mt-8">
           <OpacityTextBox
             title={`${dataeventid.title}`}
+            date={`${dataeventid.date}`}
             content={`${dataeventid.description}`}
             className="border-2 border-white rounded-lg p-4 max-w-lg"
           />
-          <CustomButton className="mt-4" text="Tilmeld" />
+          <CustomButton className="mt-4 mr-4" text="Tilmeld event" />
+          <CustomButton className="mt-4" text="Om værket" />
         </section>
         <section></section>
       </main>
