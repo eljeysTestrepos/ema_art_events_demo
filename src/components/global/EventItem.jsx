@@ -6,10 +6,9 @@ import { getSMK } from "@/lib/api";
 
 const EventItem = async (dataevent) => {
   const SMKItems = await getSMK();
-
-  const result = SMKItems.find(
-    (SMKitem) => SMKitem.object_number == dataevent.artworkIds
-  );
+  const result = SMKItems.filter((SMKitem) => {
+    return SMKItems.some((item) => item.object_number == dataevent.artworkIds);
+  });
   console.log(
     "eventItem: ",
     "dataevent: ",
