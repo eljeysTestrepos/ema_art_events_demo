@@ -6,15 +6,21 @@ import { getSMK } from "@/lib/api";
 
 const EventItem = async (dataevent) => {
   const SMKItems = await getSMK();
+
   const result = SMKItems.filter((SMKitem) => {
-    return SMKItems.some((item) => item.object_number == dataevent.artworkIds);
+    return SMKItems.some(
+      (SMKitem) => SMKitem.object_number == dataevent.artworkIds
+    );
   });
+
   console.log(
     "eventItem: ",
     "dataevent: ",
     dataevent,
     "SMK?: ",
     SMKItems,
+    "SMKitem: ",
+    SMKitem,
     "result?: ",
     result
   );
