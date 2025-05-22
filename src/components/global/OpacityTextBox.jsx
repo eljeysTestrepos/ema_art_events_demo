@@ -11,9 +11,7 @@ const OpacityTextBox = ({ title, content, variant, className }) => {
       }
     >
       <CardTitle>{title}</CardTitle>
-      <CardContent>
-        <p>{content}</p>
-      </CardContent>
+      <CardContent>{content}</CardContent>
     </Card>
   );
 };
