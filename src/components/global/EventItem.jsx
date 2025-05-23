@@ -7,30 +7,18 @@ import { getSMK } from "@/lib/api";
 const EventItem = async (dataevent) => {
   const SMKItems = await getSMK();
 
-  const result = SMKItems.filter((SMKitem) => {
-    return SMKItems.some(
-      (SMKitem) => SMKitem.object_number == dataevent.artworkIds
-    );
-  });
-
-  console.log(
-    "eventItem: ",
-    "dataevent: ",
-    dataevent,
-    "SMK?: ",
-    SMKItems,
-    "SMKitem: ",
-    SMKitem,
-    "result?: ",
-    result
+  const result = SMKItems.filter(
+    (item) => item.object_number == dataevent.artworkIds
   );
+
+  console.log("eventItem: ", "SMKItems? ", SMKItems, "result?: ", result);
 
   return (
     <article className="grid grid-cols-2 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
       <figure className="max-w-[250px] mb-6 grid grid-rows-1 md:flex-shrink-0">
         <div
           className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
-          style={{ backgroundColor: `${result.suggested_bg_color[0]}` }}
+          style={{ backgroundColor: `${result.suggested_bg_color}` }}
         ></div>
         <Image
           src={result.image_thumbnail}
