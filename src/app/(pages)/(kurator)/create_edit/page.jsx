@@ -1,12 +1,9 @@
 import Step from "@/components/kurator_create_edit/Step";
+import { useForm } from "react-hook-form";
+import { getEventDates } from "@/lib/api";
+import EventForm from "@/components/kurator_create_edit/EventForm";
+import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
 
 export default function Create_Edit() {
-  return (
-    <main>
-      <section>
-        <Step number="1" text="Dato og tid for event" />
-      </section>
-      <aside></aside>
-    </main>
-  );
+  return <KuratorForm />;
 }
