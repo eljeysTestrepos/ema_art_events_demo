@@ -1,7 +1,6 @@
 "use client";
 import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
-import { getEventDates } from "@/lib/api";
 import { useEffect, useState } from "react";
 
 export default function () {
@@ -66,8 +65,8 @@ export default function () {
             >
               <option value="">lokation</option>
               {locations.map((location) => (
-                <option value="text" key={location}>
-                  {location}
+                <option value="text" key={location.name}>
+                  {location.name}
                 </option>
               ))}
             </select>
