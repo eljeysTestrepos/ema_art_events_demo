@@ -2,7 +2,7 @@
 import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
+import { getEventLocations, getEventDates } from "@/lib/api";
 export default function () {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
