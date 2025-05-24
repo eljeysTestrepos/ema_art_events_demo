@@ -1,6 +1,6 @@
 //Event Server
 export async function getEvent() {
-  const dataEvents = await fetch("http://localhost:8080/events"); //skift url med eksterne server side når det er deployet
+  const dataEvents = await fetch("http://localhost:8080/events?limit=*"); //skift url med eksterne server side når det er deployet
   const dataevent = await dataEvents.json();
   return dataevent;
 }
@@ -37,12 +37,22 @@ export async function getSMK() {
   return SMKItems;
 }
 
-// Both APIS
-export async function getArtworkByEventID() {
-  const dataevent = await getEvent();
-  const SMKItems = await getSMK();
-  const data = dataevent.id.artworkIds.map((artwork) => {
-    const result = SMKItems.find((SMKitem) => SMKitem.object_number == artwork);
-    return result;
-  });
+export async function getArtworkByEventID(objectNumber) {
+  const url = `https://api.smk.dk/api/v1/art?object_number=${objectNumber}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const artImg = data.items?.[0];
+  return artImg;
+}
+
+export async function getEventDates() {
+  const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
+  const eventsdates = await EventsDates.json();
+  return eventsdates;
+}
+
+export async function getEventLocations() {
+  const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
+  const eventslocations = await EventsLocations.json();
+  return eventslocations;
 }

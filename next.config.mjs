@@ -5,6 +5,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "api.smk.dk",
+      },
+      {
+        protocol: "https",
         hostname: "iip-thumb.smk.dk",
       },
     ],

@@ -2,26 +2,30 @@ import Image from "next/image";
 import Placeholder from "@/app/assets/img/placeholder.png";
 
 import EventItemText from "./EventItemText";
-import { getSMK } from "@/lib/api";
+import { getArtworkByEventID } from "@/lib/api";
 
 const EventItem = async (dataevent) => {
-  // console.log("eventItem: ", "dataevent: ", dataevent);
-
-  const SMKItems = await getSMK();
-
-  const result = SMKItems.find(
-    (SMKitem) => SMKitem.object_number == dataevent.artworkIds
-  );
+  let objectNumber = dataevent.artworkIds[0];
+  const artImg = await getArtworkByEventID(objectNumber);
+  // console.log(
+  //   "eventItem: ",
+  //   "dataevent.artworkIds: ",
+  //   dataevent.artworkIds[0],
+  //   "objectNumber",
+  //   objectNumber,
+  //   "artImg: ",
+  //   artImg.image_thumbnail
+  // );
 
   return (
     <article className="grid grid-cols-2 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
       <figure className="max-w-[250px] mb-6 grid grid-rows-1 md:flex-shrink-0">
         <div
           className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
-          style={{ backgroundColor: `${result.suggested_bg_color[0]}` }}
+          style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
         ></div>
         <Image
-          src={result.image_thumbnail}
+          src={artImg.image_thumbnail}
           alt="noget"
           width={500}
           height={500}

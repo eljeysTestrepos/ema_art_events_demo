@@ -12,10 +12,7 @@ Mandag Lukket`;
     <main className="">
       <DiasShow />
       <Button />
-      <OpacityTextBox
-        title="Åbningstider"
-        content={<pre>{openingHours}</pre>}
-      />
+      <OpacityTextBox title="Åbningstider" content={<p>{openingHours}</p>} />
     </main>
   );
 }

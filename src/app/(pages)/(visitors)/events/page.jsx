@@ -9,8 +9,8 @@ import { getFilter } from "@/lib/filter.js";
 
 export default async function Events() {
   const eventList = await getEvent();
-  const filtertry = await getFilter();
-  console.log("events page: ", "eventList: ", eventList);
+
+  // console.log("events page: ", "eventList: ", eventList);
 
   // Filter
 
@@ -18,6 +18,7 @@ export default async function Events() {
     <main>
       <section>
         {eventList.map((dataevent) => {
+          // console.log("events page mapping: ", "eventList: ", dataevent);
           return <EventItem key={dataevent.id} {...dataevent} />;
         })}
       </section>
