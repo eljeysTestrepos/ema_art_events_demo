@@ -3,6 +3,7 @@ import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { getEventLocations, getEventDates } from "@/lib/api";
+import Button from "../global/Button";
 export default function () {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -35,10 +36,10 @@ export default function () {
 
   return (
     <main>
-      <section>
+      <section className="border-2 border-black px-4 py-4">
         <Step number="1" text="Dato og tid for event" />
-        <div className="grid grid-cols-2 grid-rows-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-12 flex gap-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex my-12 gap-4">
             <select
               name="dato"
               id="dato"
@@ -54,10 +55,11 @@ export default function () {
                 </option>
               ))}
             </select>
+            {/*----------------------------*/}
 
             <select
               name="lokation"
-              id="2"
+              id="lokation"
               className="border-2 border-black py-2 px-4"
               {...register("lokation", {
                 required: "Du mangler at vælge en lokation*",
@@ -70,16 +72,66 @@ export default function () {
                 </option>
               ))}
             </select>
-
-            <button type="submit" className="cursor-pointer">
-              confirm
-            </button>
-          </form>
+          </div>
+          {/*----------------------------*/}
           <div className="grid grid-cols-2 row-start-2">
             <span className="text-red-600">{errors.dato?.message}</span>
             <span className="text-red-600">{errors.lokation?.message}</span>
           </div>
-        </div>
+          {/*----------------------------*/}
+          <Step number="2" text="Billeder" />
+          <div className="mb-32">
+            {/*billed section*/}
+
+            {/*billed section*/}
+          </div>
+          {/*----------------------------*/}
+          <Step number="3" text="tekstindhold" />
+          <div className="my-12 flex  gap-4">
+            <div className="flex flex-col">
+              <label htmlFor="text" className="mb-2">
+                Event title
+              </label>
+              <input
+                name="title"
+                id="title"
+                placeholder="event titel"
+                className=" border-black border-2 py-2 px-4"
+                {...register("title", {
+                  required: "Du mangler at navngive eventet*",
+                })}
+              ></input>
+              <span className="text-red-600">{errors.title?.message}</span>
+            </div>
+            {/*----------------------------*/}
+            <div className="flex flex-col">
+              <label htmlFor="text" className="mb-2">
+                Event title
+              </label>
+              <textarea
+                name="beskrivelse"
+                id="beskrivelse"
+                placeholder="event beskrivelse"
+                className=" border-black border-2 py-2 px-4"
+                {...register("beskrivelse", {
+                  required: "Du mangler at navngive eventet*",
+                })}
+              ></textarea>
+              <span className="text-red-600">
+                {errors.beskrivelse?.message}
+              </span>
+            </div>
+          </div>
+          {/*----------------------------*/}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="cursor-pointer border-2 border-black py-2 px-4 rounded-[0.5rem]"
+            >
+              confirm
+            </button>
+          </div>
+        </form>
       </section>
       <aside></aside>
     </main>
