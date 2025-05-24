@@ -31,7 +31,7 @@ export default function () {
   } = useForm();
 
   const onSubmit = (data) => console.log(data);
-  // console.log(getEventDates());
+  console.log(getEventLocations());
 
   return (
     <main>
@@ -66,7 +66,7 @@ export default function () {
               <option value="">lokation</option>
               {locations.map((location) => (
                 <option value="text" key={location.name}>
-                  {location.name}
+                  {location.name} {location.locationId}
                 </option>
               ))}
             </select>
