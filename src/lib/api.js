@@ -45,14 +45,14 @@ export async function getArtworkByEventID(objectNumber) {
   return artImg;
 }
 
-export async function getEventDates() {
-  const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
-  const eventsdates = await EventsDates.json();
-  return eventsdates;
-}
+// export async function getEventDates() {
+//   const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
+//   const eventsdates = await EventsDates.json();
+//   return eventsdates;
+// }
 
-export async function getEventLocations() {
-  const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
-  const eventslocations = await EventsLocations.json();
-  return eventslocations;
-}
+// export async function getEventLocations() {
+//   const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
+//   const eventslocations = await EventsLocations.json();
+//   return eventslocations;
+// }
