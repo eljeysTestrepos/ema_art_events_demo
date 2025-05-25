@@ -1,46 +1,75 @@
 import OpacityTextBox from "@/components/global/OpacityTextBox";
 import CustomButton from "@/components/global/CustomButton";
-import { getSMK, getEventId } from "@/lib/api";
+import Gallery from "@/components/EventView/Gallery";
+import { getEventId, getArtworkByEventID } from "@/lib/api";
+import Placeholder from "@/app/assets/img/placeholder.png";
 
-export default async function EventView({ params }) {
-  const { id } = await params;
+export default async function EventView({ params, searchParams }) {
+  const { id } = params;
+  const { backgroundArtworkId } = searchParams;
+
   const dataeventid = await getEventId(id);
-  const SMKItems = await getSMK();
 
-  const data = dataeventid.artworkIds.map((artwork) => {
-    const result = SMKItems.find((SMKitem) => SMKitem.object_number == artwork);
-    return result;
-  });
+  let allArtworkDetails = [];
+  if (dataeventid.artworkIds && dataeventid.artworkIds.length > 0) {
+    allArtworkDetails = await Promise.all(
+      dataeventid.artworkIds.map(async (artworkId) => {
+        const artwork = await getArtworkByEventID(artworkId);
+        return {
+          id: artworkId,
+          thumbnail: artwork?.image_thumbnail || Placeholder.src,
+          suggested_bg_color: artwork?.suggested_bg_color || ["#f0f0f0"],
+          title: artwork?.titles?.[0]?.title || "Ukendt Titel",
+        };
+      })
+    );
+  }
 
-  console.log("SMK data iforholdet til sitets event id: ", data);
+  let currentArtworkForBackground = null;
+  if (backgroundArtworkId) {
+    currentArtworkForBackground = allArtworkDetails.find(
+      (art) => art.id === backgroundArtworkId
+    );
+  }
 
-  const firstArtwork = data.length > 0 ? data[0] : null;
+  if (!currentArtworkForBackground && allArtworkDetails.length > 0) {
+    currentArtworkForBackground = allArtworkDetails[0];
+  }
+
+  const opacityBoxTitle =
+    currentArtworkForBackground?.title || dataeventid.title;
+
+  const opacityBoxContent = dataeventid.description;
 
   return (
     <div
-      className="event-view-background relative w-full h-screen overflow-hidden flex flex-col justify-start items-start"
+      className="event-view-background relative w-full h-screen overflow-hidden"
       style={{
-        backgroundImage: firstArtwork
-          ? `url(${firstArtwork.image_thumbnail})`
+        backgroundImage: currentArtworkForBackground?.thumbnail
+          ? `url(${currentArtworkForBackground.thumbnail})`
           : "none",
-        backgroundColor: firstArtwork
-          ? firstArtwork.suggested_bg_color[0]
+        backgroundColor: currentArtworkForBackground?.suggested_bg_color
+          ? currentArtworkForBackground.suggested_bg_color[0]
           : "#f0f0f0",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        transition:
+          "background-image 0.5s ease-in-out, background-color 0.5s ease-in-out",
       }}
     >
-      <main className="z-20 w-full h-full p-6">
-        <section className="mt-8">
+      <main className="z-20 w-full h-full p-6 grid grid-cols-2 grid-rows-[1fr_auto] gap-4">
+        <section className="mt-8 col-start-1 row-start-1">
           <OpacityTextBox
-            title={`${dataeventid.title}`}
-            content={`${dataeventid.description}`}
-            className="border-2 border-white rounded-lg p-4 max-w-lg"
+            title={opacityBoxTitle}
+            content={opacityBoxContent}
+            className="border-2 border-white rounded-lg p-4 max-w-md"
           />
           <CustomButton className="mt-4" text="Tilmeld" />
         </section>
-        <section></section>
+        <section className="col-start-2 row-start-2 justify-self-end self-end mb-4 mr-4">
+          <Gallery galleryData={allArtworkDetails} />
+        </section>
       </main>
     </div>
   );
