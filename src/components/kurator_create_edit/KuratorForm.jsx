@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { getEventLocations, getEventDates } from "@/lib/api";
 import Button from "../global/Button";
+import Gallery from "./Gallery";
 export default function () {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -19,6 +20,7 @@ export default function () {
       if (locationsRes.ok) {
         const getLocations = await locationsRes.json();
         setLocations(getLocations);
+        console.log("Dette er lokation:", getLocations);
       }
     };
     getDatesAndLocations();
@@ -67,8 +69,8 @@ export default function () {
             >
               <option value="">lokation</option>
               {locations.map((location) => (
-                <option value="text" key={location.name}>
-                  {location.name} {location.locationId}
+                <option value="text" key={location.id}>
+                  {location.id}-{location.name}-{location.address}
                 </option>
               ))}
             </select>
@@ -82,7 +84,7 @@ export default function () {
           <Step number="2" text="Billeder" />
           <div className="mb-32">
             {/*billed section*/}
-
+            <Gallery />
             {/*billed section*/}
           </div>
           {/*----------------------------*/}
