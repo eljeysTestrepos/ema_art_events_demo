@@ -3,6 +3,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 /*---break---*/
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Skjuler scrollbaren i Firefox */
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
