@@ -39,6 +39,12 @@ const buttonVariants = cva(
 function Button({ className, variant, size, ...props }) {
   return (
     <motion.button
+      whileHover={{ scale: 1.05, rotate: "-1.5deg" }}
+      whileTap={{ scale: 0.95, rotate: "10deg" }}
+      transition={{
+        duration: 0.125,
+        ease: "easeInOut",
+      }}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     ></motion.button>
