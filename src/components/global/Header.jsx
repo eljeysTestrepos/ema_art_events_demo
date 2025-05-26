@@ -139,6 +139,17 @@ const Header = ({ backgroundColor }) => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
 
+            {isSignedIn && (
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/create_edit"
+                  className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+                >
+                  lav Event
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            )}
+
             <SignedOut>
               <DropdownMenuItem asChild>
                 <SignInButton mode="modal" className="w-full text-left">
