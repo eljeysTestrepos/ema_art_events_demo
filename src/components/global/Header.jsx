@@ -10,6 +10,7 @@ import {
   SignedIn,
   SignedOut,
   SignOutButton,
+  useUser,
 } from "@clerk/nextjs";
 
 import {
@@ -33,6 +34,11 @@ const Header = ({ backgroundColor }) => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const { isLoaded, isSignedIn, user } = useUser();
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <header className="flex items-center justify-between p-4 border-b">
@@ -65,6 +71,17 @@ const Header = ({ backgroundColor }) => {
               Kurator
             </NavigationMenuLink>
           </NavigationMenuItem>
+
+          {isSignedIn && (
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/create_edit"
+                className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+              >
+                create event
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )}
           <NavigationMenuItem>
             <SignedOut>
               <SignInButton mode="modal">
