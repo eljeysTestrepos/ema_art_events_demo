@@ -1,15 +1,19 @@
-"use client";
-
 import Image from "next/image";
 import ImageCard from "./ImageCard";
+import { useEffect, useState } from "react";
+import { getSMK } from "@/lib/api";
 
-const Gallery = () => {
-  return (
-    <section>
-      <h1>Jeg er Gallery</h1>
-      <ImageCard />
-    </section>
-  );
-};
+export function Gallery({ onSelevImages, selectedLocation }) {
+  const [smkImages, setSmkImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
-export default Gallery;
+  useEffect(() => {
+    const fetchAllImages = async () => {
+      const images = await getSMK();
+      setSmkImages(images);
+    };
+    fetchAllImages();
+  }, []);
+
+  const getLocationImageLimit = (locationId) => {};
+}

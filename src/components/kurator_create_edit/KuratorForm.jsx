@@ -15,13 +15,13 @@ export default function () {
       if (dateRes.ok) {
         const getDates = await dateRes.json();
         setDates(getDates);
-        console.log("Dette er dates: ", getDates);
+        // console.log("Dette er dates: ", getDates);
       }
       const locationsRes = await fetch("http://localhost:8080/locations");
       if (locationsRes.ok) {
         const getLocations = await locationsRes.json();
         setLocations(getLocations);
-        console.log("Dette er lokation:", getLocations);
+        // console.log("Dette er lokation:", getLocations);
       }
     };
     getDatesAndLocations();
@@ -35,7 +35,7 @@ export default function () {
   } = useForm();
 
   const onSubmit = (data) => console.log(data);
-  console.log(getEventLocations());
+  // console.log(getEventLocations());
 
   return (
     <main>
@@ -85,7 +85,7 @@ export default function () {
           <Step number="2" text="Billeder" />
           <div className="mb-32">
             {/*billed section*/}
-            <Gallery />
+            {/* <Gallery /> */}
             {/*billed section*/}
           </div>
           {/*----------------------------*/}
