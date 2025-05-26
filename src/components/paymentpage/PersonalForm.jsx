@@ -10,10 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input"; // <--- Ny import: Din Shadcn UI Input komponent
-import CustomButton from "@/components/global/CustomButton"; // Antager denne er din submit-knap
+import CustomButton from "@/components/global/CustomButton";
 
 const PersonalForm = () => {
-  // 1. Initialiser React Hook Form
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -24,22 +23,15 @@ const PersonalForm = () => {
     },
   });
 
-  // 2. Håndter indsendelse af formularen
   const onSubmit = (data) => {
     console.log("Formular data:", data);
-    // Her kan du sende data til din backend, f.eks.
   };
 
   return (
-    // 3. Brug form.handleSubmit
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {" "}
-        {/* Tilføj en klasse for spacing */}
         <h1 className="text-2xl font-bold">This is PersonalForm</h1>{" "}
-        {/* Lidt styling for overskriften */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Første fornavn felt */}
           <FormField
             control={form.control}
             name="firstName"
@@ -48,14 +40,12 @@ const PersonalForm = () => {
                 <FormLabel>Firstname</FormLabel>
                 <FormControl>
                   <Input placeholder="John" {...field} />{" "}
-                  {/* Brug Shadcn Input her */}
                 </FormControl>
                 <FormMessage /> {/* Viser valideringsfejl */}
               </FormItem>
             )}
           />
 
-          {/* Efternavn felt */}
           <FormField
             control={form.control}
             name="lastName"
@@ -71,7 +61,6 @@ const PersonalForm = () => {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Adresse felt */}
           <FormField
             control={form.control}
             name="address"
@@ -86,7 +75,6 @@ const PersonalForm = () => {
             )}
           />
 
-          {/* By felt */}
           <FormField
             control={form.control}
             name="city"
@@ -101,7 +89,6 @@ const PersonalForm = () => {
             )}
           />
 
-          {/* Postnummer felt */}
           <FormField
             control={form.control}
             name="zipCode"
@@ -116,7 +103,6 @@ const PersonalForm = () => {
             )}
           />
         </div>
-        {/* Submit-knap */}
         <CustomButton type="submit" text="Submit"></CustomButton>
       </form>
     </Form>
