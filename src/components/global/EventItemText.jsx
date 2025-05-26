@@ -84,10 +84,10 @@ const EventItemText = ({
         <p>{description}</p>
       </CardContent>
       <CardFooter
-        className={`flex items-center justify-between p-4 ${
+        className={`grid  grid-cols-auto grid-rows-auto items-center justify-between p-4 ${
           isDashboardPage
-            ? "flex-col items-start gap-2"
-            : "flex-row items-center justify-between"
+            ? "col-span-1 items-start gap-2"
+            : "row-span-1 items-center justify-between"
         }`}
       >
         {isEventsPage ? (
