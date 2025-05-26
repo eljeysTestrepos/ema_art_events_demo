@@ -15,6 +15,7 @@ export default function () {
       if (dateRes.ok) {
         const getDates = await dateRes.json();
         setDates(getDates);
+        console.log("Dette er dates: ", getDates);
       }
       const locationsRes = await fetch("http://localhost:8080/locations");
       if (locationsRes.ok) {
