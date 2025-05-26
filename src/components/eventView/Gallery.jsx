@@ -16,6 +16,8 @@ const Gallery = ({ galleryData }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.set("backgroundArtworkId", artworkIdToSet);
 
+    newSearchParams.set("showArtworkDetails", "true");
+
     router.push(`${pathname}?${newSearchParams.toString()}`, {
       scroll: false,
     });
@@ -51,7 +53,7 @@ const Gallery = ({ galleryData }) => {
 
   return (
     <section className="flex flex-col items-center">
-      <div className="relative flex items-center justify-center bg-opacity-50 p-2 rounded-lg shadow-lg">
+      <div className="relative flex items-center justify-center self-center bg-opacity-50 p-4 rounded-lg shadow-lg">
         <button
           onClick={scrollLeft}
           className="p-2 text-black bg-white bg-opacity-70 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
@@ -62,32 +64,37 @@ const Gallery = ({ galleryData }) => {
 
         <div
           ref={scrollContainerRef}
-          className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory px-2"
+          className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory px-8 mb-8"
           style={{
             scrollSnapType: "x mandatory",
-            width: "calc(3 * 80px + 2 * 8px + 2 * 16px)",
+            width: "calc(3 * 80px + 2 * 8px + 2 * 16px + 4px)",
           }}
         >
-          {galleryData.map((artwork, index) => (
-            <button
-              key={artwork.id || index}
-              onClick={() => handleThumbnailClick(artwork.id)}
-              className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden cursor-pointer transition-opacity duration-300 shadow-md snap-start ${
-                currentSelectedArtworkId === artwork.id ||
-                (!currentSelectedArtworkId && index === 0)
-                  ? "opacity-100 ring-2 ring-black"
-                  : "opacity-60 hover:opacity-100"
-              }`}
-            >
-              <Image
-                src={artwork.thumbnail || Placeholder.src}
-                alt={`Miniature ${artwork.id || index + 1}`}
-                fill
-                objectFit="cover"
-                sizes="80px"
-              />
-            </button>
-          ))}
+          {galleryData.map((artwork, index) => {
+            const borderColor = artwork.suggested_bg_color?.[0] || "#000000";
+
+            return (
+              <button
+                key={artwork.id || index}
+                onClick={() => handleThumbnailClick(artwork.id)}
+                className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden cursor-pointer transition-opacity duration-300 shadow-md snap-start ${
+                  currentSelectedArtworkId === artwork.id ||
+                  (!currentSelectedArtworkId && index === 0)
+                    ? "opacity-100 border-4"
+                    : "opacity-60 hover:opacity-100"
+                }`}
+                style={{ borderColor: borderColor }}
+              >
+                <Image
+                  src={artwork.thumbnail || Placeholder.src}
+                  alt={`Miniature ${artwork.id || index + 1}`}
+                  fill
+                  objectFit="cover"
+                  sizes="80px"
+                />
+              </button>
+            );
+          })}
         </div>
 
         <button
