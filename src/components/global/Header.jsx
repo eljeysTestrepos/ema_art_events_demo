@@ -139,7 +139,7 @@ const Header = ({ backgroundColor }) => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
 
-            {isSignedIn && (
+            {/* {isSignedIn && (
               <NavigationMenuItem>
                 <NavigationMenuLink
                   href="/create_edit"
@@ -148,7 +148,7 @@ const Header = ({ backgroundColor }) => {
                   lav Event
                 </NavigationMenuLink>
               </NavigationMenuItem>
-            )}
+            )} */}
 
             <SignedOut>
               <DropdownMenuItem asChild>
