@@ -81,7 +81,7 @@ function FormControl({ children, ...props }) {
     useFormField();
 
   return (
-    <Slot
+    <div
       data-slot="form-control"
       id={formItemId}
       aria-describedby={
@@ -91,7 +91,9 @@ function FormControl({ children, ...props }) {
       }
       aria-invalid={!!error}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }
 

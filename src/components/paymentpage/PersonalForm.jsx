@@ -1,15 +1,16 @@
 "use client";
-import { useForm } from "react-hook-form"; // <--- Ny import
+import { FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription, // Kan udelades hvis ikke brugt
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input"; // <--- Ny import: Din Shadcn UI Input komponent
+import { Input } from "@/components/ui/input";
 import CustomButton from "@/components/global/CustomButton";
 
 const PersonalForm = () => {
@@ -17,6 +18,7 @@ const PersonalForm = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
+      email: "",
       address: "",
       city: "",
       zipCode: "",
@@ -28,47 +30,73 @@ const PersonalForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <h1 className="text-2xl font-bold">This is PersonalForm</h1>{" "}
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 col-start-1 mt-8 ml-4"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="firstName"
+            rules={{ required: "Fornavn er påkrævet" }}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Firstname</FormLabel>
+                <FormLabel>Fornavn</FormLabel>
                 <FormControl>
-                  <Input placeholder="John" {...field} />{" "}
+                  <Input placeholder="Anders" {...field} />
                 </FormControl>
-                <FormMessage /> {/* Viser valideringsfejl */}
+                <FormMessage />
               </FormItem>
             )}
           />
 
           <FormField
             control={form.control}
+            rules={{ required: "Efternavn er påkrævet" }}
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Lastname</FormLabel>
+                <FormLabel>Efternavn</FormLabel>
                 <FormControl>
-                  <Input placeholder="Doe" {...field} />
+                  <Input placeholder="Andersen" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="email"
+          rules={{
+            required: "Email er påkrævet",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Ugyldig email adresse",
+            },
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="email@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <FormField
             control={form.control}
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Adresse</FormLabel>
                 <FormControl>
-                  <Input placeholder="Main St 123" {...field} />
+                  <Input placeholder="Gade 123" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,9 +108,9 @@ const PersonalForm = () => {
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel>By</FormLabel>
                 <FormControl>
-                  <Input placeholder="Copenhagen" {...field} />
+                  <Input placeholder="København" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,7 +122,7 @@ const PersonalForm = () => {
             name="zipCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Zip code</FormLabel>
+                <FormLabel>Postnummer</FormLabel>
                 <FormControl>
                   <Input placeholder="1234" {...field} />
                 </FormControl>
@@ -105,7 +133,7 @@ const PersonalForm = () => {
         </div>
         <CustomButton type="submit" text="Submit"></CustomButton>
       </form>
-    </Form>
+    </FormProvider>
   );
 };
 
