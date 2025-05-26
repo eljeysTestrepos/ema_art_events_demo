@@ -76,7 +76,7 @@ function FormLabel({ className, ...props }) {
   );
 }
 
-function FormControl({ ...props }) {
+function FormControl({ children, ...props }) {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
