@@ -4,11 +4,9 @@ import PersonalForm from "@/components/paymentpage/PersonalForm";
 
 export default function PaymentPage() {
   return (
-    <main>
-      <h1>PaymentPage</h1>
-      <Step />
-      <PersonalForm />
-      <Basket />
+    <main className="">
+      <Step number="1" text="Dine informationer" className="" />
+      <PersonalForm className="" />
     </main>
   );
 }

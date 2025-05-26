@@ -23,31 +23,44 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 
-const EventItemText = (dataevent) => {
+import { Label } from "@/components/ui/label";
+
+const EventItemText = ({
+  id,
+  title,
+  description,
+  date,
+  location,
+  totalTickets,
+  bookedTickets,
+  ...rest
+}) => {
   const pathname = usePathname();
   const isEventsPage = pathname?.startsWith("/events");
   const isDashboardPage = pathname?.startsWith("/dashboard");
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    console.log(`Sletter event med ID: ${dataevent.id}`);
+    console.log(`Sletter event med ID: ${id}`);
     setOpen(false);
   };
-  console.log(`EventItemText: ${dataevent}`);
+  console.log(`EventItemText: ${title}`);
+
   return (
     <Card
       className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
       style={{ minWidth: "250px" }}
     >
-      <CardHeader className="p-4">
-        <CardTitle className="">{dataevent.title}</CardTitle>
-        <CardDescription className="mb-1">{dataevent.date}</CardDescription>
-        <CardDescription>{dataevent.time || "17.00"}</CardDescription>
+      <CardHeader className="p-4 relative">
+        <CardTitle className="">{title}</CardTitle>
+        <CardDescription className="mb-1">{date}</CardDescription>
+
+        <CardDescription>{rest.time || "17.00"}</CardDescription>
       </CardHeader>
       <CardContent className="p-4 flex flex-col flex-grow">
-        <p>{dataevent.location?.name}</p>
-        <p className="mb-2">{dataevent.location?.address}</p>
-        <p>{dataevent.description}</p>
+        <p>{location?.name}</p>
+        <p className="mb-2">{location?.address}</p>
+        <p>{description}</p>
       </CardContent>
       <CardFooter
         className={`flex items-center justify-between p-4 ${
@@ -58,10 +71,7 @@ const EventItemText = (dataevent) => {
       >
         {isEventsPage ? (
           <>
-            <Link
-              href={`/eventView/${dataevent.id}`}
-              className="flex items-center"
-            >
+            <Link href={`/eventView/${id}`} className="flex items-center">
               Læs mere <p className="ml-2">➡️</p>
             </Link>
             <div style={{ marginBottom: "auto" }}>
