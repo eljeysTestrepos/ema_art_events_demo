@@ -58,7 +58,6 @@ const EventItemText = ({
     console.log(`Sletter event med ID: ${id}`);
     setOpen(false);
   };
-  console.log(`EventItemText: ${dataevent}`);
 
   //Framer motion: Animation read more ... Hover
   const controles = useAnimationControls();
@@ -94,10 +93,7 @@ const EventItemText = ({
         {isEventsPage ? (
           <>
             <div onMouseOver={handleHover} onMouseLeave={handleLeave}>
-              <Link
-                href={`/eventView/${dataevent.id}`}
-                className="flex items-center"
-              >
+              <Link href={`/eventView/${id}`} className="flex items-center">
                 Læs mere
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
