@@ -72,19 +72,19 @@ const EventItemText = ({
       className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
       style={{ minWidth: "250px" }}
     >
-      <CardHeader className="p-4 relative">
+      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-1rem) relative">
         <CardTitle className="">{title}</CardTitle>
         <CardDescription className="mb-1">{date}</CardDescription>
 
         <CardDescription>{rest.time || "17.00"}</CardDescription>
       </CardHeader>
-      <CardContent className="p-4 flex flex-col flex-grow">
+      <CardContent className="pr-(--space-1rem) pl-(--space-1rem) flex flex-col flex-grow">
         <p>{location?.name}</p>
         <p className="mb-2">{location?.address}</p>
         <p>{description}</p>
       </CardContent>
       <CardFooter
-        className={`grid  grid-cols-auto grid-rows-auto items-center justify-between p-4 ${
+        className={`grid grid-cols-auto grid-rows-auto gap-(--space-2rem) items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
           isDashboardPage
             ? "col-span-1 items-start gap-2"
             : "row-span-1 items-center justify-between"
@@ -93,15 +93,18 @@ const EventItemText = ({
         {isEventsPage ? (
           <>
             <div onMouseOver={handleHover} onMouseLeave={handleLeave}>
-              <Link href={`/eventView/${id}`} className="flex items-center">
+              <Link
+                href={`/eventView/${id}`}
+                className="flex items-start underline"
+              >
                 Læs mere
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="60"
-                  height="40"
+                  height="20"
                   viewBox="0 0 64 16"
                   fill="none"
-                  className="ml-(--space-0_5rem)"
+                  className="ml-(--space-0_5rem) flex flex-start"
                 >
                   <motion.path
                     fillRule="evenodd"
