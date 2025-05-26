@@ -65,7 +65,7 @@ export default async function EventView({ params, searchParams }) {
             content={opacityBoxContent}
             className="border-2 border-white rounded-lg p-4 max-w-md"
           />
-          <CustomButton className="mt-4" text="Tilmeld" />
+          <CustomButton className="mt-4" text="Tilmeld" link="/paymentpage" />
         </section>
         <section className="col-start-2 row-start-2 justify-self-end self-end mb-4 mr-4">
           <Gallery galleryData={allArtworkDetails} />
