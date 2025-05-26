@@ -21,7 +21,6 @@ export default async function Events() {
       <aside>
         <SearchBar></SearchBar>
         <Filter></Filter>
-        <Basket></Basket>
       </aside>
     </main>
   );
