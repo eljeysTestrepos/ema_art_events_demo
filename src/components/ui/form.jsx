@@ -76,12 +76,12 @@ function FormLabel({ className, ...props }) {
   );
 }
 
-function FormControl({ ...props }) {
+function FormControl({ children, ...props }) {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
   return (
-    <Slot
+    <div
       data-slot="form-control"
       id={formItemId}
       aria-describedby={
@@ -91,7 +91,9 @@ function FormControl({ ...props }) {
       }
       aria-invalid={!!error}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }
 
