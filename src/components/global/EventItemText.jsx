@@ -66,6 +66,7 @@ const EventItemText = (dataevent) => {
             </Link>
             <div style={{ marginBottom: "auto" }}>
               <CustomButton
+                link="/paymentpage"
                 text="Tilmeld"
                 onClick={() => console.log("Tilmeld")}
               />
