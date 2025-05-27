@@ -13,8 +13,8 @@ const Gallery = ({ smkdata }) => {
           <Image
             key={dataSmk.id}
             src={dataSmk.image_thumbnail}
-            width={250}
-            height={250}
+            width={150}
+            height={150}
             alt="ild"
           />
         );
