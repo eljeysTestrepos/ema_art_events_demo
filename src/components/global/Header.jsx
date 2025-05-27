@@ -146,8 +146,8 @@ const Header = ({ backgroundColor }) => {
                   className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
                 >
                   lav Event
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+                </Link>
+              </DropdownMenuItem>
             )}
 
             <SignedOut>
