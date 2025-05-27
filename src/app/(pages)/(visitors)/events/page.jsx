@@ -12,7 +12,7 @@ export default async function Events() {
 
   return (
     <main>
-      <section>
+      <section className="pr-(--space-3rem)">
         {eventList.map((dataevent) => {
           // console.log("events page mapping: ", "eventList: ", dataevent);
           return <EventItem key={dataevent.id} {...dataevent} />;

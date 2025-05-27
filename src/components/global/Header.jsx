@@ -60,7 +60,7 @@ const Header = ({ backgroundColor }) => {
               href="/events"
               className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
             >
-              Event
+              Begivenheder
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
@@ -78,7 +78,7 @@ const Header = ({ backgroundColor }) => {
                 href="/create_edit"
                 className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
               >
-                lav Event
+                Lav event
               </NavigationMenuLink>
             </NavigationMenuItem>
           )}
@@ -145,7 +145,7 @@ const Header = ({ backgroundColor }) => {
                   href="/create_edit"
                   className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
                 >
-                  lav Event
+                  Lav event
                 </Link>
               </DropdownMenuItem>
             )}

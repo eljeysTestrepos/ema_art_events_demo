@@ -91,13 +91,20 @@
 body {
   font-family: var(--font-bodyText), var(--font-displayText), Arial, sans-serif;
   display: grid;
-  grid-template-columns: minmax(1rem, 1fr) minmax(0, 1200px) minmax(1rem, 1fr);
+  grid-template-columns: minmax(2rem, 2fr) minmax(0, 1200px) minmax(2rem, 2fr);
   grid-template-rows: auto 1fr;
   min-height: 100svh;
 }
 body > * {
   grid-column: 2;
 }
+
+.home-background-wrapper {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  z-index: 0;
+}
+
 header {
   grid-row: 1;
   height: 4rem;
@@ -112,7 +119,7 @@ main {
   padding-top: 1rem;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-rows: auto 2fr;
 }
 

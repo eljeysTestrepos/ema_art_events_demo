@@ -58,16 +58,21 @@ export default async function EventView({ params, searchParams }) {
           "background-image 0.5s ease-in-out, background-color 0.5s ease-in-out",
       }}
     >
-      <main className="z-20 w-full h-full p-6 grid grid-cols-2 grid-rows-[1fr_auto] gap-4">
-        <section className="mt-8 col-start-1 row-start-1">
+      <main className="z-20 w-full h-full p-6 grid grid-cols-1 md:grid-cols-2 grid-rows-[1fr_1fr_auto] gap-4">
+        <section className="col-start-1 row-start-2 h-full flex flex-col justify-end items-start">
           <OpacityTextBox
             title={opacityBoxTitle}
             content={opacityBoxContent}
-            className="border-2 border-white rounded-lg p-4 max-w-md"
+            className="p-4 max-w-md mb-4"
           />
-          <CustomButton className="mt-4" text="Tilmeld" link="/paymentpage" />
+          <CustomButton
+            className="mt-4"
+            text="Tilmeld event"
+            link="/paymentpage"
+          />
         </section>
-        <section className="col-start-2 row-start-2 justify-self-end self-end mb-4 mr-4">
+
+        <section className="col-start-1 md:col-start-2 row-start-3 justify-self-center md:justify-self-end self-end mb-4 mr-4">
           <Gallery galleryData={allArtworkDetails} />
         </section>
       </main>
