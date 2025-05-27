@@ -1,19 +1,15 @@
 import Image from "next/image";
 import ImageCard from "./ImageCard";
 import { useEffect, useState } from "react";
-import { getSMK } from "@/lib/api";
 
-export function Gallery({ onSelevImages, selectedLocation }) {
-  const [smkImages, setSmkImages] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
-
-  useEffect(() => {
-    const fetchAllImages = async () => {
-      const images = await getSMK();
-      setSmkImages(images);
-    };
-    fetchAllImages();
-  }, []);
-
-  const getLocationImageLimit = (locationId) => {};
-}
+const Gallery = (SMKItems) => {
+  <h1>Hej</h1>;
+  console.log("Data 3 ", SMKItems);
+  {
+    SMKItems.map((dataSmk) => {
+      console.log("Dette er smkdata", dataSmk);
+      return <Image src key={dataSmk.id} />;
+    });
+  }
+};
+export default Gallery;

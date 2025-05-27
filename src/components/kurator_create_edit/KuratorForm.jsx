@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { getEventLocations, getEventDates } from "@/lib/api";
 import Button from "../global/Button";
 import Gallery from "./Gallery";
-export default function () {
+
+const KuratorForm = (SMKItems) => {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
-
+  console.log("data 2: ", SMKItems);
   useEffect(() => {
     const getDatesAndLocations = async () => {
       const dateRes = await fetch("http://localhost:8080/dates");
@@ -85,7 +86,7 @@ export default function () {
           <Step number="2" text="Billeder" />
           <div className="mb-32">
             {/*billed section*/}
-            {/* <Gallery /> */}
+            <Gallery {...SMKItems} />
             {/*billed section*/}
           </div>
           {/*----------------------------*/}
@@ -139,4 +140,6 @@ export default function () {
       <aside></aside>
     </main>
   );
-}
+};
+
+export default KuratorForm;
