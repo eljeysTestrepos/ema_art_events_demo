@@ -1,15 +1,38 @@
 import Image from "next/image";
 import ImageCard from "./ImageCard";
-import { useEffect, useState } from "react";
+import { getSMK } from "@/lib/api";
 
-const Gallery = (SMKItems) => {
-  <h1>Hej</h1>;
-  console.log("Data 3 ", SMKItems);
-  {
-    SMKItems.map((dataSmk) => {
-      console.log("Dette er smkdata", dataSmk);
-      return <Image src key={dataSmk.id} />;
-    });
-  }
+const Gallery = ({ smkdata }) => {
+  // const dataArray = Object.values(smkdata);
+  // console.log("Data 3 ", smkdata.image_thumbnail);
+
+  return (
+    <div>
+      {smkdata.smk.map((dataSmk) => {
+        return (
+          <Image
+            key={dataSmk.id}
+            src={dataSmk.image_thumbnail}
+            width={250}
+            height={250}
+            alt="ild"
+          />
+        );
+      })}
+    </div>
+  );
+  // {
+  //   smkdata.smk.map((dataSmk) => {
+  //     console.log("data4 ", dataSmk.created);
+
+  //     return (
+  //       <p key={dataSmk.id} className="text-black">
+  //         {dataSmk.id}
+  //       </p>
+  //       // return <Image src={dataSmk.image_thumbnail} key={dataSmk.id} />;
+  //     );
+  //   });
+  // }
 };
+
 export default Gallery;

@@ -6,10 +6,11 @@ import { getEventLocations, getEventDates } from "@/lib/api";
 import Button from "../global/Button";
 import Gallery from "./Gallery";
 
-const KuratorForm = (SMKItems) => {
+const KuratorForm = (smk) => {
+  // const EventsDates = await getEventDates();
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
-  console.log("data 2: ", SMKItems);
+
   useEffect(() => {
     const getDatesAndLocations = async () => {
       const dateRes = await fetch("http://localhost:8080/dates");
@@ -28,7 +29,6 @@ const KuratorForm = (SMKItems) => {
     getDatesAndLocations();
   }, []);
 
-  //react-hook-forms
   const {
     register,
     handleSubmit,
@@ -86,7 +86,7 @@ const KuratorForm = (SMKItems) => {
           <Step number="2" text="Billeder" />
           <div className="mb-32">
             {/*billed section*/}
-            <Gallery {...SMKItems} />
+            <Gallery smkdata={smk} />
             {/*billed section*/}
           </div>
           {/*----------------------------*/}

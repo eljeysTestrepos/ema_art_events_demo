@@ -24,6 +24,20 @@ export async function getSMK() {
   return SMKItems;
 }
 
+export async function getSMKImg() {
+  const datasSMK = await fetch(
+    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=10",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const dataSMK = await datasSMK.json();
+  const SMKimages = dataSMK.items;
+  return SMKimages;
+}
+
 export async function getArtworkByEventID(objectNumber) {
   const url = `https://api.smk.dk/api/v1/art?object_number=${objectNumber}`;
   const res = await fetch(url);
