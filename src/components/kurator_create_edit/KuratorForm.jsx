@@ -11,6 +11,21 @@ const KuratorForm = (smk) => {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
+  //logik for valg af billeder
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [maxImages, setMaxImages] = useState(0);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  //kigger på lokationdropdown.
+  const selectedLocationId = watch("lokation");
+
   useEffect(() => {
     const getDatesAndLocations = async () => {
       const dateRes = await fetch("http://localhost:8080/dates");
@@ -23,17 +38,53 @@ const KuratorForm = (smk) => {
       if (locationsRes.ok) {
         const getLocations = await locationsRes.json();
         setLocations(getLocations);
-        // console.log("Dette er lokation:", getLocations);
       }
     };
     getDatesAndLocations();
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  //kigger på hvilke ændringer der sker når man vælger lokation.
+  useEffect(() => {
+    let currentCapacity = 0;
+    if (selectedLocationId) {
+      const chosenLocation = locations.find(
+        (loc) => loc.id === selectedLocationId
+      );
+      if (chosenLocation) {
+        const capacity = chosenLocation.maxArtworks || maxArtworks;
+        setMaxImages(capacity);
+      }
+    } else {
+      setMaxImages(0);
+    }
+    const currentFormImages = watch("images") || [];
+    if (currentFormImages.length > currentCapacity) {
+      setSelectedImages([]);
+    } else if (!selectedLocationId) {
+      setSelectedImages([]);
+      setValue("iamges", []);
+    }
+  }, [selectedLocationId, locations, setValue, watch]);
+
+  const handleImageSelect = (imageId) => {
+    const isSelected = setSelectedImages.includes(imageId);
+
+    let updatedSelectedImages;
+    if (isSelected) {
+      updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
+    } else {
+      if (selectedImages.length < maxImages) {
+        updatedSelectedImages = [...selectedImages, imageId];
+      } else {
+        alert(
+          `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
+        );
+        return;
+      }
+    }
+    setSelectedImages(updatedSelectedImages);
+    setValue("images", updatedSelectedImages);
+  };
 
   const onSubmit = (data) => console.log(data);
   // console.log(getEventLocations());
@@ -85,9 +136,13 @@ const KuratorForm = (smk) => {
           {/*----------------------------*/}
           <Step number="2" text="Billeder" />
           <div className="mb-32">
-            {/*billed section*/}
-            <Gallery smkdata={smk} />
-            {/*billed section*/}
+            <Gallery
+              smkdata={smk}
+              selectedImages={selectedImages}
+              handleImageSelect={handleImageSelect}
+              maxImages={maxImages}
+              locationSelected={!!selectedLocationId}
+            />
           </div>
           {/*----------------------------*/}
           <Step number="3" text="tekstindhold" />
