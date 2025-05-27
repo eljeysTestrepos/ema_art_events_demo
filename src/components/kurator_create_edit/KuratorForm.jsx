@@ -51,7 +51,7 @@ const KuratorForm = (smk) => {
         (loc) => loc.id === selectedLocationId
       );
       if (chosenLocation) {
-        const capacity = chosenLocation.maxArtworks || maxArtworks;
+        const capacity = chosenLocation.maxArtworks || 3;
         setMaxImages(capacity);
       }
     } else {
@@ -60,14 +60,15 @@ const KuratorForm = (smk) => {
     const currentFormImages = watch("images") || [];
     if (currentFormImages.length > currentCapacity) {
       setSelectedImages([]);
+      setValue("images", []);
     } else if (!selectedLocationId) {
       setSelectedImages([]);
-      setValue("iamges", []);
+      setValue("images", []);
     }
   }, [selectedLocationId, locations, setValue, watch]);
 
   const handleImageSelect = (imageId) => {
-    const isSelected = setSelectedImages.includes(imageId);
+    const isSelected = selectedImages.includes(imageId);
 
     let updatedSelectedImages;
     if (isSelected) {
@@ -86,7 +87,7 @@ const KuratorForm = (smk) => {
     setValue("images", updatedSelectedImages);
   };
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => console.log({ ...data, images: selectedImages });
   // console.log(getEventLocations());
 
   return (
@@ -105,7 +106,7 @@ const KuratorForm = (smk) => {
             >
               <option value="">dato</option>
               {dates.map((date) => (
-                <option value="number" key={date}>
+                <option value={date} key={date}>
                   {date}
                 </option>
               ))}
@@ -122,7 +123,7 @@ const KuratorForm = (smk) => {
             >
               <option value="">lokation</option>
               {locations.map((location) => (
-                <option value="text" key={location.id}>
+                <option value={location.id} key={location.id}>
                   {location.id}-{location.name}-{location.address}
                 </option>
               ))}
