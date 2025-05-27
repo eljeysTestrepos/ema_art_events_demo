@@ -140,14 +140,14 @@ const Header = ({ backgroundColor }) => {
             <DropdownMenuSeparator />
 
             {isSignedIn && (
-              <NavigationMenuItem>
-                <NavigationMenuLink
+              <DropdownMenuItem asChild>
+                <Link
                   href="/create_edit"
                   className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
                 >
                   Lav event
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+                </Link>
+              </DropdownMenuItem>
             )}
 
             <SignedOut>
