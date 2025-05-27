@@ -131,7 +131,11 @@ const PersonalForm = () => {
             )}
           />
         </div>
-        <CustomButton type="submit" text="Submit"></CustomButton>
+        <CustomButton
+          type="submit"
+          text="Submit"
+          link="/paymentconfirmation"
+        ></CustomButton>
       </form>
     </FormProvider>
   );
