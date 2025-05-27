@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { getEventLocations, getEventDates } from "@/lib/api";
 import Button from "../global/Button";
 import Gallery from "./Gallery";
-export default function () {
+
+const KuratorForm = (smk) => {
+  // const EventsDates = await getEventDates();
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -27,7 +29,6 @@ export default function () {
     getDatesAndLocations();
   }, []);
 
-  //react-hook-forms
   const {
     register,
     handleSubmit,
@@ -85,7 +86,7 @@ export default function () {
           <Step number="2" text="Billeder" />
           <div className="mb-32">
             {/*billed section*/}
-            {/* <Gallery /> */}
+            <Gallery smkdata={smk} />
             {/*billed section*/}
           </div>
           {/*----------------------------*/}
@@ -139,4 +140,6 @@ export default function () {
       <aside></aside>
     </main>
   );
-}
+};
+
+export default KuratorForm;

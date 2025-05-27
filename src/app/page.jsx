@@ -2,7 +2,7 @@ import Image from "next/image";
 import CustomButton from "../components/global/CustomButton";
 import DiasShow from "../components/home/DiasShow";
 import OpacityTextBox from "../components/global/OpacityTextBox";
-
+import Gallery from "@/components/eventView/Gallery";
 export default function Home() {
   const openingHours = `Tirsdag - søndag 10 - 18 <br />
 Onsdag 10 – 20 <br />
