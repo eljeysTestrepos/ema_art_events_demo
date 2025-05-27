@@ -1,3 +1,5 @@
+// ASYNC SERVER FRA DANNIE ENDPOINTS
+
 export async function getEvent() {
   const dataEvents = await fetch("http://localhost:8080/events?limit=*"); //skift url med eksterne server side når det er deployet
   const dataevent = await dataEvents.json();
@@ -9,6 +11,20 @@ export async function getEventId(id) {
   const dataeventid = await dataEventsids.json();
   return dataeventid;
 }
+
+export async function getEventDates() {
+  const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
+  const eventsdates = await EventsDates.json();
+  return eventsdates;
+}
+
+export async function getEventLocations() {
+  const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
+  const eventslocations = await EventsLocations.json();
+  return eventslocations;
+}
+
+// SMK ENDPOINTS
 
 export async function getSMK() {
   const datasSMK = await fetch(
@@ -44,16 +60,4 @@ export async function getArtworkByEventID(objectNumber) {
   const data = await res.json();
   const artImg = data.items?.[0];
   return artImg;
-}
-
-export async function getEventDates() {
-  const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
-  const eventsdates = await EventsDates.json();
-  return eventsdates;
-}
-
-export async function getEventLocations() {
-  const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
-  const eventslocations = await EventsLocations.json();
-  return eventslocations;
 }
