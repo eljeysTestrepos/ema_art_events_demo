@@ -2,8 +2,6 @@
 import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { getEventLocations, getEventDates } from "@/lib/api";
-import Button from "../global/Button";
 import Gallery from "./Gallery";
 
 const KuratorForm = (smk) => {
