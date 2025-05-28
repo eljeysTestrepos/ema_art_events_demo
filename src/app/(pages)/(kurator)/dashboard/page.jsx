@@ -1,27 +1,40 @@
-import EventItem from "@/components/global/EventItem";
-import Filter from "@/components/global/Filter";
-import SearchBar from "@/components/global/SearchBar";
-import { getEvent } from "@/lib/api";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import {
+  getEvent,
+  getArtworkByEventID,
+  getEventDates,
+  getEventLocations,
+} from "@/lib/api";
+import { currentUser } from "@clerk/nextjs/server";
+import EventListWithFilter from "@/components/global/EventListWithFilter";
 
 export default async function Dashboard() {
-  const user = await currentUser(); //Henter alt data på den bruger der er logget ind.
-  // console.log("dette er auth data: ", user);
-  const eventList = await getEvent();
-  console.log(eventList);
+  const user = await currentUser();
+  const eventListRaw = await getEvent();
+  const eventsDates = await getEventDates();
+  const eventsLocations = await getEventLocations();
+
+  const eventListWithArtwork = await Promise.all(
+    eventListRaw.map(async (event) => {
+      let artImgData = null;
+      if (event.artworkIds && event.artworkIds.length > 0) {
+        artImgData = await getArtworkByEventID(event.artworkIds[0]);
+      }
+      return {
+        ...event,
+        artImg: artImgData,
+      };
+    })
+  );
+
   return (
     <main>
       <h3 className="col-span-2">Velkommen tilbage {user?.firstName} </h3>
-      <section>
-        {eventList.map((event) => {
-          // console.log(eventList);
-          return <EventItem key={event.id} {...event} />;
-        })}
-      </section>
-      <aside>
-        <SearchBar />
-        <Filter />
-      </aside>
+
+      <EventListWithFilter
+        initialEvents={eventListWithArtwork}
+        availableDates={eventsDates}
+        availableLocations={eventsLocations}
+      />
     </main>
   );
 }

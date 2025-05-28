@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/Filter";
+import { usePathname } from "next/navigation"; // Stadig relevant, hvis du vil tilpasse filteret yderligere
 
 const EventListWithFilter = ({
   initialEvents,
@@ -11,8 +12,15 @@ const EventListWithFilter = ({
 }) => {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-
   const [filteredEvents, setFilteredEvents] = useState(initialEvents);
+
+  const pathname = usePathname();
+
+  React.useEffect(() => {
+    setFilteredEvents(initialEvents);
+    setSelectedLocation("");
+    setSelectedDate("");
+  }, [initialEvents]);
 
   const applyFilters = (location, date) => {
     let currentFilteredEvents = initialEvents;
@@ -35,14 +43,12 @@ const EventListWithFilter = ({
   const handleLocationChange = (value) => {
     const newLocation = String(value || "").trim();
     setSelectedLocation(newLocation);
-
     applyFilters(newLocation, selectedDate);
   };
 
   const handleDateChange = (value) => {
     const newDate = String(value || "").trim();
     setSelectedDate(newDate);
-
     applyFilters(selectedLocation, newDate);
   };
 
