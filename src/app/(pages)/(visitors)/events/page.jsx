@@ -18,7 +18,7 @@ export default async function Events() {
           return <EventItem key={dataevent.id} {...dataevent} />;
         })}
       </section>
-      <aside>
+      <aside className="row-1 md:col-2">
         <SearchBar></SearchBar>
         <Filter></Filter>
       </aside>

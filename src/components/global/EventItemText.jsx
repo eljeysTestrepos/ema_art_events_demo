@@ -72,19 +72,19 @@ const EventItemText = ({
       className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
       style={{ minWidth: "250px" }}
     >
-      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-1rem) relative">
-        <CardTitle className="">{title}</CardTitle>
-        <CardDescription className="mb-1">{date}</CardDescription>
+      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-0_5rem) relative">
+        <CardTitle className="mb-(--space-0_5rem)">{title}</CardTitle>
+        <CardDescription>{date}</CardDescription>
 
         <CardDescription>{rest.time || "17.00"}</CardDescription>
       </CardHeader>
-      <CardContent className="pr-(--space-1rem) pl-(--space-1rem) flex flex-col flex-grow">
+      <CardContent>
         <p>{location?.name}</p>
-        <p className="mb-2">{location?.address}</p>
-        <p>{description}</p>
+        <p className="mb-(--space-1rem)">{location?.address}</p>
+        <p className="mb-(--space-0_5rem)">{description}</p>
       </CardContent>
       <CardFooter
-        className={`grid grid-cols-auto grid-rows-auto gap-(--space-2rem) items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
+        className={`grid grid-cols-auto grid-rows-auto gap-11 items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
           isDashboardPage
             ? "col-span-1 items-start gap-2"
             : "row-span-1 items-center justify-between"

@@ -18,8 +18,8 @@ const EventItem = async (dataevent) => {
   // );
 
   return (
-    <article className="grid grid-cols-2 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
-      <figure className="max-w-[250px] mb-6 grid grid-rows-1 md:flex-shrink-0">
+    <article className="grid grid-cols-1 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
+      <figure className="max-w-[250px] mb-(--space-3rem) md:mb-(--space-2rem) grid grid-rows-1 md:flex-shrink-0">
         <div
           className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
           style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
