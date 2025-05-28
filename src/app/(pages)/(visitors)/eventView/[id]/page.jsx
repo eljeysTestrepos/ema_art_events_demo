@@ -43,7 +43,7 @@ export default async function EventView({ params, searchParams }) {
 
   return (
     <div
-      className="event-view-background relative w-full h-screen overflow-hidden"
+      className="event-view-background w-full h-screen overflow-hidden"
       style={{
         backgroundImage: currentArtworkForBackground?.thumbnail
           ? `url(${currentArtworkForBackground.thumbnail})`
@@ -58,7 +58,7 @@ export default async function EventView({ params, searchParams }) {
           "background-image 0.5s ease-in-out, background-color 0.5s ease-in-out",
       }}
     >
-      <main className="z-20 w-full h-full p-6 grid grid-cols-1 md:grid-cols-2 grid-rows-[1fr_1fr_auto] gap-4">
+      <main className="z-20 w-full h-full p-6 grid grid-cols-1 grid-rows-[1fr_1fr_auto] gap-4 md:grid-cols-2  ">
         <section className="col-start-1 row-start-2 h-full flex flex-col justify-end items-start">
           <OpacityTextBox
             title={opacityBoxTitle}
