@@ -61,3 +61,15 @@ export async function getArtworkByEventID(objectNumber) {
   const artImg = data.items?.[0];
   return artImg;
 }
+
+//patch function
+export async function updateEvent(id, eventData) {
+  const res = await fetch(`http://localhost:8080/events/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+  return await res.json();
+}

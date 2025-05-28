@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Gallery from "./Gallery";
 
-const KuratorForm = (smk) => {
+const KuratorForm = ({ smk, initialData, eventId }) => {
   // const EventsDates = await getEventDates();
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -20,11 +20,26 @@ const KuratorForm = (smk) => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: initialData || {},
+  });
 
   //kigger på lokationdropdown.
   const selectedLocationId = watch("locationId"); //før lokation
+  //Her "genskabes" de valgte informationer i formen som tilhører det valgte Event
+  useEffect(() => {
+    // console.log("kuratorForm - initialData modtaget: ", initialData);
+    // console.log("kuratorForm - eventId modtaget: ", eventId);
+    if (initialData?.artworksId) {
+      setSelectedImages(initialData.artworksId);
+      setValue("artworksId", initialData.artworksId);
+    }
+    if (initialData?.location?.id) {
+      setValue("locationId", initialData.location.id);
+    }
+  }, [initialData, setValue]);
 
+  //Henter dato og lokation fra server api.
   useEffect(() => {
     const getDatesAndLocations = async () => {
       const dateRes = await fetch("http://localhost:8080/dates");
@@ -87,35 +102,39 @@ const KuratorForm = (smk) => {
     setValue("artworksId", updatedSelectedImages);
   };
 
-  // her postest event objektet til serveren
+  // her postest event objektet til serveren & patches objekter.
   const onSubmit = async (data) => {
+    //findes eventid eller ej
+    const method = eventId ? "PATCH" : "POST";
+    const url = eventId
+      ? `http://localhost:8080/events/${eventId}`
+      : "http://localhost:8080/events";
+
     try {
-      const postData = await fetch("http://localhost:8080/events", {
-        method: "POST",
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
 
-      //indholdstjek. sender serveren den rigtig Json
       let responseBody;
       try {
-        let responseBody = await postData.json();
+        let responseBody = await response.json();
       } catch (jsonError) {
-        responseBody = await postData.text();
+        responseBody = await response.text();
         console.warn("server response er ikke JSON");
       }
-
       //fejl håndtering
-      if (!postData.ok) {
+      if (!response.ok) {
         console.error(
           "Fejl ved sending af eventdata:",
-          responseBody || postData.statusText
+          responseBody || response.statusText
         );
         alert(
           `Fejl: ${
-            responseBody?.message || responseBody || postData.statusText
+            responseBody?.message || responseBody || response.statusText
           }`
         );
         return;

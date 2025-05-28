@@ -142,8 +142,10 @@ const EventItemText = ({
           >
             <CustomButton
               text="Rediger"
-              onClick={() => console.log("Rediger event")}
+              link={`/edit_form/${id}`}
+              // onClick={() => console.log("Rediger event")}
             />
+
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger asChild>
                 <CustomButton text="Slet" variant="destructive" />

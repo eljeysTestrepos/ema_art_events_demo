@@ -7,6 +7,8 @@ const Gallery = ({
   maxImages,
   locationSelected,
 }) => {
+  console.log("Gallery - smkdata modtaget:", smkdata);
+
   if (!locationSelected) {
     return (
       <p className="text-black">
@@ -22,6 +24,19 @@ const Gallery = ({
     <div className="grid grid-cols-3 gap-4">
       {images.map((dataSmk) => {
         // Brug 'images' arrayet
+        // if (
+        //   !dataSmk ||
+        //   !dataSmk.image_thumbnail ||
+        //   typeof dataSmk.image_thumbnail !== "string" ||
+        //   dataSmk.image_thumbnail.trim() === ""
+        // ) {
+        //   console.warn(
+        //     `Springede billede over pga. manglende/ugyldig image_thumbnail:`,
+        //     dataSmk
+        //   );
+        //   return null; // Spring over rendering af dette billede
+        // }
+
         const isSelected = selectedImages.includes(dataSmk.id);
         const isDisabled = !isSelected && selectedImages.length >= maxImages;
 
@@ -58,39 +73,5 @@ const Gallery = ({
     </div>
   );
 };
-
-// return (
-//   <div
-//     key={dataSmk.id}
-//     className={`relative cursor-pointer border-2 p-2 ${
-//       isSeledted ? "border-red-100" : "border-gray-100"
-//     } ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-//   >
-//     {smkdata.smk.map((dataSmk) => {
-//       return (
-//         <Image
-//           key={dataSmk.id}
-//           src={dataSmk.image_thumbnail}
-//           width={150}
-//           height={150}
-//           alt="ild"
-//         />
-//       );
-//     })}
-//   </div>
-// );
-// {
-//   smkdata.smk.map((dataSmk) => {
-//     console.log("data4 ", dataSmk.created);
-
-//     return (
-//       <p key={dataSmk.id} className="text-black">
-//         {dataSmk.id}
-//       </p>
-//       // return <Image src={dataSmk.image_thumbnail} key={dataSmk.id} />;
-//     );
-//   });
-// }
-// };
 
 export default Gallery;
