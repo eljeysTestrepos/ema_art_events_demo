@@ -6,6 +6,5 @@ import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
 
 export default async function Create_Edit() {
   const SMKItems = await getSMKImg();
-  // console.log("data 2", SMKImg);
   return <KuratorForm smk={SMKItems} />;
 }

@@ -23,19 +23,17 @@ Mandag Lukket`;
         />
       </div>
 
-      <main className="relative z-10 w-full min-h-screen p-6 grid grid-cols-2 grid-rows-[1fr_auto] gap-4">
-        <DiasShow />
-
-        <h1 className="col-start-1 row-start-1 text-white">
+      <main className="relative z-10 w-full md:gap-(--space-1rem) md:pl-(--space-2rem)">
+        <h1 className="md:w-[15ch] h-fit col-start-1 row-1 pt-(--space-4rem) md:pt-(--space-6rem) text-white">
           Statens Museum for Kunst
         </h1>
         <CustomButton
-          className="w-fit col-start-1 row-start-2 h-fit"
+          className="w-fit sm-col-1 sm-row-1 sm-self-end md:col-start-1 md-row-3 h-fit"
           text="Se alle events"
           link="/events"
         />
         <OpacityTextBox
-          className="w-fit p-4 col-start-2 row-start-2 justify-self-end"
+          className="h-40 w-fit row-3 self-center md:col-start-2 md:row-start-3 md:mb-(--space-4rem)"
           title="Åbningstider"
           content={<p dangerouslySetInnerHTML={{ __html: openingHours }} />}
         />

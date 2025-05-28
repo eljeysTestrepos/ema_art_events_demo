@@ -2,14 +2,28 @@
 import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { getEventLocations, getEventDates } from "@/lib/api";
-import Button from "../global/Button";
 import Gallery from "./Gallery";
 
 const KuratorForm = (smk) => {
   // const EventsDates = await getEventDates();
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
+
+  //logik for valg af billeder
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [maxImages, setMaxImages] = useState(0);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  //kigger på lokationdropdown.
+  const selectedLocationId = watch("locationId"); //før lokation
 
   useEffect(() => {
     const getDatesAndLocations = async () => {
@@ -23,20 +37,102 @@ const KuratorForm = (smk) => {
       if (locationsRes.ok) {
         const getLocations = await locationsRes.json();
         setLocations(getLocations);
-        // console.log("Dette er lokation:", getLocations);
       }
     };
+
     getDatesAndLocations();
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  //kigger på hvilke ændringer der sker når man vælger lokation.
+  useEffect(() => {
+    let currentCapacity = 0;
+    if (selectedLocationId) {
+      const chosenLocation = locations.find(
+        (loc) => loc.id === selectedLocationId
+      );
+      if (chosenLocation) {
+        const capacity = chosenLocation.maxArtworks || 3;
+        setMaxImages(capacity);
+      }
+    } else {
+      setMaxImages(0);
+    }
+    const currentFormImages = watch("artworksId") || [];
+    if (currentFormImages.length > currentCapacity) {
+      setSelectedImages([]);
+      setValue("artworksId", []);
+    } else if (!selectedLocationId) {
+      setSelectedImages([]);
+      setValue("artworksId", []);
+    }
+  }, [selectedLocationId, locations, setValue, watch]);
 
-  const onSubmit = (data) => console.log(data);
-  // console.log(getEventLocations());
+  const handleImageSelect = (imageId) => {
+    const isSelected = selectedImages.includes(imageId);
+
+    let updatedSelectedImages;
+    if (isSelected) {
+      updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
+    } else {
+      if (selectedImages.length < maxImages) {
+        updatedSelectedImages = [...selectedImages, imageId];
+      } else {
+        alert(
+          `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
+        );
+        return;
+      }
+    }
+    setSelectedImages(updatedSelectedImages);
+    setValue("artworksId", updatedSelectedImages);
+  };
+
+  // her postest event objektet til serveren
+  const onSubmit = async (data) => {
+    try {
+      const postData = await fetch("http://localhost:8080/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      //indholdstjek. sender serveren den rigtig Json
+      let responseBody;
+      try {
+        let responseBody = await postData.json();
+      } catch (jsonError) {
+        responseBody = await postData.text();
+        console.warn("server response er ikke JSON");
+      }
+
+      //fejl håndtering
+      if (!postData.ok) {
+        console.error(
+          "Fejl ved sending af eventdata:",
+          responseBody || postData.statusText
+        );
+        alert(
+          `Fejl: ${
+            responseBody?.message || responseBody || postData.statusText
+          }`
+        );
+        return;
+      }
+      //succes med at skabe et event
+      console.log("Event blev oprettet/opdateret korrekt:", responseBody);
+      alert("Event succesfuldt gemt!");
+      //lav en fuld reset af formen
+      reset();
+    } catch (error) {
+      //håndtering af netværksfejl og andre uforudsete fejl
+      console.error("Netværksfejl eller uventet fejl:", error);
+      alert("Der skete en uventet fejl ved sending af data.");
+    }
+  };
+
+  // const onSubmit = (data) => console.log({ ...data, images: selectedImages });
 
   return (
     <main>
@@ -46,15 +142,15 @@ const KuratorForm = (smk) => {
           <div className="flex my-12 gap-4">
             <select
               name="dato"
-              id="dato"
+              id="date"
               className="border-2 border-black py-2 px-4"
-              {...register("dato", {
+              {...register("date", {
                 required: "Du mangler at vælge en dato*",
               })}
             >
               <option value="">dato</option>
               {dates.map((date) => (
-                <option value="number" key={date}>
+                <option value={date} key={date}>
                   {date}
                 </option>
               ))}
@@ -63,31 +159,35 @@ const KuratorForm = (smk) => {
 
             <select
               name="lokation"
-              id="lokation"
+              id="locationId"
               className="border-2 border-black py-2 px-4"
-              {...register("lokation", {
+              {...register("locationId", {
                 required: "Du mangler at vælge en lokation*",
               })}
             >
               <option value="">lokation</option>
-              {locations.map((location) => (
-                <option value="text" key={location.id}>
-                  {location.id}-{location.name}-{location.address}
+              {locations.map((locationId) => (
+                <option value={locationId.id} key={locationId.id}>
+                  {locationId.id}-{locationId.name}-{locationId.address}
                 </option>
               ))}
             </select>
           </div>
           {/*----------------------------*/}
           <div className="grid grid-cols-2 row-start-2">
-            <span className="text-red-600">{errors.dato?.message}</span>
-            <span className="text-red-600">{errors.lokation?.message}</span>
+            <span className="text-red-600">{errors.date?.message}</span>
+            <span className="text-red-600">{errors.locationId?.message}</span>
           </div>
           {/*----------------------------*/}
           <Step number="2" text="Billeder" />
           <div className="mb-32">
-            {/*billed section*/}
-            <Gallery smkdata={smk} />
-            {/*billed section*/}
+            <Gallery
+              smkdata={smk}
+              selectedImages={selectedImages}
+              handleImageSelect={handleImageSelect}
+              maxImages={maxImages}
+              locationSelected={!!selectedLocationId}
+            />
           </div>
           {/*----------------------------*/}
           <Step number="3" text="tekstindhold" />
@@ -114,15 +214,15 @@ const KuratorForm = (smk) => {
               </label>
               <textarea
                 name="beskrivelse"
-                id="beskrivelse"
+                id="description"
                 placeholder="event beskrivelse"
                 className=" border-black border-2 py-2 px-4"
-                {...register("beskrivelse", {
+                {...register("description", {
                   required: "Du mangler at navngive eventet*",
                 })}
               ></textarea>
               <span className="text-red-600">
-                {errors.beskrivelse?.message}
+                {errors.description?.message}
               </span>
             </div>
           </div>
