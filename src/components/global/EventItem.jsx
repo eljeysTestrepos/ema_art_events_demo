@@ -18,19 +18,19 @@ const EventItem = async (dataevent) => {
   // );
 
   return (
-    <article className="grid grid-cols-1 p-6 md:col-span-1 md:row-span-1 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
-      <figure className="max-w-[250px] mb-(--space-3rem) md:mb-(--space-2rem) grid grid-rows-1 md:flex-shrink-0">
+    <article className="grid grid-cols-1 grid-rows-auto @min-[475px]:grid-cols-2 @min-[475px]:grid-rows-1">
+      <figure className="md:col-1 grid grid-cols-1 grid-rows-1">
         <div
-          className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
+          className={`h-[250px] w-full col-1 row-1 self-start justify-self-start`}
           style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
         ></div>
+
         <Image
           src={artImg.image_thumbnail}
           alt="noget"
           width={500}
           height={500}
-          className="block w-[200px] h-[250px] z-2 rounded-xl row-start-1 col-start-1"
-          style={{ objectFit: "cover", transform: "translate(25px, 25px)" }}
+          className=" h-full w-full pl-6 pt-6 object-cover col-1 row-1 self-end justify-self-end rounded-xs"
         />
       </figure>
       <EventItemText {...dataevent} />

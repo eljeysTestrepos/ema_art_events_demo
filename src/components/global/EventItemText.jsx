@@ -68,11 +68,8 @@ const EventItemText = ({
     controles.start("initial");
   };
   return (
-    <Card
-      className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
-      style={{ minWidth: "250px" }}
-    >
-      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-0_5rem) relative">
+    <Card className={`md:col-2`}>
+      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-0_5rem)">
         <CardTitle className="mb-(--space-0_5rem)">{title}</CardTitle>
         <CardDescription>{date}</CardDescription>
 

@@ -13,7 +13,7 @@ export default async function Events() {
   return (
     <main>
       <div className="@container">
-        <section className="grid @sm:grid-cols-1 @min-[900px]:grid-cols-1 @lg:grid-cols-2 @min-[900px]:row-auto">
+        <section className=" grid grid-cols-1 grid-rows-auto @min-[475px]:grid-cols-2 gap-4">
           {eventList.map((dataevent) => {
             // console.log("events page mapping: ", "eventList: ", dataevent);
             return <EventItem key={dataevent.id} {...dataevent} />;
