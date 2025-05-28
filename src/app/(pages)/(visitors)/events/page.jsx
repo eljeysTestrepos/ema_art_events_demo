@@ -12,13 +12,15 @@ export default async function Events() {
 
   return (
     <main>
-      <section className="pr-(--space-3rem)">
-        {eventList.map((dataevent) => {
-          // console.log("events page mapping: ", "eventList: ", dataevent);
-          return <EventItem key={dataevent.id} {...dataevent} />;
-        })}
-      </section>
-      <aside className="row-1 md:col-2">
+      <div className="@container">
+        <section className="grid @sm:grid-cols-1 @min-[900px]:grid-cols-1 @lg:grid-cols-2 @min-[900px]:row-auto">
+          {eventList.map((dataevent) => {
+            // console.log("events page mapping: ", "eventList: ", dataevent);
+            return <EventItem key={dataevent.id} {...dataevent} />;
+          })}
+        </section>
+      </div>
+      <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem) ">
         <SearchBar></SearchBar>
         <Filter></Filter>
       </aside>
