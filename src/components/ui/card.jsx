@@ -3,14 +3,14 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  "bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm content-fit p-4",
+  "bg-card text-card-foreground flex flex-col rounded-xl shadow-sm content-fit p-(--space-1rem)",
   {
     variants: {
       variant: {
         default:
-          "bg-card text-card-foreground flex flex-col gap-4 rounded-xl border py-4 shadow-sm ",
+          "bg-card text-card-foreground flex flex-col gap-4 rounded-xl py-4 shadow-sm ",
         opacity:
-          "bg-text-clr opacity-70 text-btn-textClr flex rounded-xl border shadow-sm h-fit gap-2",
+          "bg-text-clr opacity-80 text-btn-textClr flex rounded-xl shadow-sm h-fit gap-(--space-1rem)",
       },
     },
   }

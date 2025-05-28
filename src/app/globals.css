@@ -76,7 +76,7 @@
 
   /* Line Height */
   /* --lineHeight: clamp(1rem, 2.177vw + 0.388rem, 3rem); */
-  --lineHeight-heading: 1.5;
+  --lineHeight-heading: 1.2;
   --lineheight-body: 1.3;
   /* Padding and Margins */
   --space-0_5rem: clamp(0.5rem, 0.4606rem + 0.137vw, 0.625rem);
@@ -93,7 +93,7 @@ body {
   display: grid;
   grid-template-columns: minmax(2rem, 2fr) minmax(0, 1200px) minmax(2rem, 2fr);
   grid-template-rows: auto 1fr;
-  min-height: 100svh;
+  min-height: 100dvh;
 }
 body > * {
   grid-column: 2;
@@ -118,7 +118,7 @@ main {
   padding-top: 1rem;
 
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto;
   grid-template-rows: auto;
 }
 
