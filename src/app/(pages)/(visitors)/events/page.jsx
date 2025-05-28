@@ -1,27 +1,39 @@
-import { getEvent } from "@/lib/api";
+import {
+  getEvent,
+  getEventDates,
+  getEventLocations,
+  getSMK,
+  getArtworkByEventID,
+} from "@/lib/api";
 
-import Basket from "@/components/global/Basket";
-import EventItem from "@/components/global/EventItem";
-import Filter from "@/components/global/Filter";
-import SearchBar from "@/components/global/SearchBar";
+import EventListWithFilter from "@/components/global/EventListWithFilter";
 
 export default async function Events() {
-  const eventList = await getEvent();
+  const eventListRaw = await getEvent();
+  const eventsDates = await getEventDates();
+  const smk = await getSMK();
+  const eventsLocations = await getEventLocations();
 
-  // console.log("events page: ", "eventList: ", eventList);
+  const eventListWithArtwork = await Promise.all(
+    eventListRaw.map(async (event) => {
+      let artImgData = null;
+      if (event.artworkIds && event.artworkIds.length > 0) {
+        artImgData = await getArtworkByEventID(event.artworkIds[0]);
+      }
+      return {
+        ...event,
+        artImg: artImgData,
+      };
+    })
+  );
 
   return (
     <main>
-      <section className="pr-(--space-3rem)">
-        {eventList.map((dataevent) => {
-          // console.log("events page mapping: ", "eventList: ", dataevent);
-          return <EventItem key={dataevent.id} {...dataevent} />;
-        })}
-      </section>
-      <aside>
-        <SearchBar></SearchBar>
-        <Filter></Filter>
-      </aside>
+      <EventListWithFilter
+        initialEvents={eventListWithArtwork}
+        availableDates={eventsDates}
+        availableLocations={eventsLocations}
+      />
     </main>
   );
 }
