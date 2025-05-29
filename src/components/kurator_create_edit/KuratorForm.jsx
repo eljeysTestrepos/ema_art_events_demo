@@ -140,6 +140,7 @@ const KuratorForm = ({ smk, initialData, eventId }) => {
         return;
       }
       //succes med at skabe et event
+
       console.log("Event blev oprettet/opdateret korrekt:", responseBody);
       alert("Event succesfuldt gemt!");
       //lav en fuld reset af formen
