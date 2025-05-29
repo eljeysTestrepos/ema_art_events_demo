@@ -10,20 +10,21 @@ export default function PaymentConfirmation() {
 
   return (
     <>
-      <div className="home-background-wrapper relative w-full h-screen">
+      <div className=" w-full col-span-full row-2">
         <Image
           src={imageUrl}
           alt="Maleri fra Statens Museum for Kunst"
           fill
           style={{ objectFit: "cover" }}
+          className="pt-20"
           priority
         />
       </div>
 
-      <main className="z-10  w-full h-full gap-2.5">
+      <main className=" z-10 w-full">
         <section
           className="
-           mt-16 col-1 p-8 rounded-sm shadow-md h-[80vh] text-right
+            col-1 row-span-2 p-8 rounded-sm shadow-md text-right
           "
           style={{ backgroundColor: mockBackgroundColor }}
         >
@@ -35,7 +36,7 @@ export default function PaymentConfirmation() {
           </p>
           <CustomButton text="Tilbage til forsiden" link="/" />
         </section>
-        <aside>
+        <aside className="col-2 row-1 justify-self-center mt-(--space-4rem) h-fit">
           <OpacityTextBox
             title="Kvittering"
             content="Her er hvad der er blevet købt"

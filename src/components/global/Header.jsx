@@ -41,7 +41,7 @@ const Header = ({ backgroundColor }) => {
   }
 
   return (
-    <header className="flex items-center justify-between p-4 border-b">
+    <header className="flex items-center justify-between p-4 border-b z-10">
       <Link href="/" className=" font-bold">
         SMK
       </Link>
