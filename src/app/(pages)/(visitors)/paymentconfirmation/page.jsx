@@ -21,7 +21,7 @@ export default function PaymentConfirmation() {
         />
       </div>
 
-      <main className=" z-10 w-full">
+      <main className="halfbleed z-10 w-full">
         <section
           className="
             col-1 row-span-2 p-8 rounded-sm shadow-md text-right

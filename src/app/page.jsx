@@ -13,7 +13,7 @@ Mandag Lukket`;
 
   return (
     <>
-      <div className="home-background-wrapper relative w-full h-full">
+      <div className="home-background-wrapper w-full h-full col-span-full row-2">
         <Image
           src={imageUrl}
           alt="Maleri fra Statens Museum for Kunst"
@@ -23,7 +23,7 @@ Mandag Lukket`;
         />
       </div>
 
-      <main className="relative z-10 w-full md:gap-(--space-1rem) md:pl-(--space-2rem)">
+      <main className="z-10 w-full md:gap-(--space-1rem) md:pl-(--space-2rem) md:col-2">
         <h1 className="md:w-[15ch] h-fit col-start-1 row-1 pt-(--space-4rem) md:pt-(--space-6rem) text-white">
           Statens Museum for Kunst
         </h1>
