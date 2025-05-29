@@ -10,20 +10,20 @@ export default function PaymentConfirmation() {
 
   return (
     <>
-      <div className="home-background-wrapper max-full max-h-dvh ">
+      <div className="home-background-wrapper ">
         <Image
           src={imageUrl}
           alt="Maleri fra Statens Museum for Kunst"
-          width={1900}
-          height={1900}
-          className=" h-full w-full"
+          width={500}
+          height={500}
+          className=" w-full h-full"
           priority
         />
       </div>
 
-      <main className="col-[1/2]  max-h-dvh">
+      <main className="halfbleed col-[1/3]">
         <section
-          className="col-1 row-1 z-10"
+          className="col-1 row-1 z-10 mt-(--space-4rem) pt-(--space-4rem) pl-(--space-4rem)"
           style={{ backgroundColor: mockBackgroundColor }}
         >
           <h2 className="text-3xl font-bold mb-4 text-white">
@@ -34,7 +34,7 @@ export default function PaymentConfirmation() {
           </p>
           <CustomButton text="Tilbage til forsiden" link="/" />
         </section>
-        <aside className="col-1 row-1 ">
+        <aside className="col-2 row-1 justify-self-center mt-20">
           <OpacityTextBox
             title="Kvittering"
             content="Her er hvad der er blevet købt"
