@@ -55,7 +55,7 @@ const EventListWithFilter = ({
   return (
     <>
       <div className="@container">
-        <section className=" grid grid-cols-1 grid-rows-auto @max-[500px]:justify-items-center @min-[775px]:grid-cols-2 gap-(--space-4rem)">
+        <section className=" grid grid-cols-1 grid-rows-auto @min-[775px]:grid-cols-2 gap-(--space-4rem)">
           {filteredEvents.length > 0 ? (
             filteredEvents.map((dataevent) => (
               <EventItem key={dataevent.id} {...dataevent} />
