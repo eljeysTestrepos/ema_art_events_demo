@@ -10,13 +10,13 @@ export default function PaymentConfirmation() {
 
   return (
     <>
-      <div className="home-background-wrapper ">
+      <div className="home-background-wrapper h-[100%]  ">
         <Image
           src={imageUrl}
           alt="Maleri fra Statens Museum for Kunst"
           width={500}
           height={500}
-          className=" w-full h-full"
+          className=" w-full h-full object-cover"
           priority
         />
       </div>
@@ -38,7 +38,7 @@ export default function PaymentConfirmation() {
           <OpacityTextBox
             title="Kvittering"
             content="Her er hvad der er blevet købt"
-            className="mt-16"
+            className="mt-16 "
           />
         </aside>
       </main>
