@@ -68,7 +68,7 @@ const EventItemText = ({
     controles.start("initial");
   };
   return (
-    <Card className={`md:col-2`}>
+    <Card className={`md:col-2 max-w-[30ch]`}>
       <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-0_5rem)">
         <CardTitle className="mb-(--space-0_5rem)">{title}</CardTitle>
         <CardDescription>{date}</CardDescription>

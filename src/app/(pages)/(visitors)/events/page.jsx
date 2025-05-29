@@ -29,13 +29,11 @@ export default async function Events() {
 
   return (
     <main>
-      <div className="@container">
-        <EventListWithFilter
-          initialEvents={eventListWithArtwork}
-          availableDates={eventsDates}
-          availableLocations={eventsLocations}
-        />
-      </div>
+      <EventListWithFilter
+        initialEvents={eventListWithArtwork}
+        availableDates={eventsDates}
+        availableLocations={eventsLocations}
+      />
     </main>
   );
 }

@@ -53,17 +53,19 @@ const EventListWithFilter = ({
   };
 
   return (
-    <div className="flex">
-      <section className="pr-(--space-3rem) flex-grow">
-        {filteredEvents.length > 0 ? (
-          filteredEvents.map((dataevent) => (
-            <EventItem key={dataevent.id} {...dataevent} />
-          ))
-        ) : (
-          <p>Ingen events matcher dine filtre.</p>
-        )}
-      </section>
-      <aside>
+    <>
+      <div className="@container">
+        <section className=" grid grid-cols-1 grid-rows-auto @max-[500px]:justify-items-center @min-[775px]:grid-cols-2 gap-(--space-4rem)">
+          {filteredEvents.length > 0 ? (
+            filteredEvents.map((dataevent) => (
+              <EventItem key={dataevent.id} {...dataevent} />
+            ))
+          ) : (
+            <p>Ingen events matcher dine filtre.</p>
+          )}
+        </section>
+      </div>
+      <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem) ">
         <Filter
           dates={availableDates}
           locations={availableLocations}
@@ -73,7 +75,7 @@ const EventListWithFilter = ({
           selectedDate={selectedDate}
         />
       </aside>
-    </div>
+    </>
   );
 };
 

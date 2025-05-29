@@ -7,20 +7,21 @@ const EventItem = (dataevent) => {
   const artImg = dataevent.artImg;
 
   return (
-    <article className="grid grid-cols-1 grid-rows-auto @min-[475px]:grid-cols-2 @min-[475px]:grid-rows-1">
-      <figure className="md:col-1 grid grid-cols-1 grid-rows-1">
+    <article className="grid @max-[474px]:grid-cols-1 @max-[474px]:grid-rows-auto @min-[475px]:grid-cols-2 @min-[475px]:grid-rows-1">
+      <figure className="max-w-[210px] h-[325px] md:col-1 grid grid-cols-1 grid-rows-3 ">
         <div
-          className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
+          className={`max-w-[180px] h-[250px] rounded-sm row-span-2 row-start-1 col-start-1`}
           style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
         ></div>
-
-        <Image
-          src={artImg?.image_thumbnail || Placeholder}
-          alt="noget"
-          width={500}
-          height={500}
-          className=" h-full w-full pl-6 pt-6 object-cover col-1 row-1 self-end justify-self-end rounded-xs"
-        />
+        <div className=" max-w-[180px] h-[250px] col-1 row-start-2 row-span-2 self-end justify-self-end rounded-lg">
+          <Image
+            src={artImg?.image_thumbnail || Placeholder}
+            alt="noget"
+            width={500}
+            height={500}
+            className=" h-full object-cover rounded-lg"
+          />
+        </div>
       </figure>
 
       <EventItemText {...dataevent} />
