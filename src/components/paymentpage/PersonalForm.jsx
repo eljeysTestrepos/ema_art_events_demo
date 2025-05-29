@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomButton from "@/components/global/CustomButton";
+import { useRouter } from "next/navigation";
 
 const PersonalForm = () => {
   const form = useForm({
@@ -25,8 +26,12 @@ const PersonalForm = () => {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = (data) => {
     console.log("Formular data:", data);
+
+    router.push("/paymentconfirmation");
   };
 
   return (
@@ -92,6 +97,7 @@ const PersonalForm = () => {
           <FormField
             control={form.control}
             name="address"
+            rules={{ required: "Adresse er påkrævet" }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Adresse</FormLabel>
@@ -106,6 +112,7 @@ const PersonalForm = () => {
           <FormField
             control={form.control}
             name="city"
+            rules={{ required: "By er påkrævet" }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>By</FormLabel>
@@ -120,6 +127,13 @@ const PersonalForm = () => {
           <FormField
             control={form.control}
             name="zipCode"
+            rules={{
+              required: "Postnummer er påkrævet",
+              pattern: {
+                value: /^\d{4}$/,
+                message: "Ugyldigt postnummer (skal være 4 cifre)",
+              },
+            }}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Postnummer</FormLabel>
@@ -131,11 +145,7 @@ const PersonalForm = () => {
             )}
           />
         </div>
-        <CustomButton
-          type="submit"
-          text="Submit"
-          link="/paymentconfirmation"
-        ></CustomButton>
+        <CustomButton type="submit" text="Gå til betaling"></CustomButton>
       </form>
     </FormProvider>
   );

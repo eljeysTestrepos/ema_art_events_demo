@@ -36,10 +36,14 @@ export default async function EventView({ params, searchParams }) {
     currentArtworkForBackground = allArtworkDetails[0];
   }
 
-  const opacityBoxTitle =
-    currentArtworkForBackground?.title || dataeventid.title;
+  const eventDate = dataeventid.date
+    ? new Date(dataeventid.date).toLocaleDateString("da-DK")
+    : "Ukendt dato";
+  const eventLocationName = dataeventid.location?.name || "Ukendt lokation";
 
-  const opacityBoxContent = dataeventid.description;
+  const opacityBoxTitle = `${eventDate} - ${eventLocationName}`;
+
+  const opacityBoxContent = `${dataeventid.title}\n\n${dataeventid.description}`;
 
   return (
     <div
@@ -58,12 +62,13 @@ export default async function EventView({ params, searchParams }) {
           "background-image 0.5s ease-in-out, background-color 0.5s ease-in-out",
       }}
     >
-      <main className="z-20 w-full h-full p-6 grid grid-cols-1 grid-rows-[1fr_1fr_auto] gap-4 md:grid-cols-2  ">
+      <main className="z-20 w-full h-full p-6 grid grid-cols-1 grid-rows-[1fr_1fr_auto] gap-4 md:grid-cols-2  ">
         <section className="col-start-1 row-start-2 h-full flex flex-col justify-end items-start">
           <OpacityTextBox
             title={opacityBoxTitle}
             content={opacityBoxContent}
             className="p-4 max-w-md mb-4"
+            maxContentHeightClasses="overflow-y-auto"
           />
           <CustomButton
             className="mt-4"

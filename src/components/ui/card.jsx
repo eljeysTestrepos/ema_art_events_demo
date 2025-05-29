@@ -9,8 +9,9 @@ const cardVariants = cva(
       variant: {
         default:
           "bg-card text-card-foreground flex flex-col gap-4 rounded-xl py-4 shadow-sm ",
+
         opacity:
-          "bg-text-clr opacity-80 text-btn-textClr flex rounded-xl shadow-sm h-fit gap-(--space-1rem)",
+          "bg-text-clr opacity-80 text-btn-textClr flex rounded-xl shadow-sm h-fit gap-4",
       },
     },
   }
@@ -19,7 +20,7 @@ function Card({ className, ...props }) {
   return (
     <section
       data-slot="card"
-      className={cn(cardVariants, className)}
+      className={cn(cardVariants, "p-4", className)}
       {...props}
     />
   );
@@ -30,7 +31,7 @@ function CardHeader({ className, ...props }) {
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start  px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
         className
       )}
       {...props}
@@ -72,13 +73,7 @@ function CardAction({ className, ...props }) {
 }
 
 function CardContent({ className, ...props }) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-4", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="card-content" className={cn(className)} {...props} />;
 }
 
 function CardFooter({ className, ...props }) {

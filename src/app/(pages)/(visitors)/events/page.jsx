@@ -1,29 +1,41 @@
-import { getEvent } from "@/lib/api";
+import {
+  getEvent,
+  getEventDates,
+  getEventLocations,
+  getSMK,
+  getArtworkByEventID,
+} from "@/lib/api";
 
-import Basket from "@/components/global/Basket";
-import EventItem from "@/components/global/EventItem";
-import Filter from "@/components/global/Filter";
-import SearchBar from "@/components/global/SearchBar";
+import EventListWithFilter from "@/components/global/EventListWithFilter";
 
 export default async function Events() {
-  const eventList = await getEvent();
+  const eventListRaw = await getEvent();
+  const eventsDates = await getEventDates();
+  const smk = await getSMK();
+  const eventsLocations = await getEventLocations();
 
-  // console.log("events page: ", "eventList: ", eventList);
+  const eventListWithArtwork = await Promise.all(
+    eventListRaw.map(async (event) => {
+      let artImgData = null;
+      if (event.artworkIds && event.artworkIds.length > 0) {
+        artImgData = await getArtworkByEventID(event.artworkIds[0]);
+      }
+      return {
+        ...event,
+        artImg: artImgData,
+      };
+    })
+  );
 
   return (
     <main>
       <div className="@container">
-        <section className=" grid grid-cols-1 grid-rows-auto @min-[475px]:grid-cols-2 gap-4">
-          {eventList.map((dataevent) => {
-            // console.log("events page mapping: ", "eventList: ", dataevent);
-            return <EventItem key={dataevent.id} {...dataevent} />;
-          })}
-        </section>
+        <EventListWithFilter
+          initialEvents={eventListWithArtwork}
+          availableDates={eventsDates}
+          availableLocations={eventsLocations}
+        />
       </div>
-      <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem) ">
-        <SearchBar></SearchBar>
-        <Filter></Filter>
-      </aside>
     </main>
   );
 }

@@ -28,7 +28,7 @@ const Gallery = ({ galleryData }) => {
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
-        left: -280, // Eks: 3 thumbnails (80px * 3) + 2 gaps (8px * 2) + lidt padding
+        left: -280,
         behavior: "smooth",
       });
     }
@@ -53,7 +53,10 @@ const Gallery = ({ galleryData }) => {
 
   return (
     <section className="flex flex-col items-center">
-      <div className="relative flex items-center justify-center self-center bg-opacity-50 p-4 rounded-lg shadow-lg">
+      <div
+        className="relative flex items-center justify-between self-center p-4 rounded-lg shadow-lg"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      >
         <button
           onClick={scrollLeft}
           className="p-2 text-black bg-white bg-opacity-70 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
@@ -64,10 +67,10 @@ const Gallery = ({ galleryData }) => {
 
         <div
           ref={scrollContainerRef}
-          className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory px-8 mb-8"
+          className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory mx-4"
           style={{
             scrollSnapType: "x mandatory",
-            width: "calc(3 * 80px + 2 * 8px + 2 * 16px + 4px)",
+            width: "256px",
           }}
         >
           {galleryData.map((artwork, index) => {
