@@ -61,3 +61,11 @@ export async function getArtworkByEventID(objectNumber) {
   const artImg = data.items?.[0];
   return artImg;
 }
+
+export async function GetFieldInfoByEventID(objectNumber) {
+  const url = `https://api.smk.dk/api/v1/art/field_info?object_number=${objectNumber}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const fieldData = data.items?.[0];
+  return fieldData;
+}

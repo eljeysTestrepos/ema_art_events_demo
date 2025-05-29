@@ -9,6 +9,7 @@ export default async function EventView({ params, searchParams }) {
   const { backgroundArtworkId } = searchParams;
 
   const dataeventid = await getEventId(id);
+  console.log("single view", dataeventid);
 
   let allArtworkDetails = [];
   if (dataeventid.artworkIds && dataeventid.artworkIds.length > 0) {

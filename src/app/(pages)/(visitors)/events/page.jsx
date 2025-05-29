@@ -1,9 +1,7 @@
 import { getEvent } from "@/lib/api";
 
-import Basket from "@/components/global/Basket";
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/Filter";
-import SearchBar from "@/components/global/SearchBar";
 
 export default async function Events() {
   const eventList = await getEvent();
@@ -21,7 +19,6 @@ export default async function Events() {
         </section>
       </div>
       <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem) ">
-        <SearchBar></SearchBar>
         <Filter></Filter>
       </aside>
     </main>

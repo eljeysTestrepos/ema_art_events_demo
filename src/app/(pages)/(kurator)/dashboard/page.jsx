@@ -1,6 +1,5 @@
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/Filter";
-import SearchBar from "@/components/global/SearchBar";
 import { getEvent } from "@/lib/api";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
@@ -19,7 +18,6 @@ export default async function Dashboard() {
         })}
       </section>
       <aside>
-        <SearchBar />
         <Filter />
       </aside>
     </main>
