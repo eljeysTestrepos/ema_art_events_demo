@@ -52,21 +52,20 @@ Totalpris: ${confirmedEventDetails.quantity * confirmedEventDetails.pricePerTick
 
   return (
     <>
-      <div className="home-background-wrapper relative w-full h-screen">
+      <div className="home-background-wrapper h-[100%]  ">
         <Image
           src={imageUrl}
           alt="Maleri fra Statens Museum for Kunst"
-          fill
-          style={{ objectFit: "cover" }}
+          width={500}
+          height={500}
+          className=" w-full h-full object-cover"
           priority
         />
       </div>
 
-      <main className="z-10 w-full h-full gap-2.5">
+      <main className="halfbleed col-[1/3]">
         <section
-          className="
-            mt-16 col-1 p-8 rounded-sm shadow-md h-[80vh] text-right
-          "
+          className="col-1 row-1 z-10 mt-(--space-4rem) pt-(--space-4rem) pl-(--space-4rem)"
           style={{ backgroundColor: mockBackgroundColor }}
         >
           <h2 className="text-3xl font-bold mb-4 text-white">
@@ -78,7 +77,7 @@ Totalpris: ${confirmedEventDetails.quantity * confirmedEventDetails.pricePerTick
 
           <CustomButton text="Tilbage til forsiden" onClick={handleGoHome} />
         </section>
-        <aside>
+        <aside className="col-2 row-1 justify-self-center mt-20">
           <OpacityTextBox
             title="Kvittering"
             content={receiptContent}

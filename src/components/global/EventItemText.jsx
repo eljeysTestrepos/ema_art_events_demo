@@ -108,24 +108,21 @@ const EventItemText = ({
   };
 
   return (
-    <Card
-      className={`mb-2 flex flex-col grid-cols-2 h-full md:ml-0`}
-      style={{ minWidth: "250px" }}
-    >
+    <Card className={`md:col-2 max-w-[30ch]`} style={{ minWidth: "250px" }}>
       <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-1rem) relative">
-        <CardTitle className="">{title}</CardTitle>
+        <CardTitle className="mb-(--space-0_5rem)">{title}</CardTitle>
         <CardDescription className="mb-1">{date}</CardDescription>
-        <CardDescription>{time || "17.00"}</CardDescription>
-      </CardHeader>
 
-      <CardContent className="pr-(--space-1rem) pl-(--space-1rem) flex flex-col flex-grow">
+        <CardDescription>{rest.time || "17.00"}</CardDescription>
+      </CardHeader>
+      <CardContent>
         <p>{location?.name}</p>
-        <p className="mb-2">{location?.address}</p>
-        <p>{description}</p>
+        <p className="mb-(--space-1rem)">{location?.address}</p>
+        <p className="mb-(--space-0_5rem)">{description}</p>
       </CardContent>
 
       <CardFooter
-        className={`grid grid-cols-auto grid-rows-auto gap-(--space-2rem) items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
+        className={`grid grid-cols-auto grid-rows-auto gap-11 items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
           isDashboardPage
             ? "col-span-1 items-start gap-2"
             : "row-span-1 items-center justify-between"

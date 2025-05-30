@@ -28,20 +28,21 @@ const EventItem = (dataevent) => {
   };
 
   return (
-    <article className="grid grid-cols-2 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
-      <figure className="max-w-[250px] mb-6 grid grid-rows-1 md:flex-shrink-0">
+    <article className="grid @max-[474px]:grid-cols-1 @max-[474px]:grid-rows-auto @min-[475px]:grid-cols-2 @min-[475px]:grid-rows-1">
+      <figure className="max-w-[210px] h-[325px] md:col-1 grid grid-cols-1 grid-rows-3 ">
         <div
-          className={`w-[200px] h-[250px] rounded-xl row-start-1 col-start-1`}
-          style={{ backgroundColor: artImg?.suggested_bg_color || "#CCCCCC" }}
+          className={`max-w-[180px] h-[250px] rounded-sm row-span-2 row-start-1 col-start-1`}
+          style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
         ></div>
-        <Image
-          src={artImg?.image_thumbnail || Placeholder}
-          alt="noget"
-          width={500}
-          height={500}
-          className="block w-[200px] h-[250px] z-2 rounded-xl row-start-1 col-start-1"
-          style={{ objectFit: "cover", transform: "translate(25px, 25px)" }}
-        />
+        <div className=" max-w-[180px] h-[250px] col-1 row-start-2 row-span-2 self-end justify-self-end rounded-lg">
+          <Image
+            src={artImg?.image_thumbnail || Placeholder}
+            alt="noget"
+            width={500}
+            height={500}
+            className=" h-full object-cover rounded-lg"
+          />
+        </div>
       </figure>
 
       <EventItemText
