@@ -9,29 +9,24 @@ const Gallery = ({
   maxImages,
   locationSelected,
   // Til Filter
-  eventsDates,
-  eventsLocations,
-  dataArtists,
-  dataTechniques,
+
   // Data
-  dataArtists = { dataArtists },
-  dates = { eventsDates },
-  locations = { eventsLocations },
+  dataArtists,
+  dataDates,
+  dataLocations,
+  dataTechniques,
 
   // Setters
-  setSelectedArtist = { setSelectedArtist },
-  setSelectedLocation = { setSelectedLocation },
-  setSelectedDate = { setSelectedDate },
-  setSelectedTechnique = { onTechniqueChange },
+  setSelectedLocation,
+  setSelectedDate,
+  setSelectedTechniques,
+  setSelectedArtist,
 
   // Selected values
-  selectedArtist = { selectedArtist },
-  selectedLocation = { selectedLocation },
-  selectedDate = { selectedDate },
-  selectedTechnique = { selectedTechnique },
-
-  // Data
-  dataTechniques = { dataTechniques },
+  selectedLocation,
+  selectedDate,
+  selectedTechniques,
+  selectedArtist,
 }) => {
   //Filter start: //
   const handleArtistChange = (value) => {
@@ -69,8 +64,8 @@ const Gallery = ({
         <Filter
           // data
           dates={eventsDates}
-          locations={eventsLocations}
-          techniques={dataTechniques}
+          eventsLocations={eventsLocations}
+          dataTechniques={dataTechniques}
           dataArtists={dataArtists}
           // To try
           selectedTechnique={selectedTechnique}

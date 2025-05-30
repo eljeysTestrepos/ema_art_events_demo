@@ -7,16 +7,26 @@ import Filter from "../global/Filter";
 
 const KuratorForm = ({
   smk,
+
+  // Til Filter
+  // Data
+  dataArtists,
   eventsDates,
   eventsLocations,
-  dataArtists,
   dataTechniques,
-}) => {
-  //Filter start:
-  const [selectedTechnique, setSelectedTechnique] = useState("");
-  const [selectedArtist, setSelectedArtist] = useState("");
-  //Filter end //
 
+  // Setters
+  setSelectedLocation,
+  setSelectedDate,
+  setSelectedTechniques,
+  setSelectedArtist,
+
+  // Selected values
+  selectedLocation,
+  selectedDate,
+  selectedTechniques,
+  selectedArtist,
+}) => {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -198,16 +208,6 @@ const KuratorForm = ({
               handleImageSelect={handleImageSelect}
               maxImages={maxImages}
               locationSelected={!!selectedLocationId}
-              // To Filter
-              dataArtists={dataArtists}
-              dataTechniques={dataTechniques}
-              eventsDates={eventsDates}
-              eventsLocations={eventsLocations}
-              //To Try
-              selectedTechnique={selectedTechnique}
-              setSelectedTechnique={setSelectedTechnique}
-              selectedArtist={selectedArtist}
-              setSelectedArtist={setSelectedArtist}
             />
           </div>
           {/*----------------------------*/}
@@ -258,6 +258,28 @@ const KuratorForm = ({
           </div>
         </form>
       </section>
+      <aside>
+        <Filter
+          // data
+          dataDates={eventsDates}
+          dataLocations={eventsLocations}
+          dataTechniques={dataTechniques}
+          dataArtists={dataArtists}
+          // To try
+          selectedTechnique
+          setSelectedTechnique
+          selectedArtist
+          setSelectedArtist
+          selectedLocation
+          setSelectedLocation
+          selectedDate
+          setSelectedDate
+          handleArtistChange
+          handleLocationChange
+          handleDateChange
+          handleTechniqueChange
+        ></Filter>
+      </aside>
     </main>
   );
 };

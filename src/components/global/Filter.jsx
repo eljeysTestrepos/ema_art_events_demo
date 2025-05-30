@@ -15,8 +15,8 @@ const Filter = ({
   //data
   dataArtists = [],
   dataTechniques = [],
-  locations = [],
-  dates = [],
+  dataLocations = [],
+  dataDates = [],
   //set
   setSelectedLocation,
   setSelectedDate,
@@ -25,9 +25,8 @@ const Filter = ({
   //selected
   selectedLocation,
   selectedDate,
-  selectedTech,
+  selectedTechniques,
   selectedArtist,
-  setSelectedArtist,
 }) => {
   console.log("Filter: artists: ", dataArtists, "techniques", dataTechniques);
   const pathname = usePathname();
@@ -114,7 +113,7 @@ const Filter = ({
           <SelectGroup>
             <SelectLabel>Lokationer</SelectLabel>
             <SelectItem value="all">Alle lokationer</SelectItem>
-            {locations.map((location) => {
+            {dataLocations.map((location) => {
               const id = location?.id?.trim();
               if (!id) return null;
               return (
@@ -135,7 +134,7 @@ const Filter = ({
           <SelectGroup>
             <SelectLabel>Datoer</SelectLabel>
             <SelectItem value="all">Alle datoer</SelectItem>
-            {dates.map((date) => {
+            {dataDates.map((date) => {
               const trimmed = date?.trim();
               if (!trimmed) return null;
               return (
@@ -160,11 +159,16 @@ const Filter = ({
           <SelectGroup>
             <SelectLabel>Techniques</SelectLabel>
             <SelectItem value="all">Alle Techniques</SelectItem>
-            {techniques.map((tech) => (
-              <SelectItem key={tech.id} value={tech.name}>
-                {tech.name}
-              </SelectItem>
-            ))}
+            {uniqueTechniques.map((techniques) => {
+              const trimmed = techniques?.trim();
+              if (!trimmed) return null;
+
+              return (
+                <SelectItem key={trimmed} value={trimmed}>
+                  {trimmed}
+                </SelectItem>
+              );
+            })}
           </SelectGroup>
         </SelectContent>
       </Select>
