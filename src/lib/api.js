@@ -66,7 +66,7 @@ export async function getArtworkByEventID(objectNumber) {
 // Til Kurator Filtering og Description til Singleview.
 export async function getSMKFilter() {
   const datasSMK = await fetch(
-    "https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=30",
+    "https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=3",
     {
       headers: {
         "Content-Type": "application/json",
