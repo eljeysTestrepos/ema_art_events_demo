@@ -9,24 +9,6 @@ const Gallery = ({
   maxImages,
   locationSelected,
   // Til Filter
-
-  // Data
-  dataArtists,
-  dataDates,
-  dataLocations,
-  dataTechniques,
-
-  // Setters
-  setSelectedLocation,
-  setSelectedDate,
-  setSelectedTechniques,
-  setSelectedArtist,
-
-  // Selected values
-  selectedLocation,
-  selectedDate,
-  selectedTechniques,
-  selectedArtist,
 }) => {
   //Filter start: //
   const handleArtistChange = (value) => {

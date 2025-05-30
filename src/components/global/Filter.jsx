@@ -17,16 +17,6 @@ const Filter = ({
   dataTechniques = [],
   dataLocations = [],
   dataDates = [],
-  //set
-  setSelectedLocation,
-  setSelectedDate,
-  setSelectedTechniques,
-  setSelectedArtist,
-  //selected
-  selectedLocation,
-  selectedDate,
-  selectedTechniques,
-  selectedArtist,
 }) => {
   console.log("Filter: artists: ", dataArtists, "techniques", dataTechniques);
   const pathname = usePathname();
@@ -102,51 +92,6 @@ const Filter = ({
     </div>
   ) : (
     <div className="flex flex-col gap-4 mb-8">
-      <Select
-        onValueChange={handleLocationChange}
-        value={selectedLocation || "all"}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Vælg lokation" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Lokationer</SelectLabel>
-            <SelectItem value="all">Alle lokationer</SelectItem>
-            {dataLocations.map((location) => {
-              const id = location?.id?.trim();
-              if (!id) return null;
-              return (
-                <SelectItem key={id} value={id}>
-                  {location.name || "Ukendt lokation"}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <Select onValueChange={handleDateChange} value={selectedDate || "all"}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Vælg dato" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Datoer</SelectLabel>
-            <SelectItem value="all">Alle datoer</SelectItem>
-            {dataDates.map((date) => {
-              const trimmed = date?.trim();
-              if (!trimmed) return null;
-              return (
-                <SelectItem key={trimmed} value={trimmed}>
-                  {trimmed}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
       {/* SMK Mulighederne */}
       <Select
         onValueChange={handleTechniquesChange}

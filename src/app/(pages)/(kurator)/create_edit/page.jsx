@@ -12,7 +12,12 @@ import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
 
 export default async function Create_Edit() {
   const { dataArtists, dataTechniques } = await getSMKFilter();
-  console.log("create_edit: ", dataArtists, "tech: ", dataTechniques);
+  console.log(
+    "Page create_edit: dataArtists: ",
+    dataArtists,
+    "dataTechniques: ",
+    dataTechniques
+  );
 
   const SMKItems = await getSMKImg();
   const eventsdates = await getEventDates();

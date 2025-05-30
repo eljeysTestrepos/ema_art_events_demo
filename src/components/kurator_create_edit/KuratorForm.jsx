@@ -10,22 +10,10 @@ const KuratorForm = ({
 
   // Til Filter
   // Data
-  dataArtists,
   eventsDates,
   eventsLocations,
+  dataArtists,
   dataTechniques,
-
-  // Setters
-  setSelectedLocation,
-  setSelectedDate,
-  setSelectedTechniques,
-  setSelectedArtist,
-
-  // Selected values
-  selectedLocation,
-  selectedDate,
-  selectedTechniques,
-  selectedArtist,
 }) => {
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -208,6 +196,7 @@ const KuratorForm = ({
               handleImageSelect={handleImageSelect}
               maxImages={maxImages}
               locationSelected={!!selectedLocationId}
+              //Til Filter
             />
           </div>
           {/*----------------------------*/}
@@ -265,19 +254,6 @@ const KuratorForm = ({
           dataLocations={eventsLocations}
           dataTechniques={dataTechniques}
           dataArtists={dataArtists}
-          // To try
-          selectedTechnique
-          setSelectedTechnique
-          selectedArtist
-          setSelectedArtist
-          selectedLocation
-          setSelectedLocation
-          selectedDate
-          setSelectedDate
-          handleArtistChange
-          handleLocationChange
-          handleDateChange
-          handleTechniqueChange
         ></Filter>
       </aside>
     </main>
