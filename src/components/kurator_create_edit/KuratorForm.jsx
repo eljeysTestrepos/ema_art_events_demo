@@ -1,20 +1,26 @@
 "use client";
-import Step from "@/components/kurator_create_edit/Step";
+
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createEvent, updateEvent } from "@/lib/api";
+
 import Gallery from "./Gallery";
-import Filter from "../global/Filter";
+import CustomButton from "@/components/global/CustomButton";
 
 const KuratorForm = ({
+  initialEventData,
   smk,
-
-  // Til Filter
-  // Data
+  maxImages,
+  locations,
   eventsDates,
   eventsLocations,
+  // Til Filter
   dataArtists,
   dataTechniques,
 }) => {
+  const router = useRouter();
+  // const EventsDates = await getEventDates();
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -25,228 +31,271 @@ const KuratorForm = ({
   const {
     register,
     handleSubmit,
-    watch,
+
     setValue,
-    reset,
+    watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: initialEventData || {
+      title: "",
+      locationId: "",
+      date: "",
 
-  //kigger på lokationdropdown.
-  const selectedLocationId = watch("locationId"); //før lokation
+      description: "",
+      artworksId: [],
+    },
+  });
+
+  const selectedLocationId = watch("locationId");
+  const artworksIdFromForm = watch("artworksId");
+
+  const [selectedImages, setSelectedImages] = useState(
+    initialEventData?.artworksId || []
+  );
+
+  const [currentMaxImages, setCurrentMaxImages] = useState(
+    Number(maxImages) || 0
+  );
+
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
-    const getDatesAndLocations = async () => {
-      const dateRes = await fetch("http://localhost:8080/dates");
-      if (dateRes.ok) {
-        const getDates = await dateRes.json();
-        setDates(getDates);
-        // console.log("Dette er dates: ", getDates);
-      }
-      const locationsRes = await fetch("http://localhost:8080/locations");
-      if (locationsRes.ok) {
-        const getLocations = await locationsRes.json();
-        setLocations(getLocations);
-      }
-    };
+    console.log("KURATORFORM DEBUG: Initial maxImages prop:", maxImages);
+    console.log("KURATORFORM DEBUG: currentMaxImages state:", currentMaxImages);
+    console.log(
+      "KURATORFORM DEBUG: selectedLocationId (watch):",
+      selectedLocationId
+    );
+    console.log("KURATORFORM DEBUG: locations prop:", locations);
+  }, [maxImages, currentMaxImages, selectedLocationId, locations]);
 
-    getDatesAndLocations();
-  }, []);
-
-  //kigger på hvilke ændringer der sker når man vælger lokation.
   useEffect(() => {
-    let currentCapacity = 0;
-    if (selectedLocationId) {
-      const chosenLocation = locations.find(
-        (loc) => loc.id === selectedLocationId
+    if (initialEventData) {
+      for (const [key, value] of Object.entries(initialEventData)) {
+        if (key !== "time") {
+          setValue(key, value);
+        }
+      }
+      setSelectedImages(initialEventData.artworksId || []);
+    }
+  }, [initialEventData, setValue]);
+
+  useEffect(() => {
+    if (!Array.isArray(locations)) {
+      console.warn("KuratorForm: 'locations' prop is not an array.", locations);
+      setSelectedLocation(null);
+      setCurrentMaxImages(0);
+      return;
+    }
+
+    const foundLocation = locations.find(
+      (loc) => String(loc.id) === String(selectedLocationId)
+    );
+
+    setSelectedLocation(foundLocation || null);
+
+    const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
+    setCurrentMaxImages(newMaxImages);
+    console.log(
+      "KURATORFORM DEBUG: Updated currentMaxImages to:",
+      newMaxImages,
+      "for location:",
+      foundLocation?.name
+    );
+
+    if (foundLocation && selectedImages.length > newMaxImages) {
+      const trimmedImages = selectedImages.slice(0, newMaxImages);
+      setSelectedImages(trimmedImages);
+      setValue("artworksId", trimmedImages);
+    } else if (foundLocation && newMaxImages === 0) {
+      setSelectedImages([]);
+      setValue("artworksId", []);
+    }
+  }, [selectedLocationId, setValue, selectedImages, locations]);
+
+  useEffect(() => {
+    if (JSON.stringify(selectedImages) !== JSON.stringify(artworksIdFromForm)) {
+      setValue("artworksId", selectedImages);
+    }
+  }, [selectedImages, artworksIdFromForm, setValue]);
+
+  const handleImageSelect = useCallback(
+    (imageId) => {
+      console.log("handleImageSelect called for imageId:", imageId);
+      console.log("handleImageSelect: currentMaxImages =", currentMaxImages);
+      console.log(
+        "handleImageSelect: selectedImages.length =",
+        selectedImages.length
       );
-      if (chosenLocation) {
-        const capacity = chosenLocation.maxArtworks || 3;
-        setMaxImages(capacity);
+      console.log("handleImageSelect: selectedLocation =", selectedLocation);
+
+      if (!selectedLocation || currentMaxImages === 0) {
+        alert(
+          "Vælg venligst en lokation med billedkapacitet for at vælge billeder."
+        );
+        return;
       }
-    } else {
-      setMaxImages(0);
-    }
-    const currentFormImages = watch("artworksId") || [];
-    if (currentFormImages.length > currentCapacity) {
-      setSelectedImages([]);
-      setValue("artworksId", []);
-    } else if (!selectedLocationId) {
-      setSelectedImages([]);
-      setValue("artworksId", []);
-    }
-  }, [selectedLocationId, locations, setValue, watch]);
 
-  const handleImageSelect = (imageId) => {
-    const isSelected = selectedImages.includes(imageId);
+      const isSelected = selectedImages.includes(imageId);
 
-    let updatedSelectedImages;
-    if (isSelected) {
-      updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
-    } else {
-      if (selectedImages.length < maxImages) {
-        updatedSelectedImages = [...selectedImages, imageId];
+      let updatedSelectedImages;
+      if (isSelected) {
+        updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
       } else {
-        alert(
-          `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
-        );
-        return;
+        if (selectedImages.length < currentMaxImages) {
+          updatedSelectedImages = [...selectedImages, imageId];
+        } else {
+          alert(
+            `Du kan kun vælge op til ${currentMaxImages} billeder for denne lokation.`
+          );
+          return;
+        }
       }
-    }
-    setSelectedImages(updatedSelectedImages);
-    setValue("artworksId", updatedSelectedImages);
-  };
+      setSelectedImages(updatedSelectedImages);
+    },
+    [selectedImages, currentMaxImages, selectedLocation]
+  );
 
-  // her postest event objektet til serveren
   const onSubmit = async (data) => {
+    const { time, ...dataToSubmit } = data;
+
+    dataToSubmit.artworksId = dataToSubmit.artworksId.filter(
+      (id) => id !== null && id !== undefined && id !== ""
+    );
+
+    if (dataToSubmit.locationId) {
+      dataToSubmit.locationId = Number(dataToSubmit.locationId);
+    }
+
     try {
-      const postData = await fetch("http://localhost:8080/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      //indholdstjek. sender serveren den rigtig Json
-      let responseBody;
-      try {
-        let responseBody = await postData.json();
-      } catch (jsonError) {
-        responseBody = await postData.text();
-        console.warn("server response er ikke JSON");
+      if (initialEventData && initialEventData.id) {
+        await updateEvent(initialEventData.id, dataToSubmit);
+        console.log("Event updated successfully!");
+      } else {
+        await createEvent(dataToSubmit);
+        console.log("Event created successfully!");
       }
-
-      //fejl håndtering
-      if (!postData.ok) {
-        console.error(
-          "Fejl ved sending af eventdata:",
-          responseBody || postData.statusText
-        );
-        alert(
-          `Fejl: ${
-            responseBody?.message || responseBody || postData.statusText
-          }`
-        );
-        return;
-      }
-      //succes med at skabe et event
-      console.log("Event blev oprettet/opdateret korrekt:", responseBody);
-      alert("Event succesfuldt gemt!");
-      //lav en fuld reset af formen
-      reset();
+      router.push("/");
     } catch (error) {
-      //håndtering af netværksfejl og andre uforudsete fejl
-      console.error("Netværksfejl eller uventet fejl:", error);
-      alert("Der skete en uventet fejl ved sending af data.");
+      console.error("Error submitting form:", error);
+      alert("Der opstod en fejl ved gemning af eventet.");
     }
   };
-
-  // const onSubmit = (data) => console.log({ ...data, images: selectedImages });
 
   return (
-    <main>
-      <section className="border-2 border-black px-4 py-4">
-        <Step number="1" text="Dato og tid for event" />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex my-12 gap-4">
-            <select
-              name="dato"
-              id="date"
-              className="border-2 border-black py-2 px-4"
-              {...register("date", {
-                required: "Du mangler at vælge en dato*",
-              })}
-            >
-              <option value="">dato</option>
-              {dates.map((date) => (
-                <option value={date} key={date}>
-                  {date}
-                </option>
-              ))}
-            </select>
-            {/*----------------------------*/}
+    <>
+      <Step number="1" text="Dato og tid for event" />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
+        <h1 className="text-2xl font-bold mb-4">
+          {initialEventData ? "Rediger event" : "Opret nyt event"}
+        </h1>
 
-            <select
-              name="lokation"
-              id="locationId"
-              className="border-2 border-black py-2 px-4"
-              {...register("locationId", {
-                required: "Du mangler at vælge en lokation*",
-              })}
-            >
-              <option value="">lokation</option>
-              {locations.map((locationId) => (
-                <option value={locationId.id} key={locationId.id}>
-                  {locationId.id}-{locationId.name}-{locationId.address}
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Titel:
+          </label>
+          <input
+            type="text"
+            id="title"
+            {...register("title", { required: "Titel er påkrævet" })}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+          {errors.title && (
+            <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="locationId"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Lokation:
+          </label>
+          <select
+            id="locationId"
+            {...register("locationId", {
+              required: "Lokation er påkrævet",
+              valueAsNumber: true,
+            })}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          >
+            <option value="">Vælg en lokation</option>
+            {Array.isArray(locations) && locations.length > 0 ? (
+              locations.map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.name} (Max billeder: {loc.maxArtworks})
                 </option>
-              ))}
-            </select>
-          </div>
-          {/*----------------------------*/}
-          <div className="grid grid-cols-2 row-start-2">
-            <span className="text-red-600">{errors.date?.message}</span>
-            <span className="text-red-600">{errors.locationId?.message}</span>
-          </div>
-          {/*----------------------------*/}
-          <Step number="2" text="Billeder" />
-          <div className="mb-32">
-            <Gallery
-              smkdata={smk}
-              selectedImages={selectedImages}
-              handleImageSelect={handleImageSelect}
-              maxImages={maxImages}
-              locationSelected={!!selectedLocationId}
-              //Til Filter
-            />
-          </div>
-          {/*----------------------------*/}
-          <Step number="3" text="tekstindhold" />
-          <div className="my-12 flex  gap-4">
-            <div className="flex flex-col">
-              <label htmlFor="text" className="mb-2">
-                Event title
-              </label>
-              <input
-                name="title"
-                id="title"
-                placeholder="event titel"
-                className=" border-black border-2 py-2 px-4"
-                {...register("title", {
-                  required: "Du mangler at navngive eventet*",
-                })}
-              ></input>
-              <span className="text-red-600">{errors.title?.message}</span>
-            </div>
-            {/*----------------------------*/}
-            <div className="flex flex-col">
-              <label htmlFor="text" className="mb-2">
-                Event title
-              </label>
-              <textarea
-                name="beskrivelse"
-                id="description"
-                placeholder="event beskrivelse"
-                className=" border-black border-2 py-2 px-4"
-                {...register("description", {
-                  required: "Du mangler at navngive eventet*",
-                })}
-              ></textarea>
-              <span className="text-red-600">
-                {errors.description?.message}
-              </span>
-            </div>
-          </div>
-          {/*----------------------------*/}
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="cursor-pointer border-2 border-black py-2 px-4 rounded-[0.5rem]"
-            >
-              confirm
-            </button>
-          </div>
-        </form>
-      </section>
+              ))
+            ) : (
+              <option disabled>
+                Indlæser lokationer eller ingen fundet...
+              </option>
+            )}
+          </select>
+          {errors.locationId && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.locationId.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Dato:
+          </label>
+          <input
+            type="date"
+            id="date"
+            {...register("date", { required: "Dato er påkrævet" })}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+          {errors.date && (
+            <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Beskrivelse:
+          </label>
+          <textarea
+            id="description"
+            {...register("description")}
+            rows="4"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          ></textarea>
+        </div>
+
+        <div className="border p-4 rounded-md">
+          <Gallery
+            smkdata={smk}
+            selectedImages={selectedImages}
+            handleImageSelect={handleImageSelect}
+            maxImages={currentMaxImages}
+            locationSelected={!!selectedLocation}
+            showSelectedImagesSection={false}
+          />
+          <input type="hidden" {...register("artworksId")} />
+        </div>
+
+        <CustomButton
+          type="submit"
+          text={initialEventData ? "Gem ændringer" : "Opret event"}
+          className="mt-6 w-fit"
+          variant="default"
+          size="lg"
+        />
+      </form>
       <aside>
         <Filter
           // data
@@ -256,7 +305,7 @@ const KuratorForm = ({
           dataArtists={dataArtists}
         ></Filter>
       </aside>
-    </main>
+    </>
   );
 };
 

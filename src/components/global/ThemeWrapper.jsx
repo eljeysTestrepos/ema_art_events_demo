@@ -7,7 +7,7 @@ export default function ThemeWrapper({ children }) {
   const pathname = usePathname();
 
   const isKuratorPage =
-    pathname === "/dashboard" || pathname.startsWith("/kurator/create_edit");
+    pathname === "/dashboard" || pathname.startsWith("/create_edit");
 
   const kuratorBackgroundColor = "#E0D2D4";
   const defaultBackgroundColor = "#E1E2E8";
