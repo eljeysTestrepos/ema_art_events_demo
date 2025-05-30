@@ -1,10 +1,31 @@
+"use client";
+
 import Image from "next/image";
 import Placeholder from "@/app/assets/img/placeholder.png";
-
 import EventItemText from "./EventItemText";
+
+import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/ticketStore";
+import { useState } from "react";
 
 const EventItem = (dataevent) => {
   const artImg = dataevent.artImg;
+  const router = useRouter();
+  const { addItem } = useCartStore();
+
+  const [ticketQuantity, setTicketQuantity] = useState(1);
+
+  const handleQuantityChange = (newQuantity) => {
+    setTicketQuantity(newQuantity);
+  };
+
+  const handleEnrollClick = () => {
+    addItem({ ...dataevent, quantity: ticketQuantity });
+
+    router.push(
+      `/paymentpage?eventId=${dataevent.id}&quantity=${ticketQuantity}`
+    );
+  };
 
   return (
     <article className="grid grid-cols-2 p-6 md:grid-cols-[auto_1fr] md:gap-6 md:flex-row">
@@ -23,7 +44,14 @@ const EventItem = (dataevent) => {
         />
       </figure>
 
-      <EventItemText {...dataevent} />
+      <EventItemText
+        {...dataevent}
+        totalTickets={dataevent.location.maxGuests}
+        bookedTickets={dataevent.bookedTickets}
+        showTicketCounter={true}
+        onQuantityChange={handleQuantityChange}
+        currentQuantity={ticketQuantity}
+      ></EventItemText>
     </article>
   );
 };

@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,9 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomButton from "@/components/global/CustomButton";
-import { useRouter } from "next/navigation";
 
-const PersonalForm = () => {
+const PersonalForm = ({ onPaymentConfirmed, className }) => {
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -24,21 +22,33 @@ const PersonalForm = () => {
       city: "",
       zipCode: "",
     },
+
+    mode: "onBlur",
   });
 
-  const router = useRouter();
-
   const onSubmit = (data) => {
-    console.log("Formular data:", data);
+    console.log("[PersonalForm] onSubmit kaldt. Formular data:", data);
 
-    router.push("/paymentconfirmation");
+    if (Object.keys(form.formState.errors).length > 0) {
+      console.log(
+        "[PersonalForm] Formular har valideringsfejl. Kontroller FormMessages under felterne."
+      );
+      return;
+    }
+
+    if (onPaymentConfirmed) {
+      console.log("[PersonalForm] Kalder onPaymentConfirmed prop.");
+      onPaymentConfirmed();
+    } else {
+      console.warn("[PersonalForm] onPaymentConfirmed prop er ikke defineret!");
+    }
   };
 
   return (
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 col-start-1 mt-8 ml-4"
+        className={`space-y-6 ${className}`}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField

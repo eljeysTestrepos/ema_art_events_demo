@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/Filter";
-import { usePathname } from "next/navigation"; // Stadig relevant, hvis du vil tilpasse filteret yderligere
+import { usePathname } from "next/navigation";
 
 const EventListWithFilter = ({
   initialEvents,
@@ -57,7 +57,11 @@ const EventListWithFilter = ({
       <section className="pr-(--space-3rem) flex-grow">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((dataevent) => (
-            <EventItem key={dataevent.id} {...dataevent} />
+            <EventItem
+              key={dataevent.id}
+              {...dataevent}
+              showTicketCounter={true}
+            />
           ))
         ) : (
           <p>Ingen events matcher dine filtre.</p>
