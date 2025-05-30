@@ -40,6 +40,7 @@ export async function getSMK() {
   return SMKItems;
 }
 
+//Billeder til Kurator Create/Edit
 export async function getSMKImg() {
   const datasSMK = await fetch(
     "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=50",
@@ -53,11 +54,30 @@ export async function getSMKImg() {
   const SMKimages = dataSMK.items;
   return SMKimages;
 }
-
+//Billeder til EventList, Event SingleView
 export async function getArtworkByEventID(objectNumber) {
   const url = `https://api.smk.dk/api/v1/art?object_number=${objectNumber}`;
   const res = await fetch(url);
   const data = await res.json();
   const artImg = data.items?.[0];
   return artImg;
+}
+
+// Til Kurator Filtering og Description til Singleview.
+export async function getSMKFilter() {
+  const datasSMK = await fetch(
+    "https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=30",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const dataSMK = await datasSMK.json();
+  const SMKData = dataSMK.items;
+
+  const dataTechniques = SMKData.flatMap((item) => item.techniques || []);
+  const dataArtists = SMKData.flatMap((item) => item.artist || []);
+
+  return { dataTechniques, dataArtists };
 }

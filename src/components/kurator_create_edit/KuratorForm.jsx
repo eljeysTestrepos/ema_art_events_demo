@@ -3,9 +3,68 @@ import Step from "@/components/kurator_create_edit/Step";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Gallery from "./Gallery";
+import Filter from "../global/Filter";
 
-const KuratorForm = (smk) => {
-  // const EventsDates = await getEventDates();
+const KuratorForm = ({
+  smk,
+  dataArtists,
+  dataTechniques,
+  eventsDates,
+  eventsLocations,
+}) => {
+  // Filter handling start
+  const applyFilters = (location, date) => {
+    let currentFilteredEvents = initialEvents;
+
+    if (location) {
+      currentFilteredEvents = currentFilteredEvents.filter(
+        (event) => event.location?.id === location
+      );
+    }
+
+    if (date) {
+      currentFilteredEvents = currentFilteredEvents.filter(
+        (event) => event.date === date
+      );
+    }
+    if (artist) {
+      currentFilteredEvents = currentFilteredEvents.filter(
+        (event) => event.artist === artist
+      );
+    }
+    if (techniques) {
+      currentFilteredEvents = currentFilteredEvents.filter(
+        (event) => event.techniques === techniques
+      );
+    }
+
+    setFilteredEvents(currentFilteredEvents);
+  };
+
+  const handleLocationChange = (value) => {
+    const newLocation = String(value || "").trim();
+    setSelectedLocation(newLocation);
+    applyFilters(newLocation, selectedDate);
+  };
+
+  const handleDateChange = (value) => {
+    const newDate = String(value || "").trim();
+    setSelectedDate(newDate);
+    applyFilters(selectedLocation, newDate);
+  };
+
+  const handleArtistChange = (value) => {
+    const newArtist = String(value || "").trim();
+    setSelectedArtist(newArtist);
+    applyFilters(selectedArtist, newArtist);
+  };
+  const handleTechniquesChange = (value) => {
+    const newTechniques = String(value || "").trim();
+    setSelectedDate(newTechniques);
+    applyFilters(selectedTechniques, newTechniques);
+  };
+  // Filter handling slut
+
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -237,7 +296,25 @@ const KuratorForm = (smk) => {
           </div>
         </form>
       </section>
-      <aside></aside>
+      <aside>
+        <Filter
+          // data
+          dataArtists={dataArtists}
+          dataTechniques={dataTechniques}
+          dates={eventsDates}
+          locations={eventsLocations}
+          // til useState: Set
+          setSelectedArtist={handleArtistChange}
+          setSelectedLTechniques={handleTechniquesChange}
+          setSelectedLocation={handleLocationChange}
+          setSelectedDate={handleDateChange}
+          // til useState
+          SelectedArtist={handleArtistChange}
+          SelectedLTechniques={handleTechniquesChange}
+          selectedLocation={handleLocationChange}
+          selectedDate={handleDateChange}
+        ></Filter>
+      </aside>
     </main>
   );
 };

@@ -98,7 +98,6 @@ body {
 }
 body > *:not(.halfbleed):not(.home-background-wrapper) {
   grid-column: 2;
-  outline: solid 2px orange;
 }
 
 header {
