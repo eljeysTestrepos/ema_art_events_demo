@@ -103,7 +103,7 @@ const KuratorForm = (smk) => {
       //indholdstjek. sender serveren den rigtig Json
       let responseBody;
       try {
-        let responseBody = await postData.json();
+        responseBody = await postData.json();
       } catch (jsonError) {
         responseBody = await postData.text();
         console.warn("server response er ikke JSON");
