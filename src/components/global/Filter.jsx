@@ -12,17 +12,20 @@ import {
 import { usePathname } from "next/navigation";
 
 const Filter = ({
+  //data
+  dataArtists = [],
+  dataTechniques = [],
   locations = [],
   dates = [],
-  dataTechniques = [],
-  dataArtists = [],
+  //set
   setSelectedLocation,
   setSelectedDate,
+  setSelectedTechniques,
+  setSelectedArtist,
+  //selected
   selectedLocation,
   selectedDate,
-  // To try
-  selectedTechnique,
-  setSelectedTechnique,
+  selectedTech,
   selectedArtist,
   setSelectedArtist,
 }) => {
@@ -44,8 +47,8 @@ const Filter = ({
   const handleDateChange = (value) => {
     setSelectedDate(value === "all" ? "" : value);
   };
-  const handleTechniqueChange = (value) => {
-    setSelectedTechnique(value === "all" ? "" : value);
+  const handleTechniquesChange = (value) => {
+    setSelectedTechniques(value === "all" ? "" : value);
   };
   const handleArtistChange = (value) => {
     setSelectedArtist(value === "all" ? "" : value);
@@ -147,8 +150,8 @@ const Filter = ({
 
       {/* SMK Mulighederne */}
       <Select
-        onValueChange={handleTechniqueChange}
-        value={selectedTechnique || "all"}
+        onValueChange={handleTechniquesChange}
+        value={selectedTechniques || "all"}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Vælg dato" />
