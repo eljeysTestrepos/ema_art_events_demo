@@ -4,6 +4,8 @@ import Image from "next/image";
 import Placeholder from "@/app/assets/img/placeholder.png";
 import EventItemText from "./EventItemText";
 
+import CustomButton from "./CustomButton";
+
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/ticketStore";
 import { useState } from "react";

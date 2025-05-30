@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
+import CustomButton from "./CustomButton";
 
 import TicketCounter from "@/components/global/TicketCounter";
 
@@ -94,9 +95,25 @@ const EventItemText = ({
     ]
   );
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log(`[EventItemText] Sletter event med ID: ${id}`);
-    setOpen(false);
+    try {
+      const response = await fetch(`http://localhost:8080/events/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      alert("Event slettet succesfuldt!");
+      setOpen(false);
+      router.refresh(); // Refresh the current page to update the event list
+    } catch (error) {
+      console.error("Fejl ved sletning af event:", error);
+      alert("Der skete en fejl under sletning af eventet.");
+      setOpen(false);
+    }
   };
 
   const controles = useAnimationControls();
@@ -181,9 +198,7 @@ const EventItemText = ({
           >
             <CustomButton
               text="Rediger"
-              onClick={() =>
-                console.log("[EventItemText] 'Rediger' knap klikket")
-              }
+              onClick={() => router.push(`/create_edit?eventId=${id}`)}
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger asChild>
