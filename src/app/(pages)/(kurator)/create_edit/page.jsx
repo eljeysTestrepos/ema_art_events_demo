@@ -6,10 +6,10 @@ import {
   getSMKImg,
   getSMKFilter,
   getEventLocations,
+  getEventId,
 } from "@/lib/api";
 import EventForm from "@/components/kurator_create_edit/EventForm";
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
-import { getSMKImg, getEventId, getEventLocations } from "@/lib/api";
 
 export default async function Create_Edit({ searchParams }) {
   const { dataArtists, dataTechniques } = await getSMKFilter();
@@ -19,7 +19,7 @@ export default async function Create_Edit({ searchParams }) {
     "dataTechniques: ",
     dataTechniques
   );
-  const SMKItems = await getSMKImg();
+
   const eventsdates = await getEventDates();
   const eventslocations = await getEventLocations();
   const eventId = searchParams.eventId;

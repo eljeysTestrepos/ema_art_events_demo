@@ -7,14 +7,15 @@ import { createEvent, updateEvent } from "@/lib/api";
 
 import Gallery from "./Gallery";
 import CustomButton from "@/components/global/CustomButton";
+import Step from "./Step";
+import Filter from "../global/Filter";
 
 const KuratorForm = ({
   initialEventData,
   smk,
-  maxImages,
-  locations,
   eventsDates,
   eventsLocations,
+  fetchedLocations,
   // Til Filter
   dataArtists,
   dataTechniques,
@@ -25,7 +26,7 @@ const KuratorForm = ({
   const [locations, setLocations] = useState([]);
 
   //logik for valg af billeder
-  const [selectedImages, setSelectedImages] = useState([]);
+
   const [maxImages, setMaxImages] = useState(0);
 
   const {
@@ -66,8 +67,8 @@ const KuratorForm = ({
       "KURATORFORM DEBUG: selectedLocationId (watch):",
       selectedLocationId
     );
-    console.log("KURATORFORM DEBUG: locations prop:", locations);
-  }, [maxImages, currentMaxImages, selectedLocationId, locations]);
+    console.log("KURATORFORM DEBUG: locations prop:", fetchedLocations);
+  }, [maxImages, currentMaxImages, selectedLocationId, fetchedLocations]);
 
   useEffect(() => {
     if (initialEventData) {

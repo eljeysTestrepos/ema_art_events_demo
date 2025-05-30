@@ -17,6 +17,10 @@ const Filter = ({
   dataTechniques = [],
   dataLocations = [],
   dataDates = [],
+
+  //UseState
+  selectedTechniques,
+  selectedArtist,
 }) => {
   console.log("Filter: artists: ", dataArtists, "techniques", dataTechniques);
   const pathname = usePathname();
