@@ -13,17 +13,45 @@ const Gallery = ({
   eventsLocations,
   dataArtists,
   dataTechniques,
-  setSelectedLocation,
-  setSelectedDate,
-  setSelectedArtist,
-  selectedLocation,
-  selectedDate,
-  selectedArtist,
-  // To try
-  techniques,
-  selectedTechnique,
-  onTechniqueChange,
+  // Data
+  dataArtists = { dataArtists },
+  dates = { eventsDates },
+  locations = { eventsLocations },
+
+  // Setters
+  setSelectedArtist = { setSelectedArtist },
+  setSelectedLocation = { setSelectedLocation },
+  setSelectedDate = { setSelectedDate },
+  setSelectedTechnique = { onTechniqueChange },
+
+  // Selected values
+  selectedArtist = { selectedArtist },
+  selectedLocation = { selectedLocation },
+  selectedDate = { selectedDate },
+  selectedTechnique = { selectedTechnique },
+
+  // Data
+  dataTechniques = { dataTechniques },
 }) => {
+  //Filter start: //
+  const handleArtistChange = (value) => {
+    setSelectedArtist(value);
+  };
+
+  const handleLocationChange = (value) => {
+    setSelectedLocation(value);
+  };
+
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
+  };
+
+  const handleTechniqueChange = (value) => {
+    setSelectedTechnique(value);
+  };
+
+  //Filter End: //
+
   if (!locationSelected) {
     return (
       <p className="text-black">
@@ -40,21 +68,23 @@ const Gallery = ({
       <aside>
         <Filter
           // data
-          dataArtists={dataArtists}
           dates={eventsDates}
           locations={eventsLocations}
-          // til useState: Set
-          setSelectedArtist={handleArtistChange}
-          setSelectedLocation={handleLocationChange}
-          setSelectedDate={handleDateChange}
-          // til useState
-          SelectedArtist={handleArtistChange}
-          selectedLocation={handleLocationChange}
-          selectedDate={handleDateChange}
-          techniques={techniques}
+          techniques={dataTechniques}
+          dataArtists={dataArtists}
           // To try
           selectedTechnique={selectedTechnique}
-          onTechniqueChange={handleTechniqueChange}
+          setSelectedTechnique={setSelectedTechnique}
+          selectedArtist={selectedArtist}
+          setSelectedArtist={setSelectedArtist}
+          selectedLocation={selectedLocation}
+          setSelectedLocation={setSelectedLocation}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          handleArtistChange={handleArtistChange}
+          handleLocationChange={handleLocationChange}
+          handleDateChange={handleDateChange}
+          handleTechniqueChange={handleTechniqueChange}
         ></Filter>
       </aside>
       {images.map((dataSmk) => {

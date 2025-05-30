@@ -12,6 +12,11 @@ const KuratorForm = ({
   dataArtists,
   dataTechniques,
 }) => {
+  //Filter start:
+  const [selectedTechnique, setSelectedTechnique] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState("");
+  //Filter end //
+
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -198,6 +203,11 @@ const KuratorForm = ({
               dataTechniques={dataTechniques}
               eventsDates={eventsDates}
               eventsLocations={eventsLocations}
+              //To Try
+              selectedTechnique={selectedTechnique}
+              setSelectedTechnique={setSelectedTechnique}
+              selectedArtist={selectedArtist}
+              setSelectedArtist={setSelectedArtist}
             />
           </div>
           {/*----------------------------*/}
