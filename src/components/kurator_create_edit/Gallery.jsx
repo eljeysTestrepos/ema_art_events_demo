@@ -1,3 +1,5 @@
+"use client";
+import Filter from "../global/Filter";
 import Image from "next/image";
 
 const Gallery = ({
@@ -6,6 +8,21 @@ const Gallery = ({
   handleImageSelect,
   maxImages,
   locationSelected,
+  // Til Filter
+  eventsDates,
+  eventsLocations,
+  dataArtists,
+  dataTechniques,
+  setSelectedLocation,
+  setSelectedDate,
+  setSelectedArtist,
+  selectedLocation,
+  selectedDate,
+  selectedArtist,
+  // To try
+  techniques,
+  selectedTechnique,
+  onTechniqueChange,
 }) => {
   if (!locationSelected) {
     return (
@@ -20,6 +37,26 @@ const Gallery = ({
 
   return (
     <div className="grid grid-cols-3 gap-4">
+      <aside>
+        <Filter
+          // data
+          dataArtists={dataArtists}
+          dates={eventsDates}
+          locations={eventsLocations}
+          // til useState: Set
+          setSelectedArtist={handleArtistChange}
+          setSelectedLocation={handleLocationChange}
+          setSelectedDate={handleDateChange}
+          // til useState
+          SelectedArtist={handleArtistChange}
+          selectedLocation={handleLocationChange}
+          selectedDate={handleDateChange}
+          techniques={techniques}
+          // To try
+          selectedTechnique={selectedTechnique}
+          onTechniqueChange={handleTechniqueChange}
+        ></Filter>
+      </aside>
       {images.map((dataSmk) => {
         // Brug 'images' arrayet
         const isSelected = selectedImages.includes(dataSmk.id);

@@ -7,64 +7,11 @@ import Filter from "../global/Filter";
 
 const KuratorForm = ({
   smk,
-  dataArtists,
-  dataTechniques,
   eventsDates,
   eventsLocations,
+  dataArtists,
+  dataTechniques,
 }) => {
-  // Filter handling start
-  const applyFilters = (location, date) => {
-    let currentFilteredEvents = initialEvents;
-
-    if (location) {
-      currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.location?.id === location
-      );
-    }
-
-    if (date) {
-      currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.date === date
-      );
-    }
-    if (artist) {
-      currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.artist === artist
-      );
-    }
-    if (techniques) {
-      currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.techniques === techniques
-      );
-    }
-
-    setFilteredEvents(currentFilteredEvents);
-  };
-
-  const handleLocationChange = (value) => {
-    const newLocation = String(value || "").trim();
-    setSelectedLocation(newLocation);
-    applyFilters(newLocation, selectedDate);
-  };
-
-  const handleDateChange = (value) => {
-    const newDate = String(value || "").trim();
-    setSelectedDate(newDate);
-    applyFilters(selectedLocation, newDate);
-  };
-
-  const handleArtistChange = (value) => {
-    const newArtist = String(value || "").trim();
-    setSelectedArtist(newArtist);
-    applyFilters(selectedArtist, newArtist);
-  };
-  const handleTechniquesChange = (value) => {
-    const newTechniques = String(value || "").trim();
-    setSelectedDate(newTechniques);
-    applyFilters(selectedTechniques, newTechniques);
-  };
-  // Filter handling slut
-
   const [dates, setDates] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -246,6 +193,11 @@ const KuratorForm = ({
               handleImageSelect={handleImageSelect}
               maxImages={maxImages}
               locationSelected={!!selectedLocationId}
+              // To Filter
+              dataArtists={dataArtists}
+              dataTechniques={dataTechniques}
+              eventsDates={eventsDates}
+              eventsLocations={eventsLocations}
             />
           </div>
           {/*----------------------------*/}
@@ -296,25 +248,6 @@ const KuratorForm = ({
           </div>
         </form>
       </section>
-      <aside>
-        <Filter
-          // data
-          dataArtists={dataArtists}
-          dataTechniques={dataTechniques}
-          dates={eventsDates}
-          locations={eventsLocations}
-          // til useState: Set
-          setSelectedArtist={handleArtistChange}
-          setSelectedLTechniques={handleTechniquesChange}
-          setSelectedLocation={handleLocationChange}
-          setSelectedDate={handleDateChange}
-          // til useState
-          SelectedArtist={handleArtistChange}
-          SelectedLTechniques={handleTechniquesChange}
-          selectedLocation={handleLocationChange}
-          selectedDate={handleDateChange}
-        ></Filter>
-      </aside>
     </main>
   );
 };

@@ -13,17 +13,18 @@ import { usePathname } from "next/navigation";
 
 const Filter = ({
   dataArtists = [],
-  dataTechniques = [],
   locations = [],
   dates = [],
   setSelectedLocation,
   setSelectedDate,
-  setSelectedTech,
   setSelectedArtist,
   selectedLocation,
   selectedDate,
-  selectedTech,
   selectedArtist,
+  // To try
+  techniques,
+  selectedTechnique,
+  onTechniqueChange,
 }) => {
   console.log("Filter: artists: ", dataArtists, "techniques", dataTechniques);
   const pathname = usePathname();
@@ -43,7 +44,7 @@ const Filter = ({
   const handleDateChange = (value) => {
     setSelectedDate(value === "all" ? "" : value);
   };
-  const handleTechChange = (value) => {
+  const handleTechniqueChange = (value) => {
     setSelectedTech(value === "all" ? "" : value);
   };
   const handleArtistChange = (value) => {
@@ -145,7 +146,10 @@ const Filter = ({
       </Select>
 
       {/* SMK Mulighederne */}
-      <Select onValueChange={handleTechChange} value={selectedTech || "all"}>
+      <Select
+        onValueChange={handleTechniqueChange}
+        value={selectedTech || "all"}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Vælg dato" />
         </SelectTrigger>
@@ -153,16 +157,11 @@ const Filter = ({
           <SelectGroup>
             <SelectLabel>Techniques</SelectLabel>
             <SelectItem value="all">Alle Techniques</SelectItem>
-            {uniqueTechniques.map((tech) => {
-              const trimmed = tech?.trim();
-              if (!trimmed) return null;
-
-              return (
-                <SelectItem key={trimmed} value={trimmed}>
-                  {trimmed}
-                </SelectItem>
-              );
-            })}
+            {techniques.map((tech) => (
+              <SelectItem key={tech.id} value={tech.name}>
+                {tech.name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
