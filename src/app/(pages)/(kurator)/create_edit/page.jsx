@@ -1,38 +1,93 @@
-// app/create_edit/page.js
-import { getSMKImg } from "@/lib/api"; // Sørg for at denne import er korrekt
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
+import { getSMKImg, getEventId, getEventLocations } from "@/lib/api";
 
-export default async function Create_Edit({ searchParams }) {
-  // *** VIGTIGT: getSMKImg() kaldes ALTID her, uanset om det er et nyt event eller redigering ***
-  const SMKItems = await getSMKImg();
-  console.log(
-    "SERVER LOG: SMKItems fetched in Create_Edit (count):",
-    SMKItems ? SMKItems.length : "No data"
-  );
-
+export default async function CreateEditEventPage({ searchParams }) {
   const eventId = searchParams.eventId;
 
-  let eventData = null;
-  if (eventId) {
+  let initialEventData = null;
+  let maxImagesForLocation = 0;
+  let locations = [];
+
+  try {
     try {
-      const response = await fetch(`http://localhost:8080/events/${eventId}`);
-      if (response.ok) {
-        eventData = await response.json();
-        console.log("Fetched event data for editing:", eventData); // Til debugging i SERVER TERMINAL
+      const fetchedLocations = await getEventLocations();
+      if (Array.isArray(fetchedLocations)) {
+        locations = fetchedLocations;
       } else {
-        console.error(
-          `Failed to fetch event with ID ${eventId}:`,
-          response.status,
-          response.statusText
+        console.warn(
+          "SERVER WARN: getEventLocations returned non-array data:",
+          fetchedLocations
         );
       }
-    } catch (error) {
-      console.error(`Error fetching event with ID ${eventId}:`, error);
+    } catch (locationError) {
+      console.error("SERVER ERROR: Failed to fetch locations:", locationError);
     }
-  } else {
-    console.log("No eventId found in searchParams, creating new event."); // Til debugging i SERVER TERMINAL
-  }
 
-  // Sender altid SMKItems videre til KuratorForm
-  return <KuratorForm smk={SMKItems} initialEventData={eventData} />;
+    const smkGeneralImages = await getSMKImg();
+    console.log(
+      "SERVER LOG: SMK general images fetched (count):",
+      smkGeneralImages ? smkGeneralImages.length : "No data"
+    );
+
+    if (eventId) {
+      try {
+        initialEventData = await getEventId(eventId);
+        console.log(
+          "SERVER LOG: Fetched initial event data for editing:",
+          initialEventData
+        );
+
+        if (
+          initialEventData &&
+          initialEventData.locationId &&
+          Array.isArray(locations)
+        ) {
+          const selectedLocation = locations.find(
+            (loc) => String(loc.id) === String(initialEventData.locationId)
+          );
+
+          if (selectedLocation) {
+            maxImagesForLocation = Number(selectedLocation.maxArtworks) || 0;
+            console.log(
+              "SERVER LOG: Max images for selected location (from fetched event):",
+              maxImagesForLocation
+            );
+          }
+        }
+      } catch (error) {
+        console.error(
+          `SERVER ERROR: Error fetching event with ID ${eventId}:`,
+          error
+        );
+        initialEventData = null;
+      }
+    } else {
+      console.log(
+        "SERVER LOG: No eventId found in searchParams, creating new event."
+      );
+    }
+
+    const finalSmkDataForGallery = { smk: smkGeneralImages || [] };
+
+    console.log(
+      "SERVER LOG: Final combined SMK data sent to KuratorForm (count):",
+      finalSmkDataForGallery.smk.length
+    );
+
+    return (
+      <KuratorForm
+        initialEventData={initialEventData}
+        smk={finalSmkDataForGallery}
+        maxImages={maxImagesForLocation}
+        locations={locations}
+      />
+    );
+  } catch (error) {
+    console.error("SERVER ERROR: General error in CreateEditEventPage:", error);
+    return (
+      <p className="text-red-500">
+        Fejl under indlæsning af data: {error.message}
+      </p>
+    );
+  }
 }

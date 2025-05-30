@@ -108,7 +108,7 @@ const EventItemText = ({
 
       alert("Event slettet succesfuldt!");
       setOpen(false);
-      router.refresh(); // Refresh the current page to update the event list
+      router.refresh();
     } catch (error) {
       console.error("Fejl ved sletning af event:", error);
       alert("Der skete en fejl under sletning af eventet.");

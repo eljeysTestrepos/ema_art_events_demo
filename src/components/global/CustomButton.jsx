@@ -9,12 +9,18 @@ const CustomButton = ({
   variant,
   size,
   className,
+  type = "button",
   ...props
 }) => {
   if (link) {
     return (
-      <Link href={link} className={className}>
-        <ShadcnButton variant={variant} size={size} {...props}>
+      <Link href={link} passHref legacyBehavior>
+        <ShadcnButton
+          variant={variant}
+          size={size}
+          className={className}
+          {...props}
+        >
           {text}
         </ShadcnButton>
       </Link>
@@ -22,6 +28,7 @@ const CustomButton = ({
   } else {
     return (
       <ShadcnButton
+        type={type}
         variant={variant}
         size={size}
         className={className}
