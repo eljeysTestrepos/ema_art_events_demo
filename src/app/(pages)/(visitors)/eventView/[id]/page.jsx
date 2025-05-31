@@ -1,5 +1,5 @@
 import OpacityTextBox from "@/components/global/OpacityTextBox";
-import Gallery from "@/components/EventView/Gallery";
+import Gallery from "@/components/eventView/Gallery";
 import TicketCounterForEventView from "@/components/global/TicketCounter";
 import { getEventId, getArtworkByEventID } from "@/lib/api";
 import Placeholder from "@/app/assets/img/placeholder.png";
