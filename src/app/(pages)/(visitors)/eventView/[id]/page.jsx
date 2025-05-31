@@ -5,7 +5,7 @@ import Placeholder from "@/app/assets/img/placeholder.png";
 import Gallery from "@/components/eventView/Gallery";
 
 export default async function EventView({ params, searchParams }) {
-  const { id } = params;
+  const { id } = await params;
   const { backgroundArtworkId } = await searchParams;
 
   const dataeventid = await getEventId(id);
