@@ -1,25 +1,33 @@
 // ASYNC SERVER FRA DANNIE ENDPOINTS
 
 export async function getEvent() {
-  const dataEvents = await fetch("http://localhost:8080/events?limit=*"); //skift url med eksterne server side når det er deployet
+  const dataEvents = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/events?limit=*"
+  ); //skift url med eksterne server side når det er deployet
   const dataevent = await dataEvents.json();
   return dataevent;
 }
 
 export async function getEventId(id) {
-  const dataEventsids = await fetch("http://localhost:8080/events" + `/${id}`); //skift url med eksterne server side når det er deployet
+  const dataEventsids = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/events" + `/${id}`
+  ); //skift url med eksterne server side når det er deployet
   const dataeventid = await dataEventsids.json();
   return dataeventid;
 }
 
 export async function getEventDates() {
-  const EventsDates = await fetch("http://localhost:8080/dates"); //skift url med eksterne server side når det er deployet
+  const EventsDates = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/dates"
+  ); //skift url med eksterne server side når det er deployet
   const eventsdates = await EventsDates.json();
   return eventsdates;
 }
 
 export async function getEventLocations() {
-  const EventsLocations = await fetch("http://localhost:8080/locations"); //skift url med eksterne server side når det er deployet
+  const EventsLocations = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/locations"
+  ); //skift url med eksterne server side når det er deployet
   const eventslocations = await EventsLocations.json();
   return eventslocations;
 }

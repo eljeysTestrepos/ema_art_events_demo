@@ -1,5 +1,4 @@
 import OpacityTextBox from "@/components/global/OpacityTextBox";
-import CustomButton from "@/components/global/CustomButton";
 import Gallery from "@/components/EventView/Gallery";
 import TicketCounterForEventView from "@/components/global/TicketCounter";
 import { getEventId, getArtworkByEventID } from "@/lib/api";
