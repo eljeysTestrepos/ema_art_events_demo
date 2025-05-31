@@ -54,63 +54,65 @@ const Gallery = ({ galleryData }) => {
   }
 
   return (
-    <section className="flex flex-col items-center">
-      <div
-        className="relative flex items-center justify-between self-center p-4 rounded-lg shadow-lg"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-      >
-        <button
-          onClick={scrollLeft}
-          className="p-2 text-black bg-white bg-opacity-70 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
-          aria-label="Scroll left"
-        >
-          <FaArrowLeft />
-        </button>
-
+    <>
+      <section className="flex flex-col items-center">
         <div
-          ref={scrollContainerRef}
-          className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory mx-4"
-          style={{
-            scrollSnapType: "x mandatory",
-            width: "256px",
-          }}
+          className="relative flex items-center justify-between self-center p-4 rounded-lg shadow-lg"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         >
-          {galleryData.map((artwork, index) => {
-            const borderColor = artwork.suggested_bg_color?.[0] || "#000000";
+          <button
+            onClick={scrollLeft}
+            className="p-2 text-black bg-white bg-opacity-70 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
+            aria-label="Scroll left"
+          >
+            <FaArrowLeft />
+          </button>
 
-            return (
-              <button
-                key={artwork.id || index}
-                onClick={() => handleThumbnailClick(artwork.id)}
-                className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden cursor-pointer transition-opacity duration-300 shadow-md snap-start ${
-                  currentSelectedArtworkId === artwork.id ||
-                  (!currentSelectedArtworkId && index === 0)
-                    ? "opacity-100 border-4"
-                    : "opacity-60 hover:opacity-100"
-                }`}
-                style={{ borderColor: borderColor }}
-              >
-                <Image
-                  src={artwork.thumbnail || Placeholder.src}
-                  alt={`Miniature ${artwork.id || index + 1}`}
-                  fill
-                  objectFit="cover"
-                  sizes="80px"
-                />
-              </button>
-            );
-          })}
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-row gap-2 overflow-x-scroll scrollbar-hide snap-x snap-mandatory mx-4"
+            style={{
+              scrollSnapType: "x mandatory",
+              width: "256px",
+            }}
+          >
+            {galleryData.map((artwork, index) => {
+              const borderColor = artwork.suggested_bg_color?.[0] || "#000000";
+
+              return (
+                <button
+                  key={artwork.id || index}
+                  onClick={() => handleThumbnailClick(artwork.id)}
+                  className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden cursor-pointer transition-opacity duration-300 shadow-md snap-start ${
+                    currentSelectedArtworkId === artwork.id ||
+                    (!currentSelectedArtworkId && index === 0)
+                      ? "opacity-100 border-4"
+                      : "opacity-60 hover:opacity-100"
+                  }`}
+                  style={{ borderColor: borderColor }}
+                >
+                  <Image
+                    src={artwork.thumbnail || Placeholder.src}
+                    alt={`Miniature ${artwork.id || index + 1}`}
+                    fill
+                    objectFit="cover"
+                    sizes="80px"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={scrollRight}
+            className="p-2 text-black bg-white bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
+            aria-label="Scroll right"
+          >
+            <FaArrowRight />
+          </button>
         </div>
-
-        <button
-          onClick={scrollRight}
-          className="p-2 text-black bg-white bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black z-10"
-          aria-label="Scroll right"
-        >
-          <FaArrowRight />
-        </button>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
