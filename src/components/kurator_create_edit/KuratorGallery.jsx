@@ -1,7 +1,8 @@
 import Image from "next/image";
+
 import { useState, useEffect, useCallback } from "react";
 
-const Gallery = ({
+const KuratorGallery = ({
   smkdata,
   selectedImages,
   handleImageSelect,
@@ -24,14 +25,15 @@ const Gallery = ({
   }, [smkdata]);
 
   const images = smkdata.smk || [];
-
   const getImageUrl = useCallback(
     (imageId) => {
       const foundImage = images.find(
         (img) => String(img.id) === String(imageId)
       );
+
       return foundImage ? foundImage.image_thumbnail : "/placeholder.png";
     },
+
     [images]
   );
 
@@ -47,6 +49,7 @@ const Gallery = ({
     .map((id) => {
       return images.find((artwork) => String(artwork.id) === String(id));
     })
+
     .filter(Boolean);
 
   return (
@@ -59,20 +62,21 @@ const Gallery = ({
 
       {currentlySelectedArtworks.length === 0 && maxImages > 0 && (
         <p className="text-black my-4">
-          Ingen billeder valgt endnu. Vælg op til {maxImages} billeder.
+          Ingen billeder valgt endnu. Vælg op til {maxImages}
+          billeder.
         </p>
       )}
 
       <h2 className="text-xl font-semibold my-6">
         Vælg billeder fra galleriet
       </h2>
-
       {loading && <p>Indlæser SMK billeder...</p>}
       {error && !loading && (
         <p className="text-red-500">
           Fejl ved indlæsning af billeder eller ingen billeder fundet.
         </p>
       )}
+
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
           {images.length > 0 ? (
@@ -80,6 +84,7 @@ const Gallery = ({
               const isSelected = selectedImages.some(
                 (selectedId) => String(selectedId) === String(dataSmk.id)
               );
+
               const isDisabled =
                 !isSelected && selectedImages.length >= maxImages;
 
@@ -87,10 +92,11 @@ const Gallery = ({
                 <div
                   key={dataSmk.id}
                   className={`
-                    relative cursor-pointer border-2 p-2
-                    ${isSelected ? " ring-4 ring-[#A89C9E]" : ""}
-                    ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
-                  `}
+
+ relative cursor-pointer border-2 p-2
+ ${isSelected ? " ring-4 ring-[#A89C9E]" : ""}
+
+${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
                   onClick={() => {
                     if (isSelected || selectedImages.length < maxImages) {
                       handleImageSelect(dataSmk.id);
@@ -108,6 +114,7 @@ const Gallery = ({
                     alt={dataSmk.title || "SMK billede"}
                     className="w-full h-auto object-cover"
                   />
+
                   {isSelected && <div className=" bg-[#A89C9E]"></div>}
                   <p className="text-sm mt-2">{dataSmk.title}</p>
                 </div>
@@ -122,4 +129,4 @@ const Gallery = ({
   );
 };
 
-export default Gallery;
+export default KuratorGallery;

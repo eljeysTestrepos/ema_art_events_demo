@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/api";
 
-import Gallery from "./Gallery";
+import KuratorGallery from "@/components/kurator_create_edit/KuratorGallery";
 import CustomButton from "@/components/global/CustomButton";
 
 import DatePicker from "react-datepicker";
@@ -326,7 +326,7 @@ const KuratorForm = ({
       </div>
 
       <div className="border p-4 rounded-md">
-        <Gallery
+        <KuratorGallery
           smkdata={smk}
           selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}
