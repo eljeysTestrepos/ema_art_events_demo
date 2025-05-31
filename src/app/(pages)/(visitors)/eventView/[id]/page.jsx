@@ -5,10 +5,6 @@ import Placeholder from "@/app/assets/img/placeholder.png";
 import Gallery from "@/components/eventView/Gallery";
 
 export default async function EventView({ params, searchParams }) {
-  //Error fra inspector: Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
-  browser.runtime.onMessage.addListener(async (message) => {
-    console.log("background: onMessage", message);
-  });
   const { id } = params;
   const { backgroundArtworkId } = searchParams;
 
@@ -105,7 +101,7 @@ export default async function EventView({ params, searchParams }) {
         </section>
 
         <section className="col-start-1 md:col-start-2 row-start-3 justify-self-center md:justify-self-end self-end mb-4 mr-4">
-          <Gallery galleryData={allArtworkDetails} />
+          {/* <Gallery galleryData={allArtworkDetails} /> */}
         </section>
       </main>
     </div>
