@@ -6,7 +6,7 @@ import Placeholder from "@/app/assets/img/placeholder.png";
 
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-const EventViewGallery = ({ galleryData }) => {
+const Gallery = ({ galleryData }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -112,4 +112,4 @@ const EventViewGallery = ({ galleryData }) => {
   );
 };
 
-export default EventViewGallery;
+export default Gallery;
