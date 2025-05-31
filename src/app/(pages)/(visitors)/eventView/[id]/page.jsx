@@ -2,7 +2,6 @@ import OpacityTextBox from "@/components/global/OpacityTextBox";
 import TicketCounterForEventView from "@/components/global/TicketCounter";
 import { getEventId, getArtworkByEventID } from "@/lib/api";
 import Placeholder from "@/app/assets/img/placeholder.png";
-//import Gallery from "@/components/eventView/Gallery";
 
 export default async function EventView({ params, searchParams }) {
   const { id } = await params;
@@ -100,9 +99,7 @@ export default async function EventView({ params, searchParams }) {
           />
         </section>
 
-        <section className="col-start-1 md:col-start-2 row-start-3 justify-self-center md:justify-self-end self-end mb-4 mr-4">
-          {/* <Gallery galleryData={allArtworkDetails} /> */}
-        </section>
+        <section className="col-start-1 md:col-start-2 row-start-3 justify-self-center md:justify-self-end self-end mb-4 mr-4"></section>
       </main>
     </div>
   );
