@@ -88,7 +88,7 @@ const Gallery = ({
                   key={dataSmk.id}
                   className={`
                     relative cursor-pointer border-2 p-2
-                    ${isSelected ? " ring-4 ring-[#A89C9E]" : "border-gray-300"}
+                    ${isSelected ? " ring-4 ring-[#A89C9E]" : ""}
                     ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
                   `}
                   onClick={() => {

@@ -31,15 +31,15 @@ const KuratorForm = ({
       locationId: "",
       date: "",
       description: "",
-      artworksId: [],
+      artworkIds: [],
     },
   });
 
   const selectedLocationId = watch("locationId");
-  const artworksIdFromForm = watch("artworksId");
+  const artworkIdsFromForm = watch("artworkIds");
 
   const [selectedImages, setSelectedImages] = useState(
-    initialEventData?.artworksId || []
+    initialEventData?.artworkIds || []
   );
 
   const [currentMaxImages, setCurrentMaxImages] = useState(
@@ -52,22 +52,18 @@ const KuratorForm = ({
 
   const [allowedDates, setAllowedDates] = useState([]);
 
-  useEffect(() => {
-    console.log("KURATORFORM DEBUG: Initial maxImages prop:", maxImages);
-    console.log("KURATORFORM DEBUG: currentMaxImages state:", currentMaxImages);
-    console.log(
-      "KURATORFORM DEBUG: selectedLocationId (watch):",
-      selectedLocationId
-    );
-    console.log("KURATORFORM DEBUG: locations prop:", locations);
-    console.log("KURATORFORM DEBUG: eventDates prop:", eventDates);
-  }, [maxImages, currentMaxImages, selectedLocationId, locations, eventDates]);
+  useEffect(() => {}, [
+    maxImages,
+    currentMaxImages,
+    selectedLocationId,
+    locations,
+    eventDates,
+  ]);
 
   useEffect(() => {
     if (Array.isArray(eventDates) && eventDates.length > 0) {
       const parsedDates = eventDates.map((dateStr) => {
         const [year, month, day] = dateStr.split("-").map(Number);
-
         return new Date(year, month - 1, day);
       });
       setAllowedDates(parsedDates);
@@ -78,16 +74,19 @@ const KuratorForm = ({
 
   useEffect(() => {
     if (initialEventData) {
+      console.log(
+        "KURATORFORM DEBUG: initialEventData.artworkIds:",
+        initialEventData.artworkIds
+      );
+
       for (const [key, value] of Object.entries(initialEventData)) {
         if (key !== "time") {
           setValue(key, value);
         }
       }
-      setSelectedImages(initialEventData.artworksId || []);
-
+      setSelectedImages(initialEventData.artworkIds || []);
       if (initialEventData.date) {
         const [year, month, day] = initialEventData.date.split("-").map(Number);
-
         setSelectedDate(new Date(year, month - 1, day));
       }
     }
@@ -118,28 +117,22 @@ const KuratorForm = ({
 
     const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
     setCurrentMaxImages(newMaxImages);
-    console.log(
-      "KURATORFORM DEBUG: Updated currentMaxImages to:",
-      newMaxImages,
-      "for location:",
-      foundLocation?.name
-    );
 
     if (foundLocation && selectedImages.length > newMaxImages) {
       const trimmedImages = selectedImages.slice(0, newMaxImages);
       setSelectedImages(trimmedImages);
-      setValue("artworksId", trimmedImages);
+      setValue("artworkIds", trimmedImages);
     } else if (foundLocation && newMaxImages === 0) {
       setSelectedImages([]);
-      setValue("artworksId", []);
+      setValue("artworkIds", []);
     }
   }, [selectedLocationId, setValue, selectedImages, locations]);
 
   useEffect(() => {
-    if (JSON.stringify(selectedImages) !== JSON.stringify(artworksIdFromForm)) {
-      setValue("artworksId", selectedImages);
+    if (JSON.stringify(selectedImages) !== JSON.stringify(artworkIdsFromForm)) {
+      setValue("artworkIds", selectedImages);
     }
-  }, [selectedImages, artworksIdFromForm, setValue]);
+  }, [selectedImages, artworkIdsFromForm, setValue]);
 
   const handleImageSelect = useCallback(
     (imageId) => {
@@ -187,10 +180,15 @@ const KuratorForm = ({
   const onSubmit = async (data) => {
     const { time, ...dataToSubmit } = data;
 
-    dataToSubmit.artworksId = dataToSubmit.artworksId.filter(
-      (id) => id !== null && id !== undefined && id !== ""
-    );
+    dataToSubmit.artworkIds =
+      dataToSubmit.artworkIds?.filter(
+        (id) => id !== null && id !== undefined && id !== ""
+      ) || [];
 
+    console.log(
+      "FRONTEND LOG: Data being sent to createEvent/updateEvent:",
+      dataToSubmit
+    );
     try {
       if (initialEventData && initialEventData.id) {
         console.log("Attempting to update event with ID:", initialEventData.id);
@@ -336,7 +334,7 @@ const KuratorForm = ({
           locationSelected={!!selectedLocation}
           showSelectedImagesSection={false}
         />
-        <input type="hidden" {...register("artworksId")} />
+        <input type="hidden" {...register("artworkIds")} />
       </div>
 
       <CustomButton
