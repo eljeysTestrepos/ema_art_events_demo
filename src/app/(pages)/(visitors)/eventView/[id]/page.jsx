@@ -5,6 +5,10 @@ import Placeholder from "@/app/assets/img/placeholder.png";
 import Gallery from "./Gallery";
 
 export default async function EventView({ params, searchParams }) {
+  //Error fra inspector: Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+  browser.runtime.onMessage.addListener(async (message) => {
+    console.log("background: onMessage", message);
+  });
   const { id } = params;
   const { backgroundArtworkId } = searchParams;
 
