@@ -2,7 +2,7 @@ import OpacityTextBox from "@/components/global/OpacityTextBox";
 import TicketCounterForEventView from "@/components/global/TicketCounter";
 import { getEventId, getArtworkByEventID } from "@/lib/api";
 import Placeholder from "@/app/assets/img/placeholder.png";
-import Gallery from "./Gallery";
+import Gallery from "@/components/eventView/Gallery";
 
 export default async function EventView({ params, searchParams }) {
   //Error fra inspector: Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
