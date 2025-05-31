@@ -61,7 +61,7 @@ export default function PaymentPage() {
             <OpacityTextBox
               title="Din Ordreoversigt"
               content={opacityTextBoxContent}
-              className=""
+              className="h-[15rem] flex-col w-[15rem]"
             />
           </aside>
         </div>

@@ -6,13 +6,17 @@ const OpacityTextBox = ({ title, content, variant, className }) => {
     <Card
       className={
         className
-          ? `${cardVariants({ variant: "opacity" })} ${className} h-[15rem] flex-col w-[15rem]`
-          : `${cardVariants({ variant: "opacity" })} h-[15rem] flex-col w-[15rem]`
+          ? `${cardVariants({
+              variant: "opacity",
+            })} ${className} h-[15rem] flex-col w-[15rem]`
+          : `${cardVariants({
+              variant: "opacity",
+            })}  flex-col w-[15rem]`
       }
     >
       <CardTitle>{title}</CardTitle>
 
-      <CardContent className="whitespace-pre-wrap flex-grow overflow-y-auto">
+      <CardContent className="whitespace-pre-wrap flex-grow  h-fit mb-4">
         {content}
       </CardContent>
     </Card>
