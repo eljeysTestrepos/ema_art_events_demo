@@ -1,5 +1,10 @@
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
-import { getSMKImg, getEventId, getEventLocations } from "@/lib/api";
+import {
+  getSMKImg,
+  getEventId,
+  getEventLocations,
+  getEventDates,
+} from "@/lib/api";
 
 export default async function CreateEditEventPage({ searchParams }) {
   const eventId = searchParams.eventId;
@@ -7,6 +12,7 @@ export default async function CreateEditEventPage({ searchParams }) {
   let initialEventData = null;
   let maxImagesForLocation = 0;
   let locations = [];
+  let eventDates = [];
 
   try {
     try {
@@ -21,6 +27,24 @@ export default async function CreateEditEventPage({ searchParams }) {
       }
     } catch (locationError) {
       console.error("SERVER ERROR: Failed to fetch locations:", locationError);
+    }
+
+    try {
+      const fetchedEventDates = await getEventDates();
+      if (Array.isArray(fetchedEventDates)) {
+        eventDates = fetchedEventDates;
+        console.log(
+          "SERVER LOG: Event dates fetched (count):",
+          eventDates.length
+        );
+      } else {
+        console.warn(
+          "SERVER WARN: getEventDates returned non-array data:",
+          fetchedEventDates
+        );
+      }
+    } catch (datesError) {
+      console.error("SERVER ERROR: Failed to fetch event dates:", datesError);
     }
 
     const smkGeneralImages = await getSMKImg();
@@ -80,6 +104,7 @@ export default async function CreateEditEventPage({ searchParams }) {
         smk={finalSmkDataForGallery}
         maxImages={maxImagesForLocation}
         locations={locations}
+        eventDates={eventDates}
       />
     );
   } catch (error) {

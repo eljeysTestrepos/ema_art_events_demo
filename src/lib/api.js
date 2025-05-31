@@ -24,6 +24,43 @@ export async function getEventLocations() {
   return eventslocations;
 }
 
+export async function createEvent(eventData) {
+  const response = await fetch("http://localhost:8080/events", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      `Failed to create event: ${errorData.message || response.statusText}`
+    );
+  }
+  return response.json();
+}
+
+export async function updateEvent(id, eventData) {
+  const response = await fetch(`http://localhost:8080/events/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(
+      `SERVER FEJL: Status: ${response.status}, Besked: ${response.statusText}, Body: ${errorText}`
+    );
+    throw new Error(
+      `Failed to update event: ${response.statusText} - ${errorText}`
+    );
+  }
+  return response.json();
+}
+
 // SMK ENDPOINTS
 
 export async function getSMK() {

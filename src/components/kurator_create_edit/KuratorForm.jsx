@@ -8,12 +8,20 @@ import { createEvent, updateEvent } from "@/lib/api";
 import Gallery from "./Gallery";
 import CustomButton from "@/components/global/CustomButton";
 
-const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const KuratorForm = ({
+  initialEventData,
+  smk,
+  maxImages,
+  locations,
+  eventDates,
+}) => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-
     setValue,
     watch,
     formState: { errors },
@@ -22,7 +30,6 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
       title: "",
       locationId: "",
       date: "",
-
       description: "",
       artworksId: [],
     },
@@ -41,6 +48,10 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
 
   const [selectedLocation, setSelectedLocation] = useState(null);
 
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const [allowedDates, setAllowedDates] = useState([]);
+
   useEffect(() => {
     console.log("KURATORFORM DEBUG: Initial maxImages prop:", maxImages);
     console.log("KURATORFORM DEBUG: currentMaxImages state:", currentMaxImages);
@@ -49,7 +60,21 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
       selectedLocationId
     );
     console.log("KURATORFORM DEBUG: locations prop:", locations);
-  }, [maxImages, currentMaxImages, selectedLocationId, locations]);
+    console.log("KURATORFORM DEBUG: eventDates prop:", eventDates);
+  }, [maxImages, currentMaxImages, selectedLocationId, locations, eventDates]);
+
+  useEffect(() => {
+    if (Array.isArray(eventDates) && eventDates.length > 0) {
+      const parsedDates = eventDates.map((dateStr) => {
+        const [year, month, day] = dateStr.split("-").map(Number);
+
+        return new Date(year, month - 1, day);
+      });
+      setAllowedDates(parsedDates);
+    } else {
+      setAllowedDates([]);
+    }
+  }, [eventDates]);
 
   useEffect(() => {
     if (initialEventData) {
@@ -59,8 +84,23 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
         }
       }
       setSelectedImages(initialEventData.artworksId || []);
+
+      if (initialEventData.date) {
+        const [year, month, day] = initialEventData.date.split("-").map(Number);
+
+        setSelectedDate(new Date(year, month - 1, day));
+      }
     }
   }, [initialEventData, setValue]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const formattedDate = selectedDate.toISOString().split("T")[0];
+      setValue("date", formattedDate);
+    } else {
+      setValue("date", "");
+    }
+  }, [selectedDate, setValue]);
 
   useEffect(() => {
     if (!Array.isArray(locations)) {
@@ -138,6 +178,12 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
     [selectedImages, currentMaxImages, selectedLocation]
   );
 
+  const filterAllowedDates = (date) => {
+    return allowedDates.some(
+      (allowedDate) => allowedDate.toDateString() === date.toDateString()
+    );
+  };
+
   const onSubmit = async (data) => {
     const { time, ...dataToSubmit } = data;
 
@@ -145,22 +191,40 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
       (id) => id !== null && id !== undefined && id !== ""
     );
 
-    if (dataToSubmit.locationId) {
-      dataToSubmit.locationId = Number(dataToSubmit.locationId);
-    }
-
     try {
       if (initialEventData && initialEventData.id) {
+        console.log("Attempting to update event with ID:", initialEventData.id);
+        console.log("Data to submit for update:", dataToSubmit);
         await updateEvent(initialEventData.id, dataToSubmit);
         console.log("Event updated successfully!");
       } else {
+        console.log("Attempting to create new event with data:", dataToSubmit);
         await createEvent(dataToSubmit);
         console.log("Event created successfully!");
       }
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Der opstod en fejl ved gemning af eventet.");
+
+      if (
+        error.message &&
+        error.message.includes("Another event already exists")
+      ) {
+        alert(
+          "Fejl: Et andet event findes allerede på denne dato og lokation. Vælg en anden kombination."
+        );
+      } else if (
+        error.message &&
+        error.message.includes("location not found")
+      ) {
+        alert(
+          "Fejl: Den valgte lokation kunne ikke findes. Venligst tjek lokationsvalget."
+        );
+      } else {
+        alert(
+          "Der opstod en fejl ved gemning af eventet. Tjek venligst alle felter."
+        );
+      }
     }
   };
 
@@ -199,7 +263,6 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
           id="locationId"
           {...register("locationId", {
             required: "Lokation er påkrævet",
-            valueAsNumber: true,
           })}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         >
@@ -228,11 +291,21 @@ const KuratorForm = ({ initialEventData, smk, maxImages, locations }) => {
         >
           Dato:
         </label>
-        <input
-          type="date"
+
+        <DatePicker
           id="date"
-          {...register("date", { required: "Dato er påkrævet" })}
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          dateFormat="dd/MM/yyyy"
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          filterDate={filterAllowedDates}
+          placeholderText="Vælg en dato"
+          isClearable
+        />
+
+        <input
+          type="hidden"
+          {...register("date", { required: "Dato er påkrævet" })}
         />
         {errors.date && (
           <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
