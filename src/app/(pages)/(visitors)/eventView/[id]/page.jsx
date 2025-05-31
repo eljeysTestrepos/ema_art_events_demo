@@ -2,7 +2,7 @@ import OpacityTextBox from "@/components/global/OpacityTextBox";
 import TicketCounterForEventView from "@/components/global/TicketCounter";
 import { getEventId, getArtworkByEventID } from "@/lib/api";
 import Placeholder from "@/app/assets/img/placeholder.png";
-import Gallery from "@/components/eventView/Gallery";
+import Gallery from "./Gallery";
 
 export default async function EventView({ params, searchParams }) {
   const { id } = params;
