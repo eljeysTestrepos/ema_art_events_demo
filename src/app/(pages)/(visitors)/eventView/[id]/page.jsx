@@ -6,7 +6,7 @@ import Gallery from "@/components/eventView/Gallery";
 
 export default async function EventView({ params, searchParams }) {
   const { id } = params;
-  const { backgroundArtworkId } = searchParams;
+  const { backgroundArtworkId } = await searchParams;
 
   const dataeventid = await getEventId(id);
 
