@@ -1,3 +1,5 @@
+// DROPDOWN
+
 import {
   Select,
   SelectContent,
@@ -8,12 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const FilterDropDown = ({
+export default function FilterDropdown({
   name,
   label: { singular, plural },
   items,
   action,
-}) => {
+}) {
   return (
     <Select onValueChange={(e) => action(e, name)}>
       <SelectTrigger className="w-[180px]">
@@ -35,6 +37,4 @@ const FilterDropDown = ({
       </SelectContent>
     </Select>
   );
-};
-
-export default FilterDropDown;
+}

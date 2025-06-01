@@ -1,52 +1,32 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useActionState,
-  startTransition,
-} from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/api";
 
-import KuratorGallery from "@/components/kurator_create_edit/KuratorGallery";
+import KuratorGallery from "./KuratorGallery";
 import CustomButton from "@/components/global/CustomButton";
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Filter from "../global/filter/Filter";
-import { filterData } from "../global/filter/actions";
+import Step from "./Step";
 
 const KuratorForm = ({
   initialEventData,
   smk,
-  maxImages,
-  locations,
-  eventDates,
+  eventsDates,
+  eventsLocations,
+  fetchedLocations,
+  // Til Filter
   filterCategories,
 }) => {
-  //Filter start
-  const [state, action, isPending] = useActionState(filterData, {
-    active: [],
-    data: [],
-  });
-
-  function handleFilter(value, category) {
-    const replaceFilter = state?.active?.filter(
-      (item) => !item.includes(category)
-    );
-    const data =
-      value === "all"
-        ? replaceFilter
-        : [...replaceFilter, `[${category}:${value}]`];
-
-    startTransition(action.bind(state, data));
-  }
-  //Filter end
-
   const router = useRouter();
+  // const EventsDates = await getEventDates();
+  const [dates, setDates] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  //logik for valg af billeder
+
+  const [maxImages, setMaxImages] = useState(0);
+
   const {
     register,
     handleSubmit,
@@ -59,15 +39,15 @@ const KuratorForm = ({
       locationId: "",
       date: "",
       description: "",
-      artworkIds: [],
+      artworksId: [],
     },
   });
 
   const selectedLocationId = watch("locationId");
-  const artworkIdsFromForm = watch("artworkIds");
+  const artworksIdFromForm = watch("artworksId");
 
   const [selectedImages, setSelectedImages] = useState(
-    initialEventData?.artworkIds || []
+    initialEventData?.artworksId || []
   );
 
   const [currentMaxImages, setCurrentMaxImages] = useState(
@@ -76,58 +56,26 @@ const KuratorForm = ({
 
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const [allowedDates, setAllowedDates] = useState([]);
-
-  useEffect(() => {}, [
-    maxImages,
-    currentMaxImages,
-    selectedLocationId,
-    locations,
-    eventDates,
-  ]);
-
   useEffect(() => {
-    if (Array.isArray(eventDates) && eventDates.length > 0) {
-      const parsedDates = eventDates.map((dateStr) => {
-        const [year, month, day] = dateStr.split("-").map(Number);
-        return new Date(year, month - 1, day);
-      });
-      setAllowedDates(parsedDates);
-    } else {
-      setAllowedDates([]);
-    }
-  }, [eventDates]);
+    console.log("KURATORFORM DEBUG: Initial maxImages prop:", maxImages);
+    console.log("KURATORFORM DEBUG: currentMaxImages state:", currentMaxImages);
+    console.log(
+      "KURATORFORM DEBUG: selectedLocationId (watch):",
+      selectedLocationId
+    );
+    console.log("KURATORFORM DEBUG: locations prop:", fetchedLocations);
+  }, [maxImages, currentMaxImages, selectedLocationId, fetchedLocations]);
 
   useEffect(() => {
     if (initialEventData) {
-      console.log(
-        "KURATORFORM DEBUG: initialEventData.artworkIds:",
-        initialEventData.artworkIds
-      );
-
       for (const [key, value] of Object.entries(initialEventData)) {
         if (key !== "time") {
           setValue(key, value);
         }
       }
-      setSelectedImages(initialEventData.artworkIds || []);
-      if (initialEventData.date) {
-        const [year, month, day] = initialEventData.date.split("-").map(Number);
-        setSelectedDate(new Date(year, month - 1, day));
-      }
+      setSelectedImages(initialEventData.artworksId || []);
     }
   }, [initialEventData, setValue]);
-
-  useEffect(() => {
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
-      setValue("date", formattedDate);
-    } else {
-      setValue("date", "");
-    }
-  }, [selectedDate, setValue]);
 
   useEffect(() => {
     if (!Array.isArray(locations)) {
@@ -145,22 +93,28 @@ const KuratorForm = ({
 
     const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
     setCurrentMaxImages(newMaxImages);
+    console.log(
+      "KURATORFORM DEBUG: Updated currentMaxImages to:",
+      newMaxImages,
+      "for location:",
+      foundLocation?.name
+    );
 
     if (foundLocation && selectedImages.length > newMaxImages) {
       const trimmedImages = selectedImages.slice(0, newMaxImages);
       setSelectedImages(trimmedImages);
-      setValue("artworkIds", trimmedImages);
+      setValue("artworksId", trimmedImages);
     } else if (foundLocation && newMaxImages === 0) {
       setSelectedImages([]);
-      setValue("artworkIds", []);
+      setValue("artworksId", []);
     }
   }, [selectedLocationId, setValue, selectedImages, locations]);
 
   useEffect(() => {
-    if (JSON.stringify(selectedImages) !== JSON.stringify(artworkIdsFromForm)) {
-      setValue("artworkIds", selectedImages);
+    if (JSON.stringify(selectedImages) !== JSON.stringify(artworksIdFromForm)) {
+      setValue("artworksId", selectedImages);
     }
-  }, [selectedImages, artworkIdsFromForm, setValue]);
+  }, [selectedImages, artworksIdFromForm, setValue]);
 
   const handleImageSelect = useCallback(
     (imageId) => {
@@ -199,67 +153,38 @@ const KuratorForm = ({
     [selectedImages, currentMaxImages, selectedLocation]
   );
 
-  const filterAllowedDates = (date) => {
-    return allowedDates.some(
-      (allowedDate) => allowedDate.toDateString() === date.toDateString()
-    );
-  };
-
   const onSubmit = async (data) => {
     const { time, ...dataToSubmit } = data;
 
-    dataToSubmit.artworkIds =
-      dataToSubmit.artworkIds?.filter(
-        (id) => id !== null && id !== undefined && id !== ""
-      ) || [];
-
-    console.log(
-      "FRONTEND LOG: Data being sent to createEvent/updateEvent:",
-      dataToSubmit
+    dataToSubmit.artworksId = dataToSubmit.artworksId.filter(
+      (id) => id !== null && id !== undefined && id !== ""
     );
+
+    if (dataToSubmit.locationId) {
+      dataToSubmit.locationId = Number(dataToSubmit.locationId);
+    }
+
     try {
       if (initialEventData && initialEventData.id) {
-        console.log("Attempting to update event with ID:", initialEventData.id);
-        console.log("Data to submit for update:", dataToSubmit);
         await updateEvent(initialEventData.id, dataToSubmit);
         console.log("Event updated successfully!");
       } else {
-        console.log("Attempting to create new event with data:", dataToSubmit);
         await createEvent(dataToSubmit);
         console.log("Event created successfully!");
       }
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       console.error("Error submitting form:", error);
-
-      if (
-        error.message &&
-        error.message.includes("Another event already exists")
-      ) {
-        alert(
-          "Fejl: Et andet event findes allerede på denne dato og lokation. Vælg en anden kombination."
-        );
-      } else if (
-        error.message &&
-        error.message.includes("location not found")
-      ) {
-        alert(
-          "Fejl: Den valgte lokation kunne ikke findes. Venligst tjek lokationsvalget."
-        );
-      } else {
-        alert(
-          "Der opstod en fejl ved gemning af eventet. Tjek venligst alle felter."
-        );
-      }
+      alert("Der opstod en fejl ved gemning af eventet.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
+      <Step number="1" text="Dato og tid for event" />
       <h1 className="text-2xl font-bold mb-4">
         {initialEventData ? "Rediger event" : "Opret nyt event"}
       </h1>
-
       <div>
         <label
           htmlFor="title"
@@ -277,7 +202,6 @@ const KuratorForm = ({
           <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="locationId"
@@ -289,6 +213,7 @@ const KuratorForm = ({
           id="locationId"
           {...register("locationId", {
             required: "Lokation er påkrævet",
+            valueAsNumber: true,
           })}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         >
@@ -309,7 +234,6 @@ const KuratorForm = ({
           </p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="date"
@@ -317,27 +241,16 @@ const KuratorForm = ({
         >
           Dato:
         </label>
-
-        <DatePicker
-          id="date"
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
-          dateFormat="dd/MM/yyyy"
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-          filterDate={filterAllowedDates}
-          placeholderText="Vælg en dato"
-          isClearable
-        />
-
         <input
-          type="hidden"
+          type="date"
+          id="date"
           {...register("date", { required: "Dato er påkrævet" })}
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         />
         {errors.date && (
           <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="description"
@@ -352,25 +265,20 @@ const KuratorForm = ({
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         ></textarea>
       </div>
-      <Filter
-        filterCategories={filterCategories}
-        action={handleFilter}
-      ></Filter>
-      <div className="border p-4 rounded-md">
+
+      <Step number="2" text="Vælg billeder fra galleriet">
         <KuratorGallery
-          // Filter start
-          {...state}
-          // Filter End
           smkdata={smk}
           selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}
           maxImages={currentMaxImages}
           locationSelected={!!selectedLocation}
           showSelectedImagesSection={false}
-        />
-        <input type="hidden" {...register("artworkIds")} />
-      </div>
-
+          categories={filterCategories}
+        >
+          <input type="hidden" {...register("artworksId")} />
+        </KuratorGallery>
+      </Step>
       <CustomButton
         type="submit"
         text={initialEventData ? "Gem ændringer" : "Opret event"}
