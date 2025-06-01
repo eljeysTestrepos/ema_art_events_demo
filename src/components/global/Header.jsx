@@ -35,11 +35,6 @@ const Header = ({ backgroundColor }) => {
     setIsOpen(!isOpen);
   };
 
-  const { isLoaded, isSignedIn, user } = useUser();
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <header className="flex items-center justify-between p-4 border-b">
       <Link href="/" className=" font-bold">
@@ -74,35 +69,16 @@ const Header = ({ backgroundColor }) => {
             </NavigationMenuLink>
           </NavigationMenuItem>
 
-          {isSignedIn && (
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/create_edit"
-                className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
-              >
-                Lav event
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          )}
           <NavigationMenuItem>
-            <SignedOut>
-              <SignInButton mode="modal">
-                <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
-                  Log ind
-                </NavigationMenuLink>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <div className="flex items-center space-x-2">
-                <UserButton />
-                <SignOutButton>
-                  <NavigationMenuLink className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary">
-                    Log ud
-                  </NavigationMenuLink>
-                </SignOutButton>
-              </div>
-            </SignedIn>
+            <NavigationMenuLink
+              href="/create_edit"
+              className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+            >
+              Lav event
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
+          <NavigationMenuItem></NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
@@ -141,34 +117,18 @@ const Header = ({ backgroundColor }) => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
 
-            {isSignedIn && (
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/create_edit"
-                  className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
-                >
-                  Lav event
-                </Link>
-              </DropdownMenuItem>
-            )}
+            <DropdownMenuItem asChild>
+              <Link
+                href="/create_edit"
+                className="px-3 py-2 text-base font-medium transition-colors hover:text-primary focus:outline-none focus:text-primary"
+              >
+                Lav event
+              </Link>
+            </DropdownMenuItem>
 
-            <SignedOut>
-              <DropdownMenuItem asChild>
-                <SignInButton mode="modal" className="w-full text-left">
-                  Log ind
-                </SignInButton>
-              </DropdownMenuItem>
-            </SignedOut>
-            <SignedIn>
-              <DropdownMenuItem>
-                <div className="flex items-center space-x-2 w-full">
-                  <UserButton />
-                  <SignOutButton className="w-full text-left">
-                    Log ud
-                  </SignOutButton>
-                </div>
-              </DropdownMenuItem>
-            </SignedIn>
+            <DropdownMenuItem asChild></DropdownMenuItem>
+
+            <DropdownMenuItem></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

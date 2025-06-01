@@ -10,12 +10,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        {/* <motion.div {...anim(opacity)}> */}
-        <ThemeWrapper>{children}</ThemeWrapper>
-        {/* </motion.div> */}
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      {/* <motion.div {...anim(opacity)}> */}
+      <ThemeWrapper>{children}</ThemeWrapper>
+      {/* </motion.div> */}
+    </html>
   );
 }

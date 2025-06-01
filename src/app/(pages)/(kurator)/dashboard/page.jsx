@@ -4,11 +4,10 @@ import {
   getEventDates,
   getEventLocations,
 } from "@/lib/api";
-import { currentUser } from "@clerk/nextjs/server";
+
 import EventListWithFilter from "@/components/global/EventListWithFilter";
 
 export default async function Dashboard() {
-  const user = await currentUser();
   const eventListRaw = await getEvent();
   const eventsDates = await getEventDates();
   const eventsLocations = await getEventLocations();
@@ -28,8 +27,6 @@ export default async function Dashboard() {
 
   return (
     <main>
-      <h3 className="col-span-2">Velkommen tilbage {user?.firstName} </h3>
-
       <EventListWithFilter
         initialEvents={eventListWithArtwork}
         availableDates={eventsDates}
