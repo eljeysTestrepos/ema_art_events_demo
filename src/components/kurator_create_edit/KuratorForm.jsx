@@ -38,6 +38,7 @@ const KuratorForm = (smk) => {
       if (locationsRes.ok) {
         const getLocations = await locationsRes.json();
         setLocations(getLocations);
+        console.log("DETTE ER LOCATION ID:", getLocations);
       }
     };
     getDatesAndLocations();
