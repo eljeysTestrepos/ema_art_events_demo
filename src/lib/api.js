@@ -43,12 +43,6 @@ export async function createEvent(eventData) {
       body: JSON.stringify(eventData),
     }
   );
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(
-      `Failed to create event: ${errorData.message || response.statusText}`
-    );
-  }
   return response.json();
 }
 
@@ -63,15 +57,7 @@ export async function updateEvent(id, eventData) {
       body: JSON.stringify(eventData),
     }
   );
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(
-      `SERVER FEJL: Status: ${response.status}, Besked: ${response.statusText}, Body: ${errorText}`
-    );
-    throw new Error(
-      `Failed to update event: ${response.statusText} - ${errorText}`
-    );
-  }
+
   return response.json();
 }
 

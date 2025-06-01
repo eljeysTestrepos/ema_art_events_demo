@@ -14,7 +14,6 @@ const KuratorForm = ({
   smk,
   eventsDates,
   eventsLocations,
-  fetchedLocations,
   // Til Filter
   filterCategories,
 }) => {
@@ -56,15 +55,7 @@ const KuratorForm = ({
 
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  useEffect(() => {
-    console.log("KURATORFORM DEBUG: Initial maxImages prop:", maxImages);
-    console.log("KURATORFORM DEBUG: currentMaxImages state:", currentMaxImages);
-    console.log(
-      "KURATORFORM DEBUG: selectedLocationId (watch):",
-      selectedLocationId
-    );
-    console.log("KURATORFORM DEBUG: locations prop:", fetchedLocations);
-  }, [maxImages, currentMaxImages, selectedLocationId, fetchedLocations]);
+  useEffect(() => {}, [maxImages, currentMaxImages, selectedLocationId]);
 
   useEffect(() => {
     if (initialEventData) {
@@ -79,7 +70,6 @@ const KuratorForm = ({
 
   useEffect(() => {
     if (!Array.isArray(locations)) {
-      console.warn("KuratorForm: 'locations' prop is not an array.", locations);
       setSelectedLocation(null);
       setCurrentMaxImages(0);
       return;
@@ -93,12 +83,6 @@ const KuratorForm = ({
 
     const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
     setCurrentMaxImages(newMaxImages);
-    console.log(
-      "KURATORFORM DEBUG: Updated currentMaxImages to:",
-      newMaxImages,
-      "for location:",
-      foundLocation?.name
-    );
 
     if (foundLocation && selectedImages.length > newMaxImages) {
       const trimmedImages = selectedImages.slice(0, newMaxImages);
@@ -218,8 +202,8 @@ const KuratorForm = ({
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         >
           <option value="">Vælg en lokation</option>
-          {Array.isArray(locations) && locations.length > 0 ? (
-            locations.map((loc) => (
+          {Array.isArray(eventsLocations) && eventsLocations.length > 0 ? (
+            eventsLocations.map((loc) => (
               <option key={loc.id} value={loc.id}>
                 {loc.name} (Max billeder: {loc.maxArtworks})
               </option>
