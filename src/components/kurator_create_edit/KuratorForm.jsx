@@ -121,7 +121,7 @@ const KuratorForm = ({ smk, initialData, eventId }) => {
 
       let responseBody;
       try {
-        let responseBody = await response.json();
+        responseBody = await response.json();
       } catch (jsonError) {
         responseBody = await response.text();
         console.warn("server response er ikke JSON");
@@ -137,6 +137,7 @@ const KuratorForm = ({ smk, initialData, eventId }) => {
             responseBody?.message || responseBody || response.statusText
           }`
         );
+        console.log("DATA:", data);
         return;
       }
       //succes med at skabe et event
