@@ -23,9 +23,6 @@ export default authMiddleware({
   // Her kan du tilføje din egen logik for at styre, hvornår Clerk skal beskytte ruter.
   async beforeAuth(auth, req) {
     // Hvis den aktuelle rute er en offentlig rute, lader vi anmodningen fortsætte uden Clerk-autentificering.
-    if (isPublicRoute(req)) {
-      return NextResponse.next();
-    }
 
     // Hvis ruten er en beskyttet rute, forsøger vi at beskytte den med Clerk.
     // Hvis brugeren ikke er logget ind, vil Clerk omdirigere dem til login.
