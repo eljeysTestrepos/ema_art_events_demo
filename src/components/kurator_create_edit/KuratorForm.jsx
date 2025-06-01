@@ -54,7 +54,6 @@ const KuratorForm = ({ smk, initialData, eventId }) => {
         setLocations(getLocations);
       }
     };
-
     getDatesAndLocations();
   }, []);
 
@@ -95,6 +94,7 @@ const KuratorForm = ({ smk, initialData, eventId }) => {
         alert(
           `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
         );
+        console.log("SELECTED LOCATION ID: ", selectedLocationId);
         return;
       }
     }
