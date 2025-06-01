@@ -15,7 +15,7 @@ const CustomButton = ({
 }) => {
   if (link) {
     return (
-      <Link href={link} passHref>
+      <Link href={link} passHref legacyBehavior>
         <ShadcnButton
           variant={variant}
           size={size}

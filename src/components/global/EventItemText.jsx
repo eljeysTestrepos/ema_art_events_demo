@@ -137,7 +137,6 @@ const EventItemText = ({
         <p className="mb-(--space-1rem)">{location?.address}</p>
         <p className="mb-(--space-0_5rem)">{description}</p>
       </CardContent>
-
       <CardFooter
         className={`grid grid-cols-auto grid-rows-auto gap-11 items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
           isDashboardPage
@@ -151,7 +150,7 @@ const EventItemText = ({
               <Link
                 href={`/eventView/${id}`}
                 className="flex items-start underline text-primary"
-              >
+                legacyBehavior>
                 Læs mere
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

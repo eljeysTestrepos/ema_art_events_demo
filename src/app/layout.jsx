@@ -1,3 +1,4 @@
+"use strict";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
@@ -12,9 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        {/* <motion.div {...anim(opacity)}> */}
         <ThemeWrapper>{children}</ThemeWrapper>
-        {/* </motion.div> */}
       </html>
     </ClerkProvider>
   );
