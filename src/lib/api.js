@@ -33,13 +33,16 @@ export async function getEventLocations() {
 }
 
 export async function createEvent(eventData) {
-  const response = await fetch("http://localhost:8080/events", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(eventData),
-  });
+  const response = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/events",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    }
+  );
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(
@@ -50,13 +53,16 @@ export async function createEvent(eventData) {
 }
 
 export async function updateEvent(id, eventData) {
-  const response = await fetch(`http://localhost:8080/events/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(eventData),
-  });
+  const response = await fetch(
+    `https://ema-async-exhibit-server.onrender.com/events/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    }
+  );
   if (!response.ok) {
     const errorText = await response.text();
     console.error(
