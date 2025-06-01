@@ -6,6 +6,7 @@ import FilterDropdown from "./FilterDropdown";
 
 // FILTER
 export default function Filter({ data, fn }) {
+  console.log("Filter: data", data);
   return (
     <aside className="grid gap-4 mb-8 place-content-start">
       {data.map((item, id) => {

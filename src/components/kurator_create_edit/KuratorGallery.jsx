@@ -9,17 +9,20 @@ import Placeholder from "../../app/assets/img/placeholder.png";
 const Gallery = ({
   smkdata,
   locationSelected,
-  selectedImages,
-  maxImages,
   categories,
   children,
-  handleImageSelect,
+  // til at registrere max images for valgte lokation
+  maxImages,
+  currentlySelectedArtworks,
+  handleImageSelect = { handleImageSelect },
+  setSelectedImages = { setSelectedImages },
+  selectedImages = { selectedImages },
 }) => {
   const [state, action, isPending] = useActionState(filterData, {
     active: [],
     data: [],
   });
-  console.log("Gallery: ", handleImageSelect);
+
   function handleFilter(value, category) {
     const replaceFilter = state?.active?.filter(
       (item) => !item.includes(category)
@@ -64,6 +67,10 @@ const Gallery = ({
                   key={id}
                   {...item}
                   isDisabled={selectedImages.length >= maxImages}
+                  maxImages={maxImages}
+                  currentlySelectedArtworks={currentlySelectedArtworks}
+                  selectedImages={selectedImages}
+                  setSelectedImages={setSelectedImages}
                 />
               ))
             )
@@ -88,21 +95,31 @@ function GalleryCard({
   image_width,
   image_height,
   isDisabled,
+  maxImages,
+  currentlySelectedArtworks,
+  handleImageSelect,
+  selectedImages,
+  setSelectedImages,
 }) {
-  const [isSelected, setIsSelected] = useState();
-  console.log("isDisabled", object_number);
+  const [isSelected, setIsSelected] = useState(false);
+  console.log("setSelectedImages", setSelectedImages);
   return (
     <li
-      onClick={() =>
-        setIsSelected(isSelected === object_number ? undefined : object_number)
-      }
+      onClick={() => {
+        setIsSelected(isSelected === object_number ? undefined : object_number);
+        setSelectedImages(
+          selectedImages.includes(object_number)
+            ? selectedImages.filter((item) => item !== object_number)
+            : selectedImages.concat(object_number)
+        );
+      }}
       className={`${
-        isSelected ? "ring-4 ring-[#A89C9E] cursor-pointer" : ""
-
-        //     isDisabled
-        //     ? "opacity-50 cursor-not-allowed"
-        //     : "border-gray-300 cursor-pointer"
-      } 
+        isSelected
+          ? "ring-4 ring-[#A89C9E] cursor-pointer"
+          : isDisabled
+          ? "opacity-50 cursor-not-allowed"
+          : "border-gray-300 cursor-pointer"
+      }
       relative border-2 aspect-square
                     `}
     >

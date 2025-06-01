@@ -34,7 +34,6 @@ const KuratorForm = ({
     reset,
     formState: { errors },
   } = useForm();
-
   //kigger på lokationdropdown.
   const selectedLocationId = watch("locationId"); //før lokation
 
@@ -46,7 +45,6 @@ const KuratorForm = ({
       if (dateRes.ok) {
         const getDates = await dateRes.json();
         setDates(getDates);
-        // console.log("Dette er dates: ", getDates);
       }
       const locationsRes = await fetch(
         "https://ema-async-exhibit-server.onrender.com/locations"
@@ -65,7 +63,7 @@ const KuratorForm = ({
     let currentCapacity = 0;
     if (selectedLocationId) {
       const chosenLocation = locations.find(
-        (loc) => loc.id === selectedLocationId
+        (loc) => String(loc.id) === String(selectedLocationId)
       );
       if (chosenLocation) {
         const capacity = chosenLocation.maxArtworks || 3;
@@ -106,14 +104,18 @@ const KuratorForm = ({
 
   // her postest event objektet til serveren
   const onSubmit = async (data) => {
+    console.log("KuratorForm data: ", data);
     try {
-      const postData = await fetch("http://localhost:8080/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const postData = await fetch(
+        "https://ema-async-exhibit-server.onrender.com/events",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       //indholdstjek. sender serveren den rigtig Json
       let responseBody;
@@ -185,7 +187,7 @@ const KuratorForm = ({
           id="locationId"
           {...register("locationId", {
             required: "Lokation er påkrævet",
-            valueAsNumber: true,
+            valueAsNumber: false,
           })}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         >
@@ -241,15 +243,15 @@ const KuratorForm = ({
       <Step number="2" text="Vælg billeder fra galleriet">
         <KuratorGallery
           smkdata={smk}
-          selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}
           maxImages={maxImages}
           locationSelected={!!selectedLocationId}
           showSelectedImagesSection={false}
           categories={filterCategories}
-        >
-          <input type="hidden" {...register("artworksId")} />
-        </KuratorGallery>
+          currentlySelectedArtworks
+          selectedImages={selectedImages}
+          setSelectedImages={setSelectedImages}
+        />
       </Step>
       <CustomButton
         type="submit"

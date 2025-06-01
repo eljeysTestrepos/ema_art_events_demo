@@ -9,6 +9,7 @@ const EventListWithFilter = ({
   initialEvents,
   availableDates,
   availableLocations,
+  categories,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -71,6 +72,7 @@ const EventListWithFilter = ({
       </div>
       <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem)">
         <Filter
+          data={categories}
           dates={availableDates}
           locations={availableLocations}
           setSelectedLocation={handleLocationChange}

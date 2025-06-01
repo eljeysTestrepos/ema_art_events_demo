@@ -34,7 +34,7 @@ const EventItem = (dataevent) => {
       <figure className="max-w-[210px] h-[325px] md:col-1 grid grid-cols-1 grid-rows-3 ">
         <div
           className={`max-w-[180px] h-[250px] rounded-sm row-span-2 row-start-1 col-start-1`}
-          style={{ backgroundColor: `${artImg.suggested_bg_color}` }}
+          style={{ backgroundColor: `${artImg?.suggested_bg_color}` }}
         ></div>
         <div className=" max-w-[180px] h-[250px] col-1 row-start-2 row-span-2 self-end justify-self-end rounded-lg">
           <Image

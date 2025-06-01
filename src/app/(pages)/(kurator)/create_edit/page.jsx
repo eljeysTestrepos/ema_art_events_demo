@@ -12,15 +12,6 @@ export default async function CreateEditEventPage({ searchParams }) {
   const categories = await getSMKFilterCat();
   //Filter end
   const eventId = await searchParams.eventId;
-  console.log(
-    "page: ",
-    "searchParams: ",
-    searchParams,
-    "searchParams.eventId: ",
-    searchParams.eventId,
-    "eventId: ",
-    eventId
-  );
 
   let initialEventData = null;
   let maxImagesForLocation = 0;
