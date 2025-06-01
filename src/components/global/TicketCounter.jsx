@@ -134,7 +134,7 @@ const TicketCounter = ({
         </span>
         <button
           onClick={handleIncrement}
-          className="size-7 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          className="size-7 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:not-hover:bg-gray-300"
           aria-label="Tilføj en billet"
           disabled={
             currentTicketQuantity >= remainingTickets ||
@@ -142,7 +142,7 @@ const TicketCounter = ({
             remainingTickets <= 0
           }
         >
-          <FaPlus className="size-3" />
+          <FaPlus className="size-3 " />
         </button>
       </div>
 
