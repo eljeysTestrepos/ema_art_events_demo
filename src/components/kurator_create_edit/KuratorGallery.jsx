@@ -102,7 +102,7 @@ function GalleryCard({
   setSelectedImages,
 }) {
   const [isSelected, setIsSelected] = useState(false);
-  console.log("setSelectedImages", setSelectedImages);
+
   return (
     <li
       onClick={() => {

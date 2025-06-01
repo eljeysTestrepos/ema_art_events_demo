@@ -33,7 +33,15 @@ const KuratorForm = ({
     setValue,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: initialEventData || {
+      title: "",
+      locationId: "",
+      date: "",
+      description: "",
+      artworksId: [],
+    },
+  });
   //kigger på lokationdropdown.
   const selectedLocationId = watch("locationId"); //før lokation
 
@@ -104,52 +112,57 @@ const KuratorForm = ({
 
   // her postest event objektet til serveren
   const onSubmit = async (data) => {
-    console.log("KuratorForm data: ", data);
-    try {
-      const postData = await fetch(
-        "https://ema-async-exhibit-server.onrender.com/events",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      //indholdstjek. sender serveren den rigtig Json
-      let responseBody;
+    if (initialEventData && initialEventData.id) {
+      await updateEvent(initialEventData.id, data);
+      console.log("Event updated successfully!");
+    } else {
       try {
-        responseBody = await postData.json();
-      } catch (jsonError) {
-        responseBody = await postData.text();
-        console.warn("server response er ikke JSON");
-      }
-
-      //fejl håndtering
-      if (!postData.ok) {
-        console.error(
-          "Fejl ved sending af eventdata:",
-          responseBody || postData.statusText
+        const postData = await fetch(
+          "https://ema-async-exhibit-server.onrender.com/events",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
         );
-        alert(
-          `Fejl: ${
-            responseBody?.message || responseBody || postData.statusText
-          }`
-        );
-        return;
-      }
-      //succes med at skabe et event
 
-      console.log("Event blev oprettet/opdateret korrekt:", responseBody);
-      alert("Event succesfuldt gemt!");
-      //lav en fuld reset af formen
-      reset();
-    } catch (error) {
-      //håndtering af netværksfejl og andre uforudsete fejl
-      console.error("Netværksfejl eller uventet fejl:", error);
-      alert("Der skete en uventet fejl ved sending af data.");
+        //indholdstjek. sender serveren den rigtig Json
+        let responseBody;
+        try {
+          responseBody = await postData.json();
+        } catch (jsonError) {
+          responseBody = await postData.text();
+          console.warn("server response er ikke JSON");
+        }
+
+        //fejl håndtering
+        if (!postData.ok) {
+          console.error(
+            "Fejl ved sending af eventdata:",
+            responseBody || postData.statusText
+          );
+          alert(
+            `Fejl: ${
+              responseBody?.message || responseBody || postData.statusText
+            }`
+          );
+          return;
+        }
+        //succes med at skabe et event
+
+        console.log("Event blev oprettet/opdateret korrekt:", responseBody);
+        alert("Event succesfuldt gemt!");
+        //lav en fuld reset af formen
+        reset();
+      } catch (error) {
+        //håndtering af netværksfejl og andre uforudsete fejl
+        console.error("Netværksfejl eller uventet fejl:", error);
+        alert("Der skete en uventet fejl ved sending af data.");
+      }
     }
+    router.push("/dashboard");
   };
 
   //------------------------------------------------------- Rrturn -------------------------------------------------//

@@ -98,9 +98,12 @@ const EventItemText = ({
   const handleDelete = async () => {
     console.log(`[EventItemText] Sletter event med ID: ${id}`);
     try {
-      const response = await fetch(`http://localhost:8080/events/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://ema-async-exhibit-server.onrender.com/events/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -198,7 +201,10 @@ const EventItemText = ({
           >
             <CustomButton
               text="Rediger"
-              onClick={() => router.push(`/create_edit?eventId=${id}`)}
+              onClick={() => {
+                router.push(`/create_edit?eventId=${id}`);
+                console.log("EventItemText", id);
+              }}
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger asChild>
