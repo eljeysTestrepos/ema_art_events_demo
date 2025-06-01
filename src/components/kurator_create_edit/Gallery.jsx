@@ -24,7 +24,7 @@ const Gallery = ({
         // Brug 'images' arrayet
         const isSelected = selectedImages.includes(dataSmk.id);
         const isDisabled = !isSelected && selectedImages.length >= maxImages;
-
+        console.log("SELECTED IMAGES: ", isDisabled);
         return (
           <div
             key={dataSmk.id}
