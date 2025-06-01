@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useActionState,
+  startTransition,
+} from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/api";
@@ -10,6 +16,8 @@ import CustomButton from "@/components/global/CustomButton";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Filter from "../global/filter/Filter";
+import { filterData } from "../global/filter/actions";
 
 const KuratorForm = ({
   initialEventData,
@@ -17,7 +25,27 @@ const KuratorForm = ({
   maxImages,
   locations,
   eventDates,
+  filterCategories,
 }) => {
+  //Filter start
+  const [state, action, isPending] = useActionState(filterData, {
+    active: [],
+    data: [],
+  });
+
+  function handleFilter(value, category) {
+    const replaceFilter = state?.active?.filter(
+      (item) => !item.includes(category)
+    );
+    const data =
+      value === "all"
+        ? replaceFilter
+        : [...replaceFilter, `[${category}:${value}]`];
+
+    startTransition(action.bind(state, data));
+  }
+  //Filter end
+
   const router = useRouter();
   const {
     register,
@@ -324,9 +352,15 @@ const KuratorForm = ({
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         ></textarea>
       </div>
-
+      <Filter
+        filterCategories={filterCategories}
+        action={handleFilter}
+      ></Filter>
       <div className="border p-4 rounded-md">
         <KuratorGallery
+          // Filter start
+          {...state}
+          // Filter End
           smkdata={smk}
           selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}

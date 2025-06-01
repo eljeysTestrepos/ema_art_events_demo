@@ -4,9 +4,15 @@ import {
   getEventId,
   getEventLocations,
   getEventDates,
+  getSMKFilterCat,
 } from "@/lib/api";
 
 export default async function CreateEditEventPage({ searchParams }) {
+  //Filter start
+
+  const categories = await getSMKFilterCat();
+  //Filter end
+
   const eventId = searchParams.eventId;
 
   let initialEventData = null;
@@ -105,6 +111,7 @@ export default async function CreateEditEventPage({ searchParams }) {
         maxImages={maxImagesForLocation}
         locations={locations}
         eventDates={eventDates}
+        filterCategories={categories}
       />
     );
   } catch (error) {

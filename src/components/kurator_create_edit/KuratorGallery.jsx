@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 
 const KuratorGallery = ({
+  // Filter Start
+  data,
+  // Filter End
   smkdata,
   selectedImages,
   handleImageSelect,
@@ -70,59 +73,58 @@ const KuratorGallery = ({
       <h2 className="text-xl font-semibold my-6">
         Vælg billeder fra galleriet
       </h2>
-      {loading && <p>Indlæser SMK billeder...</p>}
-      {error && !loading && (
-        <p className="text-red-500">
-          Fejl ved indlæsning af billeder eller ingen billeder fundet.
-        </p>
-      )}
 
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-          {images.length > 0 ? (
-            images.map((dataSmk) => {
-              const isSelected = selectedImages.some(
-                (selectedId) => String(selectedId) === String(dataSmk.id)
+          {images.map((dataSmk) => {
+            const isSelected = selectedImages.some(
+              (selectedId) => String(selectedId) === String(dataSmk.id)
+            );
+
+            const isDisabled =
+              !isSelected && selectedImages.length >= maxImages;
+
+            if (loading) return <p>Indlæser SMK billeder ...</p>;
+            if (error)
+              return (
+                <p className="text-red-500">
+                  Fejl ved indlæsning af billeder eller ingen billeder fundet.
+                </p>
               );
 
-              const isDisabled =
-                !isSelected && selectedImages.length >= maxImages;
-
-              return (
-                <div
-                  key={dataSmk.id}
-                  className={`
+            return (
+              <div
+                key={dataSmk.id}
+                className={`
 
  relative cursor-pointer border-2 p-2
  ${isSelected ? " ring-4 ring-[#A89C9E]" : ""}
 
 ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                  onClick={() => {
-                    if (isSelected || selectedImages.length < maxImages) {
-                      handleImageSelect(dataSmk.id);
-                    } else {
-                      alert(
-                        `Du kan kun vælge op til ${maxImages} billeder for denne lokation`
-                      );
-                    }
-                  }}
-                >
-                  <Image
-                    src={dataSmk.image_thumbnail}
-                    width={200}
-                    height={200}
-                    alt={dataSmk.title || "SMK billede"}
-                    className="w-full h-auto object-cover"
-                  />
+                onClick={() => {
+                  if (isSelected || selectedImages.length < maxImages) {
+                    handleImageSelect(dataSmk.id);
+                  } else {
+                    alert(
+                      `Du kan kun vælge op til ${maxImages} billeder for denne lokation`
+                    );
+                  }
+                }}
+              >
+                <Image
+                  src={dataSmk.image_thumbnail}
+                  width={200}
+                  height={200}
+                  alt={dataSmk.title || "SMK billede"}
+                  className="w-full h-auto object-cover"
+                />
 
-                  {isSelected && <div className=" bg-[#A89C9E]"></div>}
-                  <p className="text-sm mt-2">{dataSmk.title}</p>
-                </div>
-              );
-            })
-          ) : (
-            <p>Ingen billeder at vise fra SMK.</p>
-          )}
+                {isSelected && <div className=" bg-[#A89C9E]"></div>}
+                <p className="text-sm mt-2">{dataSmk.title}</p>
+              </div>
+            );
+          })}
+          : {<p>Ingen billeder at vise fra SMK.</p>}
         </div>
       )}
     </div>
