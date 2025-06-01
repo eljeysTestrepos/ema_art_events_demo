@@ -90,19 +90,20 @@ function GalleryCard({
   isDisabled,
 }) {
   const [isSelected, setIsSelected] = useState();
-  console.log("isDisabled", !isDisabled);
+  console.log("isDisabled", object_number);
   return (
     <li
       onClick={() =>
         setIsSelected(isSelected === object_number ? undefined : object_number)
       }
       className={`${
-        isSelected
-          ? "ring-4 ring-[#A89C9E] cursor-pointer"
-          : isDisabled
-          ? "opacity-50 cursor-not-allowed"
-          : "border-gray-300 cursor-pointer"
-      } relative border-2 aspect-square
+        isSelected ? "ring-4 ring-[#A89C9E] cursor-pointer" : ""
+
+        //     isDisabled
+        //     ? "opacity-50 cursor-not-allowed"
+        //     : "border-gray-300 cursor-pointer"
+      } 
+      relative border-2 aspect-square
                     `}
     >
       {image_thumbnail === "https://api.smk.dk/api/v1/thumbnail/PD" ? (
