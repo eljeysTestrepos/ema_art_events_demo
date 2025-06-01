@@ -23,146 +23,134 @@ const KuratorForm = ({
   const [locations, setLocations] = useState([]);
 
   //logik for valg af billeder
-
+  const [selectedImages, setSelectedImages] = useState([]);
   const [maxImages, setMaxImages] = useState(0);
 
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
+    setValue,
+    reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: initialEventData || {
-      title: "",
-      locationId: "",
-      date: "",
-      description: "",
-      artworksId: [],
-    },
-  });
+  } = useForm();
 
-  const selectedLocationId = watch("locationId");
-  const artworksIdFromForm = watch("artworksId");
-
-  const [selectedImages, setSelectedImages] = useState(
-    initialEventData?.artworksId || []
-  );
-
-  const [currentMaxImages, setCurrentMaxImages] = useState(
-    Number(maxImages) || 0
-  );
-
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
-  useEffect(() => {}, [maxImages, currentMaxImages, selectedLocationId]);
+  //kigger på lokationdropdown.
+  const selectedLocationId = watch("locationId"); //før lokation
 
   useEffect(() => {
-    if (initialEventData) {
-      for (const [key, value] of Object.entries(initialEventData)) {
-        if (key !== "time") {
-          setValue(key, value);
-        }
+    const getDatesAndLocations = async () => {
+      const dateRes = await fetch(
+        "https://ema-async-exhibit-server.onrender.com/dates"
+      );
+      if (dateRes.ok) {
+        const getDates = await dateRes.json();
+        setDates(getDates);
+        // console.log("Dette er dates: ", getDates);
       }
-      setSelectedImages(initialEventData.artworksId || []);
-    }
-  }, [initialEventData, setValue]);
+      const locationsRes = await fetch(
+        "https://ema-async-exhibit-server.onrender.com/locations"
+      );
+      if (locationsRes.ok) {
+        const getLocations = await locationsRes.json();
+        setLocations(getLocations);
+      }
+    };
 
+    getDatesAndLocations();
+  }, []);
+
+  //kigger på hvilke ændringer der sker når man vælger lokation.
   useEffect(() => {
-    if (!Array.isArray(locations)) {
-      setSelectedLocation(null);
-      setCurrentMaxImages(0);
-      return;
+    let currentCapacity = 0;
+    if (selectedLocationId) {
+      const chosenLocation = locations.find(
+        (loc) => loc.id === selectedLocationId
+      );
+      if (chosenLocation) {
+        const capacity = chosenLocation.maxArtworks || 3;
+        setMaxImages(capacity);
+      }
+    } else {
+      setMaxImages(0);
     }
-
-    const foundLocation = locations.find(
-      (loc) => String(loc.id) === String(selectedLocationId)
-    );
-
-    setSelectedLocation(foundLocation || null);
-
-    const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
-    setCurrentMaxImages(newMaxImages);
-
-    if (foundLocation && selectedImages.length > newMaxImages) {
-      const trimmedImages = selectedImages.slice(0, newMaxImages);
-      setSelectedImages(trimmedImages);
-      setValue("artworksId", trimmedImages);
-    } else if (foundLocation && newMaxImages === 0) {
+    const currentFormImages = watch("artworksId") || [];
+    if (currentFormImages.length > currentCapacity) {
+      setSelectedImages([]);
+      setValue("artworksId", []);
+    } else if (!selectedLocationId) {
       setSelectedImages([]);
       setValue("artworksId", []);
     }
-  }, [selectedLocationId, setValue, selectedImages, locations]);
+  }, [selectedLocationId, locations, setValue, watch]);
 
-  useEffect(() => {
-    if (JSON.stringify(selectedImages) !== JSON.stringify(artworksIdFromForm)) {
-      setValue("artworksId", selectedImages);
-    }
-  }, [selectedImages, artworksIdFromForm, setValue]);
+  const handleImageSelect = (imageId) => {
+    const isSelected = selectedImages.includes(imageId);
 
-  const handleImageSelect = useCallback(
-    (imageId) => {
-      console.log("handleImageSelect called for imageId:", imageId);
-      console.log("handleImageSelect: currentMaxImages =", currentMaxImages);
-      console.log(
-        "handleImageSelect: selectedImages.length =",
-        selectedImages.length
-      );
-      console.log("handleImageSelect: selectedLocation =", selectedLocation);
-
-      if (!selectedLocation || currentMaxImages === 0) {
+    let updatedSelectedImages;
+    if (isSelected) {
+      updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
+    } else {
+      if (selectedImages.length < maxImages) {
+        updatedSelectedImages = [...selectedImages, imageId];
+      } else {
         alert(
-          "Vælg venligst en lokation med billedkapacitet for at vælge billeder."
+          `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
         );
         return;
       }
-
-      const isSelected = selectedImages.includes(imageId);
-
-      let updatedSelectedImages;
-      if (isSelected) {
-        updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
-      } else {
-        if (selectedImages.length < currentMaxImages) {
-          updatedSelectedImages = [...selectedImages, imageId];
-        } else {
-          alert(
-            `Du kan kun vælge op til ${currentMaxImages} billeder for denne lokation.`
-          );
-          return;
-        }
-      }
-      setSelectedImages(updatedSelectedImages);
-    },
-    [selectedImages, currentMaxImages, selectedLocation]
-  );
-
-  const onSubmit = async (data) => {
-    const { time, ...dataToSubmit } = data;
-
-    dataToSubmit.artworksId = dataToSubmit.artworksId.filter(
-      (id) => id !== null && id !== undefined && id !== ""
-    );
-
-    if (dataToSubmit.locationId) {
-      dataToSubmit.locationId = Number(dataToSubmit.locationId);
     }
+    setSelectedImages(updatedSelectedImages);
+    setValue("artworksId", updatedSelectedImages);
+  };
 
+  // her postest event objektet til serveren
+  const onSubmit = async (data) => {
     try {
-      if (initialEventData && initialEventData.id) {
-        await updateEvent(initialEventData.id, dataToSubmit);
-        console.log("Event updated successfully!");
-      } else {
-        await createEvent(dataToSubmit);
-        console.log("Event created successfully!");
+      const postData = await fetch("http://localhost:8080/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      //indholdstjek. sender serveren den rigtig Json
+      let responseBody;
+      try {
+        responseBody = await postData.json();
+      } catch (jsonError) {
+        responseBody = await postData.text();
+        console.warn("server response er ikke JSON");
       }
-      router.push("/");
+
+      //fejl håndtering
+      if (!postData.ok) {
+        console.error(
+          "Fejl ved sending af eventdata:",
+          responseBody || postData.statusText
+        );
+        alert(
+          `Fejl: ${
+            responseBody?.message || responseBody || postData.statusText
+          }`
+        );
+        return;
+      }
+      //succes med at skabe et event
+
+      console.log("Event blev oprettet/opdateret korrekt:", responseBody);
+      alert("Event succesfuldt gemt!");
+      //lav en fuld reset af formen
+      reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Der opstod en fejl ved gemning af eventet.");
+      //håndtering af netværksfejl og andre uforudsete fejl
+      console.error("Netværksfejl eller uventet fejl:", error);
+      alert("Der skete en uventet fejl ved sending af data.");
     }
   };
 
+  //------------------------------------------------------- Rrturn -------------------------------------------------//
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
       <Step number="1" text="Dato og tid for event" />
@@ -256,7 +244,7 @@ const KuratorForm = ({
           selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}
           maxImages={maxImages}
-          locationSelected={!!selectedLocation}
+          locationSelected={!!selectedLocationId}
           showSelectedImagesSection={false}
           categories={filterCategories}
         >

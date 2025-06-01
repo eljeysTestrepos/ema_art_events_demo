@@ -6,12 +6,20 @@ import Filter from "../global/filter/Filter";
 
 import Placeholder from "../../app/assets/img/placeholder.png";
 
-const Gallery = ({ selectedImages, maxImages, categories, children }) => {
+const Gallery = ({
+  smkdata,
+  locationSelected,
+  selectedImages,
+  maxImages,
+  categories,
+  children,
+  handleImageSelect,
+}) => {
   const [state, action, isPending] = useActionState(filterData, {
     active: [],
     data: [],
   });
-
+  console.log("Gallery: ", handleImageSelect);
   function handleFilter(value, category) {
     const replaceFilter = state?.active?.filter(
       (item) => !item.includes(category)
@@ -36,20 +44,31 @@ const Gallery = ({ selectedImages, maxImages, categories, children }) => {
         <Filter data={categories} fn={handleFilter} />
 
         <ul className="-col-end-1 sm:col-start-2 grid grid-cols-subgrid gap-4">
-          {isPending ? (
-            <p>Indlæser SMK billeder...</p>
-          ) : state?.data?.length === 0 ? (
-            <p className="text-red-500">Ingen billeder fundet.</p>
-          ) : (
-            state?.data?.map((item, id) => {
+          {locationSelected ? (
+            smkdata.smk.map((img) => {
               return (
+                <GalleryCard
+                  key={img.id}
+                  isDisabled={
+                    !selectedImages && selectedImages.length >= maxImages
+                  }
+                />
+              );
+            }) && isPending ? (
+              <p>Indlæser SMK billeder...</p>
+            ) : state?.data?.length === 0 ? (
+              <p className="text-red-500">Ingen billeder fundet.</p>
+            ) : (
+              state?.data?.map((item, id) => (
                 <GalleryCard
                   key={id}
                   {...item}
-                  isDisabled={selectedImages.length === maxImages}
+                  isDisabled={selectedImages.length >= maxImages}
                 />
-              );
-            })
+              ))
+            )
+          ) : (
+            "Ingen Lokation eller Filter"
           )}
         </ul>
       </article>
@@ -60,6 +79,8 @@ const Gallery = ({ selectedImages, maxImages, categories, children }) => {
 
 export default Gallery;
 
+// ----------------------------- Gallery Card --------------------------------------------//
+
 function GalleryCard({
   object_number,
   image_thumbnail,
@@ -69,7 +90,7 @@ function GalleryCard({
   isDisabled,
 }) {
   const [isSelected, setIsSelected] = useState();
-
+  console.log("isDisabled", !isDisabled);
   return (
     <li
       onClick={() =>
