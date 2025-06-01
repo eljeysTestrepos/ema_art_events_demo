@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+
 import { Button as ShadcnButton } from "@/components/ui/button";
 
 const CustomButton = ({
@@ -14,7 +15,7 @@ const CustomButton = ({
 }) => {
   if (link) {
     return (
-      <Link href={link} passHref legacyBehavior>
+      <Link href={link} passHref>
         <ShadcnButton
           variant={variant}
           size={size}
