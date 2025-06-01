@@ -15,3 +15,9 @@ export const config = {
     "/(api|trpc)(.*)",
   ],
 };
+
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  return NextResponse.next();
+}
