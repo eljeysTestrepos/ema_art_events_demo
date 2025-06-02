@@ -43,12 +43,6 @@ export async function createEvent(eventData) {
       body: JSON.stringify(eventData),
     }
   );
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(
-      `Failed to create event: ${errorData.message || response.statusText}`
-    );
-  }
   return response.json();
 }
 
@@ -63,15 +57,7 @@ export async function updateEvent(id, eventData) {
       body: JSON.stringify(eventData),
     }
   );
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(
-      `SERVER FEJL: Status: ${response.status}, Besked: ${response.statusText}, Body: ${errorText}`
-    );
-    throw new Error(
-      `Failed to update event: ${response.statusText} - ${errorText}`
-    );
-  }
+
   return response.json();
 }
 
@@ -93,7 +79,7 @@ export async function getSMK() {
 
 export async function getSMKImg() {
   const datasSMK = await fetch(
-    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=2000",
+    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=500",
     {
       headers: {
         "Content-Type": "application/json",
@@ -111,4 +97,45 @@ export async function getArtworkByEventID(objectNumber) {
   const data = await res.json();
   const artImg = data.items?.[0];
   return artImg;
+}
+
+// Filter
+export async function getSMKFilter(filter, hasImg) {
+  const { items } = await fetch(
+    `https://api.smk.dk/api/v1/art/search/?keys=*${
+      filter && `&filters=${filter}`
+    }${hasImg ? "&filters=[has_image:true]" : ""}&offset=0&rows=100`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((res) => res.json());
+  return items;
+}
+export async function getSMKFilterCat() {
+  const {
+    facets: { artist, techniques },
+  } = await fetch(
+    `https://api.smk.dk/api/v1/art/search/?keys=*&filters=[has_image:true]&filters=[object_names:maleri]&facets=techniques&facets=artist`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((res) => res.json());
+
+  const categories = [
+    {
+      name: "artist",
+      label: { singular: "Kunstner", plural: "Kunstnere" },
+      items: artist.toSorted(),
+    },
+    {
+      name: "techniques",
+      label: { singular: "Teknik", plural: "Teknikker" },
+      items: techniques.toSorted(),
+    },
+  ];
+  return categories;
 }

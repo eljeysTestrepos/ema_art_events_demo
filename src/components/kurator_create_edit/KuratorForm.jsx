@@ -5,25 +5,33 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/api";
 
-import KuratorGallery from "@/components/kurator_create_edit/KuratorGallery";
+import KuratorGallery from "./KuratorGallery";
 import CustomButton from "@/components/global/CustomButton";
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Step from "./Step";
 
 const KuratorForm = ({
   initialEventData,
   smk,
-  maxImages,
-  locations,
-  eventDates,
+  eventsDates,
+  eventsLocations,
+  // Til Filter
+  filterCategories,
 }) => {
   const router = useRouter();
+  // const EventsDates = await getEventDates();
+  const [dates, setDates] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  //logik for valg af billeder
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [maxImages, setMaxImages] = useState(0);
+
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
+    setValue,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: initialEventData || {
@@ -31,207 +39,139 @@ const KuratorForm = ({
       locationId: "",
       date: "",
       description: "",
-      artworkIds: [],
+      artworksId: [],
     },
   });
-
-  const selectedLocationId = watch("locationId");
-  const artworkIdsFromForm = watch("artworkIds");
-
-  const [selectedImages, setSelectedImages] = useState(
-    initialEventData?.artworkIds || []
-  );
-
-  const [currentMaxImages, setCurrentMaxImages] = useState(
-    Number(maxImages) || 0
-  );
-
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const [allowedDates, setAllowedDates] = useState([]);
-
-  useEffect(() => {}, [
-    maxImages,
-    currentMaxImages,
-    selectedLocationId,
-    locations,
-    eventDates,
-  ]);
+  //kigger på lokationdropdown.
+  const selectedLocationId = watch("locationId"); //før lokation
 
   useEffect(() => {
-    if (Array.isArray(eventDates) && eventDates.length > 0) {
-      const parsedDates = eventDates.map((dateStr) => {
-        const [year, month, day] = dateStr.split("-").map(Number);
-        return new Date(year, month - 1, day);
-      });
-      setAllowedDates(parsedDates);
-    } else {
-      setAllowedDates([]);
-    }
-  }, [eventDates]);
-
-  useEffect(() => {
-    if (initialEventData) {
-      console.log(
-        "KURATORFORM DEBUG: initialEventData.artworkIds:",
-        initialEventData.artworkIds
+    const getDatesAndLocations = async () => {
+      const dateRes = await fetch(
+        "https://ema-async-exhibit-server.onrender.com/dates"
       );
-
-      for (const [key, value] of Object.entries(initialEventData)) {
-        if (key !== "time") {
-          setValue(key, value);
-        }
+      if (dateRes.ok) {
+        const getDates = await dateRes.json();
+        setDates(getDates);
       }
-      setSelectedImages(initialEventData.artworkIds || []);
-      if (initialEventData.date) {
-        const [year, month, day] = initialEventData.date.split("-").map(Number);
-        setSelectedDate(new Date(year, month - 1, day));
+      const locationsRes = await fetch(
+        "https://ema-async-exhibit-server.onrender.com/locations"
+      );
+      if (locationsRes.ok) {
+        const getLocations = await locationsRes.json();
+        setLocations(getLocations);
       }
-    }
-  }, [initialEventData, setValue]);
+    };
 
+    getDatesAndLocations();
+  }, []);
+
+  //kigger på hvilke ændringer der sker når man vælger lokation.
   useEffect(() => {
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
-      setValue("date", formattedDate);
+    let currentCapacity = 0;
+    if (selectedLocationId) {
+      const chosenLocation = locations.find(
+        (loc) => String(loc.id) === String(selectedLocationId)
+      );
+      if (chosenLocation) {
+        const capacity = chosenLocation.maxArtworks || 3;
+        setMaxImages(capacity);
+      }
     } else {
-      setValue("date", "");
+      setMaxImages(0);
     }
-  }, [selectedDate, setValue]);
-
-  useEffect(() => {
-    if (!Array.isArray(locations)) {
-      console.warn("KuratorForm: 'locations' prop is not an array.", locations);
-      setSelectedLocation(null);
-      setCurrentMaxImages(0);
-      return;
-    }
-
-    const foundLocation = locations.find(
-      (loc) => String(loc.id) === String(selectedLocationId)
-    );
-
-    setSelectedLocation(foundLocation || null);
-
-    const newMaxImages = Number(foundLocation?.maxArtworks) || 0;
-    setCurrentMaxImages(newMaxImages);
-
-    if (foundLocation && selectedImages.length > newMaxImages) {
-      const trimmedImages = selectedImages.slice(0, newMaxImages);
-      setSelectedImages(trimmedImages);
-      setValue("artworkIds", trimmedImages);
-    } else if (foundLocation && newMaxImages === 0) {
+    const currentFormImages = watch("artworksId") || [];
+    if (currentFormImages.length > currentCapacity) {
       setSelectedImages([]);
-      setValue("artworkIds", []);
+      setValue("artworksId", []);
+    } else if (!selectedLocationId) {
+      setSelectedImages([]);
+      setValue("artworksId", []);
     }
-  }, [selectedLocationId, setValue, selectedImages, locations]);
+  }, [selectedLocationId, locations, setValue, watch]);
 
-  useEffect(() => {
-    if (JSON.stringify(selectedImages) !== JSON.stringify(artworkIdsFromForm)) {
-      setValue("artworkIds", selectedImages);
-    }
-  }, [selectedImages, artworkIdsFromForm, setValue]);
+  const handleImageSelect = (imageId) => {
+    const isSelected = selectedImages.includes(imageId);
 
-  const handleImageSelect = useCallback(
-    (imageId) => {
-      console.log("handleImageSelect called for imageId:", imageId);
-      console.log("handleImageSelect: currentMaxImages =", currentMaxImages);
-      console.log(
-        "handleImageSelect: selectedImages.length =",
-        selectedImages.length
-      );
-      console.log("handleImageSelect: selectedLocation =", selectedLocation);
-
-      if (!selectedLocation || currentMaxImages === 0) {
+    let updatedSelectedImages;
+    if (isSelected) {
+      updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
+    } else {
+      if (selectedImages.length < maxImages) {
+        updatedSelectedImages = [...selectedImages, imageId];
+      } else {
         alert(
-          "Vælg venligst en lokation med billedkapacitet for at vælge billeder."
+          `Du kan kun vælger op til ${maxImages} billeder for denne lokation`
         );
         return;
       }
+    }
+    setSelectedImages(updatedSelectedImages);
+    setValue("artworksId", updatedSelectedImages);
+  };
 
-      const isSelected = selectedImages.includes(imageId);
+  // her postest event objektet til serveren
+  const onSubmit = async (data) => {
+    if (initialEventData && initialEventData.id) {
+      await updateEvent(initialEventData.id, data);
+      console.log("Event updated successfully!");
+    } else {
+      try {
+        const postData = await fetch(
+          "https://ema-async-exhibit-server.onrender.com/events",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
 
-      let updatedSelectedImages;
-      if (isSelected) {
-        updatedSelectedImages = selectedImages.filter((id) => id !== imageId);
-      } else {
-        if (selectedImages.length < currentMaxImages) {
-          updatedSelectedImages = [...selectedImages, imageId];
-        } else {
+        //indholdstjek. sender serveren den rigtig Json
+        let responseBody;
+        try {
+          responseBody = await postData.json();
+        } catch (jsonError) {
+          responseBody = await postData.text();
+          console.warn("server response er ikke JSON");
+        }
+
+        //fejl håndtering
+        if (!postData.ok) {
+          console.error(
+            "Fejl ved sending af eventdata:",
+            responseBody || postData.statusText
+          );
           alert(
-            `Du kan kun vælge op til ${currentMaxImages} billeder for denne lokation.`
+            `Fejl: ${
+              responseBody?.message || responseBody || postData.statusText
+            }`
           );
           return;
         }
-      }
-      setSelectedImages(updatedSelectedImages);
-    },
-    [selectedImages, currentMaxImages, selectedLocation]
-  );
+        //succes med at skabe et event
 
-  const filterAllowedDates = (date) => {
-    return allowedDates.some(
-      (allowedDate) => allowedDate.toDateString() === date.toDateString()
-    );
-  };
-
-  const onSubmit = async (data) => {
-    const { time, ...dataToSubmit } = data;
-
-    dataToSubmit.artworkIds =
-      dataToSubmit.artworkIds?.filter(
-        (id) => id !== null && id !== undefined && id !== ""
-      ) || [];
-
-    console.log(
-      "FRONTEND LOG: Data being sent to createEvent/updateEvent:",
-      dataToSubmit
-    );
-    try {
-      if (initialEventData && initialEventData.id) {
-        console.log("Attempting to update event with ID:", initialEventData.id);
-        console.log("Data to submit for update:", dataToSubmit);
-        await updateEvent(initialEventData.id, dataToSubmit);
-        console.log("Event updated successfully!");
-      } else {
-        console.log("Attempting to create new event with data:", dataToSubmit);
-        await createEvent(dataToSubmit);
-        console.log("Event created successfully!");
-      }
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-
-      if (
-        error.message &&
-        error.message.includes("Another event already exists")
-      ) {
-        alert(
-          "Fejl: Et andet event findes allerede på denne dato og lokation. Vælg en anden kombination."
-        );
-      } else if (
-        error.message &&
-        error.message.includes("location not found")
-      ) {
-        alert(
-          "Fejl: Den valgte lokation kunne ikke findes. Venligst tjek lokationsvalget."
-        );
-      } else {
-        alert(
-          "Der opstod en fejl ved gemning af eventet. Tjek venligst alle felter."
-        );
+        console.log("Event blev oprettet/opdateret korrekt:", responseBody);
+        alert("Event succesfuldt gemt!");
+        //lav en fuld reset af formen
+        reset();
+      } catch (error) {
+        //håndtering af netværksfejl og andre uforudsete fejl
+        console.error("Netværksfejl eller uventet fejl:", error);
+        alert("Der skete en uventet fejl ved sending af data.");
       }
     }
+    router.push("/dashboard");
   };
 
+  //------------------------------------------------------- Rrturn -------------------------------------------------//
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-4">
+      <Step number="1" text="Dato og tid for event" />
       <h1 className="text-2xl font-bold mb-4">
         {initialEventData ? "Rediger event" : "Opret nyt event"}
       </h1>
-
       <div>
         <label
           htmlFor="title"
@@ -249,7 +189,6 @@ const KuratorForm = ({
           <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="locationId"
@@ -261,12 +200,13 @@ const KuratorForm = ({
           id="locationId"
           {...register("locationId", {
             required: "Lokation er påkrævet",
+            valueAsNumber: false,
           })}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         >
           <option value="">Vælg en lokation</option>
-          {Array.isArray(locations) && locations.length > 0 ? (
-            locations.map((loc) => (
+          {Array.isArray(eventsLocations) && eventsLocations.length > 0 ? (
+            eventsLocations.map((loc) => (
               <option key={loc.id} value={loc.id}>
                 {loc.name} (Max billeder: {loc.maxArtworks})
               </option>
@@ -281,7 +221,6 @@ const KuratorForm = ({
           </p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="date"
@@ -289,27 +228,16 @@ const KuratorForm = ({
         >
           Dato:
         </label>
-
-        <DatePicker
-          id="date"
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
-          dateFormat="dd/MM/yyyy"
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-          filterDate={filterAllowedDates}
-          placeholderText="Vælg en dato"
-          isClearable
-        />
-
         <input
-          type="hidden"
+          type="date"
+          id="date"
           {...register("date", { required: "Dato er påkrævet" })}
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
         />
         {errors.date && (
           <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
         )}
       </div>
-
       <div>
         <label
           htmlFor="description"
@@ -325,18 +253,19 @@ const KuratorForm = ({
         ></textarea>
       </div>
 
-      <div className="border p-4 rounded-md">
+      <Step number="2" text="Vælg billeder fra galleriet">
         <KuratorGallery
           smkdata={smk}
-          selectedImages={selectedImages}
           handleImageSelect={handleImageSelect}
-          maxImages={currentMaxImages}
-          locationSelected={!!selectedLocation}
+          maxImages={maxImages}
+          locationSelected={!!selectedLocationId}
           showSelectedImagesSection={false}
+          categories={filterCategories}
+          currentlySelectedArtworks
+          selectedImages={selectedImages}
+          setSelectedImages={setSelectedImages}
         />
-        <input type="hidden" {...register("artworkIds")} />
-      </div>
-
+      </Step>
       <CustomButton
         type="submit"
         text={initialEventData ? "Gem ændringer" : "Opret event"}

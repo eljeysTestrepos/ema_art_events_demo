@@ -1,132 +1,141 @@
 import Image from "next/image";
+import { useState, useActionState, startTransition } from "react";
 
-import { useState, useEffect, useCallback } from "react";
+import { filterData } from "../global/filter/actions";
+import Filter from "../global/filter/Filter";
 
-const KuratorGallery = ({
+import Placeholder from "../../app/assets/img/placeholder.png";
+
+const Gallery = ({
   smkdata,
-  selectedImages,
-  handleImageSelect,
-  maxImages,
   locationSelected,
+  categories,
+  children,
+  // til at registrere max images for valgte lokation
+  maxImages,
+  currentlySelectedArtworks,
+  handleImageSelect = { handleImageSelect },
+  setSelectedImages = { setSelectedImages },
+  selectedImages = { selectedImages },
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [state, action, isPending] = useActionState(filterData, {
+    active: [],
+    data: [],
+  });
 
-  useEffect(() => {
-    if (smkdata && smkdata.smk && smkdata.smk.length > 0) {
-      setLoading(false);
-      setError(false);
-    } else if (smkdata && smkdata.smk && smkdata.smk.length === 0) {
-      setLoading(false);
-      setError(true);
-    } else {
-      setLoading(true);
-    }
-  }, [smkdata]);
-
-  const images = smkdata.smk || [];
-  const getImageUrl = useCallback(
-    (imageId) => {
-      const foundImage = images.find(
-        (img) => String(img.id) === String(imageId)
-      );
-
-      return foundImage ? foundImage.image_thumbnail : "/placeholder.png";
-    },
-
-    [images]
-  );
-
-  if (!locationSelected) {
-    return (
-      <p className="text-black my-4">
-        Vælg venligst en lokation for at vælge billeder.
-      </p>
+  function handleFilter(value, category) {
+    const replaceFilter = state?.active?.filter(
+      (item) => !item.includes(category)
     );
+    const data =
+      value === "all"
+        ? replaceFilter
+        : [...replaceFilter, `[${category}:${value}]`];
+
+    startTransition(action.bind(state, data));
   }
 
-  const currentlySelectedArtworks = selectedImages
-    .map((id) => {
-      return images.find((artwork) => String(artwork.id) === String(id));
-    })
-
-    .filter(Boolean);
-
   return (
-    <div>
-      {maxImages === 0 && (
-        <p className="text-black my-4">
-          Denne lokation har ingen billedkapacitet.
-        </p>
-      )}
+    <section className="border p-4 rounded-md">
+      <p className="text-black my-4">
+        {(maxImages === 0 && "Denne lokation har ingen billedkapacitet.") ||
+          (currentlySelectedArtworks.length === 0 &&
+            maxImages > 0 &&
+            `Ingen billeder valgt endnu. Vælg op til ${maxImages} billeder.`)}
+      </p>
+      <article className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <Filter data={categories} fn={handleFilter} />
 
-      {currentlySelectedArtworks.length === 0 && maxImages > 0 && (
-        <p className="text-black my-4">
-          Ingen billeder valgt endnu. Vælg op til {maxImages}
-          billeder.
-        </p>
-      )}
-
-      <h2 className="text-xl font-semibold my-6">
-        Vælg billeder fra galleriet
-      </h2>
-      {loading && <p>Indlæser SMK billeder...</p>}
-      {error && !loading && (
-        <p className="text-red-500">
-          Fejl ved indlæsning af billeder eller ingen billeder fundet.
-        </p>
-      )}
-
-      {!loading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-          {images.length > 0 ? (
-            images.map((dataSmk) => {
-              const isSelected = selectedImages.some(
-                (selectedId) => String(selectedId) === String(dataSmk.id)
-              );
-
-              const isDisabled =
-                !isSelected && selectedImages.length >= maxImages;
-
+        <ul className="-col-end-1 sm:col-start-2 grid grid-cols-subgrid gap-4">
+          {locationSelected ? (
+            smkdata.smk.map((img) => {
               return (
-                <div
-                  key={dataSmk.id}
-                  className={`
-
- relative cursor-pointer border-2 p-2
- ${isSelected ? " ring-4 ring-[#A89C9E]" : ""}
-
-${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                  onClick={() => {
-                    if (isSelected || selectedImages.length < maxImages) {
-                      handleImageSelect(dataSmk.id);
-                    } else {
-                      alert(
-                        `Du kan kun vælge op til ${maxImages} billeder for denne lokation`
-                      );
-                    }
-                  }}
-                >
-                  <Image
-                    src={dataSmk.image_thumbnail}
-                    width={200}
-                    height={200}
-                    alt={dataSmk.title || "SMK billede"}
-                    className="w-full h-auto object-cover"
-                  />
-
-                  {isSelected && <div className=" bg-[#A89C9E]"></div>}
-                  <p className="text-sm mt-2">{dataSmk.title}</p>
-                </div>
+                <GalleryCard
+                  key={img.id}
+                  isDisabled={
+                    !selectedImages && selectedImages.length >= maxImages
+                  }
+                />
               );
-            })
+            }) && isPending ? (
+              <p>Indlæser SMK billeder...</p>
+            ) : state?.data?.length === 0 ? (
+              <p className="text-red-500">Ingen billeder fundet.</p>
+            ) : (
+              state?.data?.map((item, id) => (
+                <GalleryCard
+                  key={id}
+                  {...item}
+                  isDisabled={selectedImages.length >= maxImages}
+                  maxImages={maxImages}
+                  currentlySelectedArtworks={currentlySelectedArtworks}
+                  selectedImages={selectedImages}
+                  setSelectedImages={setSelectedImages}
+                />
+              ))
+            )
           ) : (
-            <p>Ingen billeder at vise fra SMK.</p>
+            "Ingen Lokation eller Filter"
           )}
-        </div>
-      )}
-    </div>
+        </ul>
+      </article>
+      {children}
+    </section>
   );
 };
 
-export default KuratorGallery;
+export default Gallery;
+
+// ----------------------------- Gallery Card --------------------------------------------//
+
+function GalleryCard({
+  object_number,
+  image_thumbnail,
+  image_native,
+  image_width,
+  image_height,
+  isDisabled,
+  maxImages,
+  currentlySelectedArtworks,
+  handleImageSelect,
+  selectedImages,
+  setSelectedImages,
+}) {
+  const [isSelected, setIsSelected] = useState(false);
+
+  return (
+    <li
+      onClick={() => {
+        setIsSelected(isSelected === object_number ? undefined : object_number);
+        setSelectedImages(
+          selectedImages.includes(object_number)
+            ? selectedImages.filter((item) => item !== object_number)
+            : selectedImages.concat(object_number)
+        );
+      }}
+      className={`${
+        isSelected
+          ? "ring-4 ring-[#A89C9E] cursor-pointer"
+          : isDisabled
+          ? "opacity-50 cursor-not-allowed"
+          : "border-gray-300 cursor-pointer"
+      }
+      relative border-2 aspect-square
+                    `}
+    >
+      {image_thumbnail === "https://api.smk.dk/api/v1/thumbnail/PD" ? (
+        <div className="bg-btn-bg/50 text-white grid place-content-center p-2 w-full aspect-square">
+          Image not found.
+        </div>
+      ) : (
+        <Image
+          src={image_thumbnail || image_native || Placeholder}
+          width={image_width || 400}
+          height={image_height || 400}
+          alt={title || "SMK billede"}
+          className="object-cover w-full h-full"
+        />
+      )}
+    </li>
+  );
+}
