@@ -4,6 +4,7 @@ import {
   getEventLocations,
   getSMK,
   getArtworkByEventID,
+  getSMKFilterCat,
 } from "@/lib/api";
 
 import EventListWithFilter from "@/components/global/EventListWithFilter";
@@ -13,6 +14,7 @@ export default async function Events() {
   const eventsDates = await getEventDates();
   const smk = await getSMK();
   const eventsLocations = await getEventLocations();
+  const categories = await getSMKFilterCat();
 
   const eventListWithArtwork = await Promise.all(
     eventListRaw.map(async (event) => {
@@ -33,6 +35,7 @@ export default async function Events() {
         initialEvents={eventListWithArtwork}
         availableDates={eventsDates}
         availableLocations={eventsLocations}
+        categories={categories}
       />
     </main>
   );
