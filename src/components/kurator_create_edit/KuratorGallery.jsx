@@ -5,6 +5,7 @@ import { filterData } from "../global/filter/actions";
 import Filter from "../global/filter/Filter";
 
 import Placeholder from "../../app/assets/img/placeholder.png";
+import { useStoredImages } from "zustand";
 
 const Gallery = ({
   smkdata,
@@ -89,7 +90,7 @@ export default Gallery;
 // ----------------------------- Gallery Card --------------------------------------------//
 
 function GalleryCard({
-  object_number,
+  //object_number,
   image_thumbnail,
   image_native,
   image_width,
@@ -98,11 +99,11 @@ function GalleryCard({
   maxImages,
   currentlySelectedArtworks,
   handleImageSelect,
-  selectedImages,
+  // selectedImages,
   setSelectedImages,
 }) {
   const [isSelected, setIsSelected] = useState(false);
-
+  const { selectedImages, object_number } = useStoredImages();
   return (
     <li
       onClick={() => {
@@ -111,6 +112,13 @@ function GalleryCard({
           selectedImages.includes(object_number)
             ? selectedImages.filter((item) => item !== object_number)
             : selectedImages.concat(object_number)
+        );
+        const imageCount = useStoredImages((state) => state.imageCount);
+        console.log(
+          "KuratorGallery Efter onclick: imageCount",
+          imageCount,
+          "selectedImages",
+          selectedImages
         );
       }}
       className={`${
