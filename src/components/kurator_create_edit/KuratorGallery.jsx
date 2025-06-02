@@ -112,6 +112,7 @@ function GalleryCard({
             ? selectedImages.filter((item) => item !== object_number)
             : selectedImages.concat(object_number)
         );
+        console.log("selectedImages", selectedImages);
       }}
       className={`${
         isSelected
